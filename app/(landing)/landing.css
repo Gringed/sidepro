@@ -1,0 +1,72 @@
+.scroll {
+  position: absolute;
+
+  z-index: 1;
+  border-radius: 20px;
+  background: linear-gradient(
+    to bottom,
+    hsl(var(--tertiary)) 100%,
+    rgba(255, 148, 166, 0) 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 0;
+  transform-origin: left;
+  animation: scroll linear;
+  animation-timeline: view();
+  animation-range-start: cover 100px;
+  animation-range-end: cover 100%;
+}
+.half-circle {
+  border-top-left-radius: 110px;
+  border-top-right-radius: 110px;
+  border: 25px solid white;
+  transform: rotate(270deg);
+  border-bottom: 0;
+}
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(20vh);
+  visibility: hidden;
+  transition: opacity 1200ms ease-out, transform 600ms ease-out,
+    visibility 1200ms ease-out;
+  will-change: opacity, transform, visibility;
+}
+.fade-in-section.is-visible {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+}
+.rotateL {
+  animation: rotateL linear infinite 10s;
+}
+.rotateR {
+  animation: rotateR linear infinite 10s;
+}
+#cut-circ {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 0;
+}
+@keyframes rotateL {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotateR {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+@keyframes scroll {
+  from {
+    background-size: 100% 0%;
+  }
+  to {
+    background-size: 100% 110%;
+  }
+}
