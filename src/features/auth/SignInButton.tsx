@@ -7,7 +7,7 @@ import { signInAction } from "./auth.action";
 export const SignInButton = () => {
   return (
     <Button
-      variant="cornerTl"
+      variant="default"
       onClick={() => {
         signInAction();
       }}

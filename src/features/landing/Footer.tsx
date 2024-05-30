@@ -4,64 +4,89 @@ import { Section } from "./Section";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { FadeInSection } from "./FadeInSection";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ArrowRight, CopyrightIcon } from "lucide-react";
+import Image from "next/image";
+import { signInAction } from "../auth/auth.action";
 
 const Footer = () => {
+  const [name, setName] = useState<String>();
   return (
     <FadeInSection>
-      <div className="flex justify-center flex-col items-center relative">
-        <div className="text-xl md:text-3xl lg:text-5xl font-black absolute flex flex-col items-center gap-5 sm:gap-14 md:gap-16 top-[25%] 2xl:top-[30%]  text-white">
-          <h1>Ready to join us?</h1>
-          <Button variant={"btnSecondary"} className="lg:hidden z-20 ">
-            Get Linkers
-          </Button>
-        </div>
-        <div className="lg:absolute hidden lg:flex  lg:-bottom-12 xl:-bottom-10 2xl:bottom-8">
-          <div className="relative  overflow-hidden flex items-center justify-center">
-            <svg
-              id="cut-circ"
-              className="w-full h-full rotateL -me-40 transition-all"
-              viewBox="0 0 100 100"
-            >
-              <circle
-                cx="50"
-                cy="50"
-                r="23"
-                stroke="white"
-                strokeWidth={20}
-                fill="none"
-              />
-            </svg>
-            <Button variant={"btnSecondary"} className="absolute z-20 ">
-              Get Linkers
-            </Button>
-            <svg
-              id="cut-circ"
-              className="w-full rotateR transition-all"
-              viewBox="0 0 100 100"
-            >
-              <circle
-                cx="50"
-                cy="50"
-                r="23"
-                stroke="white"
-                strokeWidth={20}
-                fill="none"
-              />
-            </svg>
+      <Section
+        id="signup"
+        className="py-2 border-t-4 border-primary mt-20 bg-gray-100 w-full col-start-1 row-start-1 h-full bg-opacity-20"
+      >
+        <section
+          className="relative bg-cover col-start-1 row-start-1 grid place-items-center w-full h-full overflow-hidden min-h-screen"
+          id="signup"
+          style={{
+            backgroundImage: "url(back.svg)",
+          }}
+        >
+          <div className="col-start-1 row-start-1 text-center ">
+            <div className="max-w-4xl space-y-12 md:space-y-24 p-6">
+              <h2 className="text-5xl relative font-black text-primary  md:text-6xl md:leading-tight lg:text-7xl lg:leading-tight">
+                Build now!
+                <Image
+                  unselectable="on"
+                  className="absolute  pointer-events-none  left-0 sm:left-1/4 inset-x-0"
+                  src={"lines.svg"}
+                  width={200}
+                  height={20}
+                  alt="d"
+                />
+              </h2>
+              <div className="max-w-lg mx-auto">
+                <div className="flex items-center flex-col w-full h-full gap-3">
+                  <div className="h-full w-full">
+                    <label className="flex border h-full border-noir bg-primary-foreground flex-row  items-center rounded ">
+                      <span className="pl-2 w-full h-full flex-1 py-3 font-medium">
+                        sidepro.net/
+                      </span>
+                      <Input
+                        type="text"
+                        placeholder="yourname"
+                        className="flex-[3] pl-0.5 text-base focus-visible:ring-0 shadow-none h-full border-0 rounded-sm  w-full"
+                        required
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                    </label>
+                  </div>
+                  <Button
+                    className="h-full p-3 rounded w-full text-base"
+                    disabled={!name}
+                    onClick={() => {
+                      signInAction();
+                    }}
+                  >
+                    Claim my sidefolio <ArrowRight className="ml-2" size={15} />
+                  </Button>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div className="w-full relative ">
-        <Section className="">
+        </section>
+      </Section>
+      <div className="w-full relative bg-primary text-white  border-t-4 border-black">
+        <Section className="py-10">
           <div className="flex flex-col justify-center w-full">
             <div className="flex items-center lg:justify-between flex-col lg:flex-row gap-5 my-5 lg:my-1">
               <div className="flex items-center gap-3 font-medium">
-                2024 • Linkers Co
+                <CopyrightIcon />
+                2024 ♥ SidePro
               </div>
               <div className="flex gap-5 font-medium flex-col lg:flex-row flex-wrap items-center">
-                <Link href={"/terms"}>Terms</Link>
+                <Link href={"/tos"}>Terms</Link>
                 <Link href={"/policy"}>Privacy Policy</Link>
-                <Link href={"/contact"}>Contact</Link>
+                <Link
+                  href={
+                    "mailto:contact@sidepro.fr?subject=Help me with SidePro"
+                  }
+                >
+                  Contact
+                </Link>
               </div>
             </div>
           </div>

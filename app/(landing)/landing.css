@@ -1,3 +1,6 @@
+html {
+  scroll-behavior: smooth;
+}
 .scroll {
   position: absolute;
 
@@ -5,7 +8,7 @@
   border-radius: 20px;
   background: linear-gradient(
     to bottom,
-    hsl(var(--tertiary)) 100%,
+    hsl(var(--primary)) 100%,
     rgba(255, 148, 166, 0) 100%
   );
   background-repeat: no-repeat;

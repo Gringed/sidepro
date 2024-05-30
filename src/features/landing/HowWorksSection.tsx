@@ -7,7 +7,7 @@ const HowWorksSection = () => {
   return (
     <FadeInSection>
       <div className="relative">
-        <Section className="py-2 mb-20">
+        <Section id="howworks" className="py-2 my-20">
           <div className="flex flex-col justify-center w-full">
             <div className="flex items-center mb-7 gap-1 flex-col w-full justify-center">
               <h1 className="max-w-2xl  text-4xl font-black tracking-tight leading-none md:text-5xl text-noir">
@@ -20,70 +20,73 @@ const HowWorksSection = () => {
               <div className="border border-dashed border-primary absolute  w-[2px] rounded-full m-[1px] h-full"></div>
               <div className="flex px-5 relative lg:px-0  flex-wrap w-full justify-center lg:justify-start">
                 <div className="flex bg-white/50 w-full relative lg:max-w-sm xl:max-w-lg p-10 shadow-xl border rounded-xl flex-col gap-1">
-                  <span className="absolute justify-center text-2xl top-6 font-extrabold items-center border text-white flex -right-8 lg:-left-8 w-16 h-16 bg-tertiary rounded-full">
+                  <span className="absolute justify-center text-2xl top-6 font-extrabold items-center border text-white flex -right-8 lg:-left-8 w-16 h-16 bg-primary rounded-full">
                     1
                   </span>
                   <h1 className="max-w-2xl mb-4 text-3xl font-extrabold tracking-tight leading-none text-noir">
-                    Register
+                    Register | Login
                   </h1>
-                  <p>
-                    A Google account or an email address, it couldn't be easier.
-                  </p>
+                  <p>With a simple Google account it couldn't be easier.</p>
                 </div>
               </div>
               <div className="flex px-5 lg:px-0  flex-wrap w-full justify-center lg:justify-end">
                 <div className="flex bg-white/50 w-full relative lg:max-w-sm xl:max-w-lg p-10 shadow-lg shadow-secondary border rounded-xl flex-col gap-1">
-                  <span className="absolute justify-center text-2xl top-6 font-extrabold items-center border text-white flex -right-8 w-16 h-16 bg-tertiary rounded-full">
+                  <span className="absolute justify-center text-2xl top-6 font-extrabold items-center border text-white flex -right-8 w-16 h-16 bg-primary rounded-full">
                     2
                   </span>
                   <h1 className="max-w-2xl mb-4 text-3xl font-extrabold tracking-tight leading-none text-noir">
-                    Content creator request
+                    Setup your sidefolio name
                   </h1>
                   <p>
-                    A content creator (
-                    <span className="text-tertiary font-semibold">
-                      perhaps you
+                    Find your sidefolio name (
+                    <span className="text-primary font-semibold">
+                      very cool name
                     </span>
-                    ) writes a request.
+                    )
                   </p>
                 </div>
               </div>
               <div className="flex px-5 lg:px-0  flex-wrap w-full justify-center lg:justify-start">
                 <div className="flex bg-white/50 w-full relative lg:max-w-sm xl:max-w-lg p-10 shadow-lg shadow-tertiary border rounded-xl flex-col gap-1">
-                  <span className="absolute justify-center text-2xl top-6 font-extrabold items-center border text-white flex -right-8 lg:-left-8 w-16 h-16 bg-tertiary rounded-full">
+                  <span className="absolute justify-center text-2xl top-6 font-extrabold items-center border text-white flex -right-8 lg:-left-8 w-16 h-16 bg-primary rounded-full">
                     3
                   </span>
                   <h1 className="max-w-2xl mb-4 text-3xl font-extrabold tracking-tight leading-none text-noir">
-                    Make a contact
+                    Build anything
                   </h1>
                   <p>
-                    The artist matching the request description (
-                    <span className="text-tertiary font-semibold">
-                      wich could be you
+                    Build your sidefolio your way with{" "}
+                    <span className="text-primary font-semibold">
+                      what you want to showcase.
                     </span>
-                    ) responds to the request and discusses it with the
-                    requester.
                   </p>
                 </div>
               </div>
               <div className="flex px-5 lg:px-0  flex-wrap w-full justify-center lg:justify-end">
                 <div className="flex bg-white/50 w-full relative lg:max-w-sm xl:max-w-lg p-10 border-2 border-tertiary shadow-xl rounded-xl flex-col gap-1">
-                  <span className="absolute justify-center text-2xl top-6 font-extrabold items-center border-tertiary text-white flex -right-8 w-16 h-16 bg-tertiary rounded-full">
+                  <span className="absolute justify-center text-2xl top-6 font-extrabold items-center border-tertiary text-white flex -right-8 w-16 h-16 bg-primary rounded-full">
                     4
                   </span>
                   <h1 className="max-w-2xl mb-4 text-3xl font-extrabold tracking-tight leading-none text-noir">
-                    Successful process
+                    Publish It
                   </h1>
                   <p>
-                    Both sides agree that the work delivered is in accordance
-                    with the original request. Marking and payment can take
-                    place.
+                    Make your work accessible to everyone once it's finished, no
+                    need to host it{" "}
+                    <span className="text-primary font-semibold">
+                      {" "}
+                      just C/C your link
+                    </span>
+                    .
                   </p>
                 </div>
               </div>
             </div>
           </div>
         </Section>
+      </div>
+      <div className="h-[200px] w-full  overflow-hidden ">
+        <div className=" h-full -rotate-3 w-[200%] -ml-8 bg-primary"></div>
       </div>
     </FadeInSection>
   );

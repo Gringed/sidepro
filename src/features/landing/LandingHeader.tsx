@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { motion, useMotionValue, useScroll, useTransform } from "framer-motion";
 
 import Image from "next/image";
@@ -10,6 +10,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import { useRouter } from "next/navigation";
 import { SignInButton } from "../auth/SignInButton";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 function useBoundedScroll(threshold: number) {
   let { scrollY } = useScroll();
@@ -51,6 +53,7 @@ export function LandingHeader() {
     >
       <div className="mx-auto max-w-screen-2xl flex w-full items-center justify-between sm:px-[100px] px-8">
         <motion.div
+          onClick={() => router.push("/")}
           style={{
             scale: useTransform(
               scrollYBoundedProgressDelayed,
@@ -58,11 +61,11 @@ export function LandingHeader() {
               [1, 0.9]
             ),
           }}
-          className="flex origin-left items-center gap-4 text-xl"
+          className="flex cursor-pointer origin-left items-center gap-4 text-xl"
         >
-          <Image src="/icon.svg" width={59} height={30} alt="Linkers logo" />{" "}
+          <Image src="/icon.png" width={45} height={35} alt="Linkers logo" />{" "}
           <h1 className="md:block hidden font-MontserratAlt font-extrabold">
-            Linkers
+            SidePro
           </h1>
         </motion.div>
         <motion.nav
@@ -73,7 +76,7 @@ export function LandingHeader() {
               [1, 0]
             ),
           }}
-          className="flex items-center gap-4 text-sm font-medium  text-muted-foreground"
+          className="flex items-center gap-4 text-sm font-medium  "
         >
           <Sheet>
             <SheetTrigger>
@@ -84,28 +87,23 @@ export function LandingHeader() {
                 <ul className="flex flex-col gap-8">
                   <li className="border-b">
                     <a href="#about" className="font-bold text-noir">
-                      About
-                    </a>
-                  </li>
-                  <li className="border-b">
-                    <a href="#about" className="font-bold text-secondary">
                       Explore
                     </a>
                   </li>
                   <li className="border-b">
-                    <a href="#about" className="font-bold text-tertiary">
-                      Enroll now
-                    </a>
+                    <SignInButton />
                   </li>
                 </ul>
               </>
             </SheetContent>
           </Sheet>
           <div className="hidden items-center gap-5 sm:flex">
-            <a href="#about" className="font-bold text-noir">
-              About
-            </a>
-            <Button variant={"cornerTr"}>Explore</Button>
+            <Link
+              href={"#howworks"}
+              className={cn(buttonVariants({ variant: "secondary" }))}
+            >
+              Explore
+            </Link>
             <SignInButton />
           </div>
         </motion.nav>

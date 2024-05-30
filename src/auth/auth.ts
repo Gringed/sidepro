@@ -12,7 +12,7 @@ export const {
 } = NextAuth({
   adapter: PrismaAdapter(prisma),
   theme: {
-    logo: "/icon.png",
+    logo: "/icon.svg",
     colorScheme: "light",
     buttonText: "#64d34b",
   },
@@ -36,14 +36,14 @@ export const {
         email: userEmail,
       });
 
-      /* await prisma.user.update({
+      await prisma.user.update({
         where: {
           id: userId,
         },
         data: {
           stripeCustomerId: stripeCustomer.id,
         },
-      }); */
+      });
     },
   },
 });

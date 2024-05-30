@@ -19,8 +19,8 @@ const config = {
     },
     extend: {
       fontFamily: {
-        Montserrat: ["Montserrat", "sans-serif"],
-        MontserratAlt: ["Montserrat Alternates", "sans-serif"],
+        Montserrat: ["Nunito", "sans-serif"],
+        MontserratAlt: ["Nunito", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",

@@ -6,10 +6,8 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import "./landing.css";
 import HowWorksSection from "@/features/landing/HowWorksSection";
-import ContentSection from "@/features/landing/ContentSection";
-import CreativeSection from "@/features/landing/CreativeSection";
-import About from "@/features/landing/About";
 import Footer from "@/features/landing/Footer";
+import Pricing from "@/features/landing/Pricing";
 
 export default async function Home() {
   const user = await currentUser();
@@ -24,9 +22,7 @@ export default async function Home() {
       <HeroSection />
 
       <HowWorksSection />
-      <ContentSection />
-      <CreativeSection />
-      <About />
+      <Pricing />
       <Footer />
     </div>
   );

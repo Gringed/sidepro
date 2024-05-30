@@ -111,7 +111,7 @@ const Header = ({ path }: pathType) => {
                 <a href="#about" className="font-bold text-noir">
                   About
                 </a>
-                <Button variant={"cornerTr"}>Explore</Button>
+                <Button variant={"default"}>Explore</Button>
                 <LoggedInButton />
               </div>
             </>
