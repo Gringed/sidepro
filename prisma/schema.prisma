@@ -7,33 +7,96 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Post {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  slug     String @unique
-  title    String
-  body     String
-  author   User   @relation(fields: [authorId], references: [id])
-  authorId String @db.ObjectId
+model Links {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  slug      String    @unique
+  sidefolio Sidefolio @relation(fields: [sideId], references: [id])
+  sideId    String    @db.ObjectId
+  type      String
+  body      String
+  cta       String
+  stats     String
+  link      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+enum Type {
+  TEXT
+  IMAGE
+  LINK
+  TITLE
+  ME
+}
+
+model Section {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  slug         String?   @unique
+  sidefolio    Sidefolio @relation(fields: [sideId], references: [id])
+  sideId       String    @unique @db.ObjectId
+  title        String?
+  name         String?
+  bio          String?
+  location     String?
+  link         Json?
+  showImage    Boolean   @default(true)
+  showTitleUrl Boolean   @default(true)
+  type         Type?
+  background   String?
+  color        String?
+  description  String?
+  i            String?   @unique
+  x            Int?
+  y            Int?
+  w            Int?      @default(2)
+  h            Int?      @default(2)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+enum compactType {
+  vertical
+  horizontal
+  null
+}
+
+model Sidefolio {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  slug        String    @unique
+  title       String
+  author      User      @relation(fields: [authorId], references: [id])
+  authorId    String    @db.ObjectId
+  bio         String?
+  location    String?
+  compactType String?
+  color       String?
+  background  String?
+  section     Section[]
+  links       Links[]
+  counter     Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 enum Plan {
   FREEMIUM
-  PREMIUM
+  PREMIUM_ONE
+  PREMIUM_LIFE
 }
 
 model User {
-  id               String    @id @default(auto()) @map("_id") @db.ObjectId
-  email            String    @unique
+  id               String      @id @default(auto()) @map("_id") @db.ObjectId
+  email            String      @unique
   name             String?
   image            String?
-  plan             Plan      @default(FREEMIUM)
+  plan             Plan        @default(FREEMIUM)
   stripeCustomerId String?
   emailVerified    DateTime?
-  posts            Post[]
+  sidefolio        Sidefolio[]
   Account          Account[]
   Session          Session[]
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
 }
 
 model Account {

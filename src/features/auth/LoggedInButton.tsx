@@ -2,22 +2,15 @@ import { currentUser } from "@/auth/current-user";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Star } from "lucide-react";
-/* import { LoggedInDropdown } from "./LoggedInDropdown"; */
 import { SignInButton } from "./SignInButton";
 import { LoggedInDropdown } from "./LoggedInDropdown";
 import { StarFilledIcon } from "@radix-ui/react-icons";
 
-export const LoggedInButton = async () => {
-  const user = await currentUser();
-
-  if (!user) {
-    return <SignInButton />;
-  }
-
+export const LoggedInButton = ({ user, sidefolio }: any) => {
   return (
     <LoggedInDropdown>
       <div className="relative w-fit">
-        <Avatar className="size-10 cursor-pointer ">
+        <Avatar className="size-9 cursor-pointer ">
           <AvatarFallback>{user.name?.[0]}</AvatarFallback>
           {user.image ? (
             <AvatarImage
@@ -26,7 +19,7 @@ export const LoggedInButton = async () => {
             />
           ) : null}
         </Avatar>
-        {user.plan === "PREMIUM" ? (
+        {user.plan === "PREMIUM_ONE" ? (
           <svg
             fill="#5584FA"
             viewBox="0 -5.47 56.254 56.254"

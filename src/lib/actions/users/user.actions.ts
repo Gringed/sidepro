@@ -24,7 +24,7 @@ const verifySlugUniqueness = async (userId?: string) => {
 };
 
 const verifyUserPlan = async (user: User) => {
-  if (user.plan === "PREMIUM") {
+  if (user.plan === "PREMIUM_ONE") {
     return;
   }
 

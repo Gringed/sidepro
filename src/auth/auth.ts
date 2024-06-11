@@ -26,16 +26,23 @@ export const {
     createUser: async (message) => {
       const userId = message.user.id;
       const userEmail = message.user.email;
+      const userSlug = message.user.name?.split(" ")[0]?.toLowerCase();
 
       if (!userEmail || !userId) {
         return;
       }
-
-      const stripeCustomer = await stripe.customers.create({
+      await prisma.sidefolio.create({
+        data: {
+          title: "My First sidefolio",
+          slug: userSlug!,
+          authorId: userId,
+        },
+      });
+      /* const stripeCustomer = await stripe.customers.create({
         name: message.user.name ?? "",
         email: userEmail,
       });
-
+      
       await prisma.user.update({
         where: {
           id: userId,
@@ -43,7 +50,7 @@ export const {
         data: {
           stripeCustomerId: stripeCustomer.id,
         },
-      });
+      }); */
     },
   },
 });
