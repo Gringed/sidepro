@@ -116,6 +116,33 @@ const NavLinks = ({
                 >
                   Text
                 </Button>
+              </div>
+              <div className="flex w-full flex-wrap justify-between items-center gap-4">
+                <Button
+                  className=" flex-1"
+                  size={"icon"}
+                  onClick={() => {
+                    createSectionAction({
+                      name: "New image",
+
+                      description: "Add a new description",
+                      sideId: sidefolio.id,
+                      type: "IMAGE",
+                      h: 4,
+                      w: 2,
+                      y: 0,
+                      x: 0,
+                      i: `n${sidefolio.counter}`,
+                    });
+                    updateCounter({
+                      id: sidefolio.id,
+                      data: sidefolio.counter,
+                    });
+                    window.location.reload();
+                  }}
+                >
+                  Image
+                </Button>
                 <Button
                   className=" flex-1"
                   size={"icon"}
@@ -177,6 +204,7 @@ const NavLinks = ({
                       id: sidefolio.id,
                       data: sidefolio.counter,
                     });
+                    window.location.reload();
                   }}
                 >
                   Add link

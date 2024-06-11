@@ -243,8 +243,7 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
         useCSSTransforms={mounted}
         compactType={compactType}
         cols={cols}
-        margin={[20, 20]}
-        maxRows={10}
+        margin={[30, 30]}
         preventCollision={!compactType}
         {...{ rowHeight: 70 }}
       >
@@ -345,7 +344,7 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
                 >
                   <Trash className="text-primary" size={15} />
                 </span>
-                <div className="bg-primary flex rounded-full gap-3 cursor-auto px-2 py-1 opacity-0 group-focus-visible/item:opacity-100 group-hover/item:opacity-100 absolute z-50 left-1/2 -translate-x-2/4 -bottom-6 transition-all items-center justify-center">
+                <div className="bg-primary flex rounded-full gap-3 cursor-auto px-2 py-1 opacity-0 group-focus-visible/item:opacity-100 group-hover/item:opacity-100 absolute z-50 left-1/2 -translate-x-2/4 -bottom-7 transition-all items-center justify-center">
                   <div className="flex items-center gap-1">
                     <Type className="text-white" size={15} />
                     <Input
@@ -373,10 +372,11 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
                 <div
                   key={i}
                   className={
-                    "flex flex-col  w-full rounded-md h-full items-start justify-center p-3"
+                    "flex flex-col overflow-auto  w-full rounded-md h-full items-start justify-start gap-6 p-3"
                   }
                   style={{
                     background: l?.background ? `${l.background}` : "white",
+                    scrollbarWidth: "none",
                   }}
                 >
                   <div
@@ -413,10 +413,13 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
                     name="bio"
                     onFocus={() => setIsFocus(true)}
                     onBlur={() => setIsFocus(false)}
-                    style={{ color: l?.color ? `${l.color}` : "black" }}
+                    style={{
+                      color: l?.color ? `${l.color}` : "black",
+                      scrollbarWidth: "none",
+                    }}
                     className={` ${
                       !isFocus ? "dragMe select-none " : "select-text"
-                    }  z-10 bg-transparent border-none hover:bg-slate-300/20 resize-none min-h-0 focus-visible:bg-slate-300/20 focus-visible:ring-0 shadow-none h-fit  w-full p-3`}
+                    }  z-10 bg-transparent border-none text-base  hover:bg-slate-300/20 resize-none min-h-20 focus-visible:bg-slate-300/20 focus-visible:ring-0 shadow-none h-full  w-full p-3`}
                     defaultValue={l.bio}
                     placeholder="Add a new bio"
                   />
@@ -445,7 +448,7 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
                 >
                   <Trash className="text-primary" size={15} />
                 </span>
-                <div className="bg-primary flex rounded-full gap-3 cursor-auto px-2 py-1 opacity-0 group-focus-visible/item:opacity-100 group-hover/item:opacity-100 absolute z-50 left-1/2 -translate-x-2/4 -bottom-6 transition-all items-center justify-center">
+                <div className="bg-primary flex rounded-full gap-3 cursor-auto px-2 py-1 opacity-0 group-focus-visible/item:opacity-100 group-hover/item:opacity-100 absolute z-50 left-1/2 -translate-x-2/4 -bottom-7 transition-all items-center justify-center">
                   <div className="flex items-center gap-1">
                     <Type className="text-white" size={15} />
                     <Input
@@ -468,7 +471,7 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
                   </div>
                 </div>
               </>
-            ) : (
+            ) : l?.type === "LINK" ? (
               <>
                 <div
                   className={"flex  w-full rounded-md h-full items-start p-3"}
@@ -482,6 +485,7 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
                   <Link
                     target="_blank"
                     href={l?.link.url}
+                    style={{ scrollbarWidth: "none" }}
                     className="z-10 h-full overflow-auto w-full flex gap-2 items-start cursor-pointer break-all justify-center"
                   >
                     <Avatar className="size-10 border shadow-md h-fit object-cover p-1">
@@ -511,7 +515,13 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
                           alt=""
                         />
                       )}
-                      {l?.showTitleUrl && <span>{l.link?.title}</span>}
+                      {l?.showTitleUrl && (
+                        <span
+                          style={{ color: l?.color ? `${l.color}` : "black" }}
+                        >
+                          {l.link?.title}
+                        </span>
+                      )}
                     </div>
                   </Link>
                 </div>
@@ -521,7 +531,94 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
                 >
                   <Trash className="text-primary" size={15} />
                 </span>
-                <div className="bg-primary flex rounded-full gap-3 cursor-auto px-2 py-1 opacity-0 group-focus-visible/item:opacity-100 group-hover/item:opacity-100 absolute z-50 left-1/2 -translate-x-2/4 -bottom-6 transition-all items-center justify-center">
+                <div className="bg-primary flex rounded-full gap-3 cursor-auto px-2 py-1 opacity-0 group-focus-visible/item:opacity-100 group-hover/item:opacity-100 absolute z-50 left-1/2 -translate-x-2/4 -bottom-7 transition-all items-center justify-center">
+                  <div className="flex items-center gap-1">
+                    <Type className="text-white" size={15} />
+                    <Input
+                      name="color"
+                      type="color"
+                      defaultValue={l?.color}
+                      onChange={(e) => handleTextColorChange(e, l)}
+                      className="w-6 h-6 p-0 border-none"
+                    />
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {l?.showImage ? (
+                      <ImageIcon
+                        onClick={() => handleChangeImageOptions(l, true, false)}
+                        className="p-1 text-primary cursor-pointer bg-white border  rounded-full"
+                        size={25}
+                      />
+                    ) : (
+                      <ImageOff
+                        onClick={() => handleChangeImageOptions(l, true, false)}
+                        className="p-1 text-primary cursor-pointer bg-white border  rounded-full"
+                        size={25}
+                      />
+                    )}
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {l?.showTitleUrl ? (
+                      <Captions
+                        onClick={() => handleChangeImageOptions(l, false, true)}
+                        className="p-1 text-primary cursor-pointer bg-white border  rounded-full"
+                        size={25}
+                      />
+                    ) : (
+                      <CaptionsOff
+                        onClick={() => handleChangeImageOptions(l, false, true)}
+                        className="p-1 text-primary cursor-pointer bg-white border  rounded-full"
+                        size={25}
+                      />
+                    )}
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <PaintBucket className="text-white" size={15} />
+                    <Input
+                      name="background"
+                      type="color"
+                      defaultValue={l?.background || "#FFFFFF"}
+                      onChange={(e) => handleBackgroundColorChange(e, l)}
+                      className="w-6 h-6 p-0 border-none"
+                    />
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div
+                  className={"flex  w-full rounded-md h-full items-start p-3"}
+                >
+                  <div
+                    className={"absolute dragMe top-0 left-0 h-full w-full"}
+                  />
+                  <div
+                    style={{ scrollbarWidth: "none" }}
+                    className="z-10 h-full overflow-auto w-full flex gap-2 items-start cursor-pointer break-all justify-center"
+                  >
+                    {l?.image && (
+                      <img
+                        className=" object-cover w-fit rounded-md"
+                        src={l.link?.["og:image"]}
+                        alt=""
+                      />
+                    )}
+                    {l?.showTitleUrl && (
+                      <span
+                        style={{ color: l?.color ? `${l.color}` : "black" }}
+                      >
+                        {l.link?.title}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <span
+                  className="absolute group/span opacity-0 group-focus-visible/item:opacity-100 group-hover/item:opacity-100 transition-all hover:bg-gray-50 hover:shadow-md -right-2 p-2 shadow -m-1 bg-white rounded-full z-20 -top-2 cursor-pointer"
+                  onClick={() => onRemoveItem(l.i)}
+                >
+                  <Trash className="text-primary" size={15} />
+                </span>
+                <div className="bg-primary flex rounded-full gap-3 cursor-auto px-2 py-1 opacity-0 group-focus-visible/item:opacity-100 group-hover/item:opacity-100 absolute z-50 left-1/2 -translate-x-2/4 -bottom-7 transition-all items-center justify-center">
                   <div className="flex items-center gap-1">
                     <Type className="text-white" size={15} />
                     <Input
