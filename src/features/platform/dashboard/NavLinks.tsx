@@ -70,6 +70,19 @@ const NavLinks = ({
   const [open, setOpen] = useState(false);
   const [imageLoading, setImageLoading] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  function makeid(length: number) {
+    let result = "";
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
+  }
+
   const handleCreateSection = async (type: any) => {
     await createSectionAction({
       title: "New title bloc",
@@ -81,11 +94,7 @@ const NavLinks = ({
       x: 0,
       w: 2,
       h: 2,
-      i: `n${sidefolio.counter}`,
-    });
-    updateCounter({
-      id: sidefolio.id,
-      data: sidefolio.counter,
+      i: `n${makeid(40)}`,
     });
     window.location.reload();
   };
@@ -253,12 +262,9 @@ const NavLinks = ({
                       w: 2,
                       y: 0,
                       x: 0,
-                      i: `n${sidefolio.counter}`,
+                      i: `n${makeid(40)}`,
                     });
-                    updateCounter({
-                      id: sidefolio.id,
-                      data: sidefolio.counter,
-                    });
+
                     setIsLoading(false);
                     window.location.reload();
                   }}
@@ -287,10 +293,6 @@ const NavLinks = ({
                         id: sidefolio.id,
                         sidefolio: sidefolio,
                         data: formData,
-                      });
-                      await updateCounter({
-                        id: sidefolio.id,
-                        data: sidefolio.counter,
                       });
 
                       setImageLoading(false);
@@ -331,12 +333,9 @@ const NavLinks = ({
                       w: 2,
                       y: 0,
                       x: 0,
-                      i: `n${sidefolio.counter}`,
+                      i: `n${makeid(40)}`,
                     });
-                    updateCounter({
-                      id: sidefolio.id,
-                      data: sidefolio.counter,
-                    });
+
                     setIsLoading(false);
                     window.location.reload();
                   }}
@@ -372,12 +371,9 @@ const NavLinks = ({
                       w: 2,
                       y: 0,
                       x: 0,
-                      i: `n${sidefolio.counter}`,
+                      i: `n${makeid(40)}`,
                     });
-                    updateCounter({
-                      id: sidefolio.id,
-                      data: sidefolio.counter,
-                    });
+
                     setIsLoading(false);
                     window.location.reload();
                   }}
