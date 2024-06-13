@@ -120,7 +120,7 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
 
   const handleCompactTypeChange = useCallback((prev: any) => {
     setCompactType(prev);
-    console.log(compactType);
+
     updateSidefolioAction({
       id: sidefolio.id,
       data: { compactType: prev },
@@ -156,7 +156,6 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
     img: boolean,
     url: boolean
   ) => {
-    console.log(l);
     setImgLoading(l?.id);
     const data = {
       showImage: img ? !l?.showImage : l?.showImage,

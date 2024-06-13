@@ -233,7 +233,7 @@ const NavLinks = ({
                 <Button
                   className=" flex-1"
                   size={"icon"}
-                  disabled={isSaving}
+                  disabled={isSaving || isLoading}
                   onClick={() => handleCreateSection("TITLE")}
                 >
                   Title
@@ -241,6 +241,7 @@ const NavLinks = ({
                 <Button
                   className=" flex-1"
                   size={"icon"}
+                  disabled={isSaving || isLoading}
                   onClick={() => {
                     setIsLoading(true);
                     createSectionAction({
@@ -291,7 +292,7 @@ const NavLinks = ({
                         id: sidefolio.id,
                         data: sidefolio.counter,
                       });
-                      console.log(formData);
+
                       setImageLoading(false);
                       window.location.reload();
                     } catch (error) {
@@ -312,7 +313,10 @@ const NavLinks = ({
                   className=" flex-1"
                   size={"icon"}
                   disabled={
-                    sections?.filter((x: any) => x.type === "ME")?.length >= 1
+                    sections?.filter((x: any) => x.type === "ME")?.length >=
+                      1 ||
+                    isSaving ||
+                    isLoading
                   }
                   onClick={() => {
                     setIsLoading(true);
@@ -353,7 +357,9 @@ const NavLinks = ({
                   disabled={
                     url.match(
                       /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
-                    ) === null
+                    ) === null ||
+                    isSaving ||
+                    isLoading
                   }
                   onClick={() => {
                     setIsLoading(true);
