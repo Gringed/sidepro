@@ -29,6 +29,13 @@ enum Type {
   ME
 }
 
+model Review {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String @db.ObjectId
+  message  String
+}
+
 model Section {
   id           String    @id @default(auto()) @map("_id") @db.ObjectId
   slug         String?   @unique
@@ -39,6 +46,7 @@ model Section {
   bio          String?
   location     String?
   link         Json?
+  image        String?
   showImage    Boolean   @default(true)
   showTitleUrl Boolean   @default(true)
   type         Type?
@@ -92,6 +100,7 @@ model User {
   plan             Plan        @default(FREEMIUM)
   stripeCustomerId String?
   emailVerified    DateTime?
+  review           Review[]
   sidefolio        Sidefolio[]
   Account          Account[]
   Session          Session[]

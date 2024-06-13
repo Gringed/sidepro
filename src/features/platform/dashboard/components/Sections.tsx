@@ -17,12 +17,15 @@ import { LoggedInButton } from "@/features/auth/LoggedInButton";
 import {
   Captions,
   CaptionsOff,
+  Heart,
   ImageIcon,
   ImageOff,
   Loader2,
   LoaderIcon,
   Locate,
   MapPin,
+  MessageCircleHeart,
+  MessageCircleWarning,
   PaintBucket,
   Trash,
   Trash2,
@@ -35,8 +38,24 @@ import { redirect, useRouter } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { updateSidefolioAction } from "@/lib/actions/sidefolio/sidefolio.actions";
+import {
+  sendReviewAction,
+  updateSidefolioAction,
+} from "@/lib/actions/sidefolio/sidefolio.actions";
 import Link from "next/link";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { AlertDialogHeader } from "@/components/ui/alert-dialog";
+import { HeartFilledIcon } from "@radix-ui/react-icons";
+import { toast } from "sonner";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -49,23 +68,13 @@ interface SectionsProps {
 }
 
 const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
-  const generateLayout = (): Layout[] => {
-    return sections.map((item: any, i: number) => {
-      const y = Math.ceil(Math.random() * 4) + 1;
-      return {
-        x: (Math.floor(Math.random() * 6) * 2) % 12,
-        y: Math.floor(i / 6) * y,
-        w: 2,
-        h: y,
-        i: i.toString(),
-        static: 0,
-      };
-    });
-  };
   const cols = { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 };
   const [currentBreakpoint, setCurrentBreakpoint] = useState("lg");
   const [isFocus, setIsFocus] = useState(false);
+  const [openReview, setOpenReview] = useState(false);
   const [compactType, setCompactType] = useState(sidefolio?.compactType);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [review, setReview] = useState<string>("");
   const [mounted, setMounted] = useState(false);
   const [layouts, setLayouts] = useState<Layouts>({
     lg: sections,
@@ -213,7 +222,18 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
       setIsSaving(false);
     }
   };
-
+  const handleSendReview = async () => {
+    setIsLoading(true);
+    try {
+      await sendReviewAction(review);
+      toast.success("Message sended, thanks you");
+      setOpenReview(false);
+    } catch (error) {
+      console.log(error);
+    }
+    router.refresh();
+    setIsLoading(false);
+  };
   return (
     <div className="w-full">
       <div className=" fixed z-20  flex bottom-5 left-1/2 -translate-x-2/4 rounded-md shadow bg-white/85 backdrop-blur-md">
@@ -226,12 +246,59 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
               handleCompactTypeChange={handleCompactTypeChange}
               compactType={compactType}
               sections={sections}
+              user={user}
             />
             <div className=" items-center flex">
               <LoggedInButton user={user} sidefolio={sidefolio} />
             </div>
           </div>
         </div>
+      </div>
+      <div className=" fixed z-20  flex bottom-5 right-5  rounded-full shadow bg-white/85 backdrop-blur-md">
+        <Dialog open={openReview} onOpenChange={setOpenReview}>
+          <DialogTrigger asChild>
+            <div className="mx-auto cursor-pointer border flex w-full items-center rounded-full shadow-lg  justify-between p-3">
+              <div className="flex origin-left  items-center gap-4 text-xl">
+                <MessageCircleHeart size={20} />
+              </div>
+            </div>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-3">
+                Leave a review and support{" "}
+                <HeartFilledIcon className="text-red-500" />
+              </DialogTitle>
+              <DialogDescription>
+                If you like it and have any idea to improve this app, please
+                leave me a review
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col gap-4 py-4">
+              <div className="h-full w-full">
+                <Textarea
+                  placeholder="Leave anything can help us, thanks"
+                  className=" text-base   h-full border-0  w-full"
+                  required
+                  onChange={(e) => setReview(e.target.value)}
+                />
+                <div className="absolute right-2">
+                  {isLoading && <Loader2 size={20} className=" animate-spin" />}
+                </div>
+              </div>
+            </div>
+            <DialogFooter className="flex !justify-between items-center">
+              <Button
+                type="button"
+                disabled={isLoading}
+                onClick={handleSendReview}
+              >
+                {isLoading && <Loader2 size={20} className=" animate-spin" />}
+                Send
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
 
       <ResponsiveReactGridLayout
@@ -517,6 +584,7 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
                       )}
                       {l?.showTitleUrl && (
                         <span
+                          className=" break-normal"
                           style={{ color: l?.color ? `${l.color}` : "black" }}
                         >
                           {l.link?.title}
@@ -588,18 +656,21 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
               <>
                 <div
                   className={"flex  w-full rounded-md h-full items-start p-3"}
+                  style={{
+                    background: l?.background ? `${l.background}` : "white",
+                  }}
                 >
                   <div
                     className={"absolute dragMe top-0 left-0 h-full w-full"}
                   />
                   <div
                     style={{ scrollbarWidth: "none" }}
-                    className="z-10 h-full overflow-auto w-full flex gap-2 items-start cursor-pointer break-all justify-center"
+                    className=" overflow-hidden h-full w-full flex gap-2 items-center  break-all justify-center"
                   >
                     {l?.image && (
                       <img
                         className=" object-cover w-fit rounded-md"
-                        src={l.link?.["og:image"]}
+                        src={l.image}
                         alt=""
                       />
                     )}
@@ -619,46 +690,6 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
                   <Trash className="text-primary" size={15} />
                 </span>
                 <div className="bg-primary flex rounded-full gap-3 cursor-auto px-2 py-1 opacity-0 group-focus-visible/item:opacity-100 group-hover/item:opacity-100 absolute z-50 left-1/2 -translate-x-2/4 -bottom-7 transition-all items-center justify-center">
-                  <div className="flex items-center gap-1">
-                    <Type className="text-white" size={15} />
-                    <Input
-                      name="color"
-                      type="color"
-                      defaultValue={l?.color}
-                      onChange={(e) => handleTextColorChange(e, l)}
-                      className="w-6 h-6 p-0 border-none"
-                    />
-                  </div>
-                  <div className="flex items-center gap-1">
-                    {l?.showImage ? (
-                      <ImageIcon
-                        onClick={() => handleChangeImageOptions(l, true, false)}
-                        className="p-1 text-primary cursor-pointer bg-white border  rounded-full"
-                        size={25}
-                      />
-                    ) : (
-                      <ImageOff
-                        onClick={() => handleChangeImageOptions(l, true, false)}
-                        className="p-1 text-primary cursor-pointer bg-white border  rounded-full"
-                        size={25}
-                      />
-                    )}
-                  </div>
-                  <div className="flex items-center gap-1">
-                    {l?.showTitleUrl ? (
-                      <Captions
-                        onClick={() => handleChangeImageOptions(l, false, true)}
-                        className="p-1 text-primary cursor-pointer bg-white border  rounded-full"
-                        size={25}
-                      />
-                    ) : (
-                      <CaptionsOff
-                        onClick={() => handleChangeImageOptions(l, false, true)}
-                        className="p-1 text-primary cursor-pointer bg-white border  rounded-full"
-                        size={25}
-                      />
-                    )}
-                  </div>
                   <div className="flex items-center gap-1">
                     <PaintBucket className="text-white" size={15} />
                     <Input

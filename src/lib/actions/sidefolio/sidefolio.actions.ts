@@ -4,6 +4,16 @@ import { SidefolioSchema } from "./sidefolio.schema";
 import { z } from "zod";
 import { prisma } from "@/prisma";
 
+export const sendReviewAction = userAction(
+  z.string(),
+  async (input, context) => {
+    const sendReview = await prisma.review.create({
+      data: { authorId: context.user.id, message: input },
+    });
+    return sendReview;
+  }
+);
+
 export const updateSidefolioAction = userAction(
   z.object({
     id: z.string(),

@@ -9,6 +9,7 @@ import { ActionError, userAction } from "@/lib/safe.actions";
 import { SectionSchema } from "./section.schema";
 import { revalidatePath } from "next/cache";
 import urlMetadata from "url-metadata";
+import { put } from "@vercel/blob";
 const verifySlugUniqueness = async (userId?: string) => {
   const slugExists = await prisma.user.count({
     where: {
@@ -144,7 +145,40 @@ export const updateSectionImageAction = userAction(
     return updateRequest;
   }
 );
+export const uploadImageSection = userAction(
+  z.object({
+    id: z.string(),
+    sidefolio: z.any(),
+    data: z.any(),
+  }),
 
+  async (input, context) => {
+    await verifySlugUniqueness(context.user.id);
+    const file = input.data.get("file") as File;
+    const fileName = file.name;
+    console.log(file);
+    const blob = await put(fileName, file, {
+      access: "public",
+    });
+    console.log(blob);
+    let response;
+    if (blob.url) {
+      response = await prisma.section.create({
+        data: {
+          sideId: input.id,
+          image: blob.url,
+          type: "IMAGE",
+          h: 2,
+          w: 2,
+          y: 0,
+          x: 0,
+          i: `n${input.sidefolio.counter}`,
+        },
+      });
+    }
+    return response;
+  }
+);
 export const removeSectionAction = userAction(
   z.object({ id: z.string(), i: z.string() }),
   async (input, context) => {

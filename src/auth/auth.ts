@@ -38,11 +38,11 @@ export const {
           authorId: userId,
         },
       });
-      /* const stripeCustomer = await stripe.customers.create({
+      const stripeCustomer = await stripe.customers.create({
         name: message.user.name ?? "",
         email: userEmail,
       });
-      
+
       await prisma.user.update({
         where: {
           id: userId,
@@ -50,7 +50,7 @@ export const {
         data: {
           stripeCustomerId: stripeCustomer.id,
         },
-      }); */
+      });
     },
   },
 });
