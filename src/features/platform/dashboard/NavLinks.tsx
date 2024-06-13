@@ -69,6 +69,7 @@ const NavLinks = ({
   const [url, setURL] = useState("");
   const [open, setOpen] = useState(false);
   const [imageLoading, setImageLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const handleCreateSection = async (type: any) => {
     await createSectionAction({
       title: "New title bloc",
@@ -241,6 +242,7 @@ const NavLinks = ({
                   className=" flex-1"
                   size={"icon"}
                   onClick={() => {
+                    setIsLoading(true);
                     createSectionAction({
                       title: "New text bloc",
                       description: "Add a new description",
@@ -256,6 +258,7 @@ const NavLinks = ({
                       id: sidefolio.id,
                       data: sidefolio.counter,
                     });
+                    setIsLoading(false);
                     window.location.reload();
                   }}
                 >
@@ -290,6 +293,7 @@ const NavLinks = ({
                       });
                       console.log(formData);
                       setImageLoading(false);
+                      window.location.reload();
                     } catch (error) {
                       console.log(error);
                     }
@@ -311,6 +315,7 @@ const NavLinks = ({
                     sections?.filter((x: any) => x.type === "ME")?.length >= 1
                   }
                   onClick={() => {
+                    setIsLoading(true);
                     createSectionAction({
                       name: "Jean Clenche",
                       bio: "",
@@ -328,6 +333,7 @@ const NavLinks = ({
                       id: sidefolio.id,
                       data: sidefolio.counter,
                     });
+                    setIsLoading(false);
                     window.location.reload();
                   }}
                 >
@@ -350,6 +356,7 @@ const NavLinks = ({
                     ) === null
                   }
                   onClick={() => {
+                    setIsLoading(true);
                     getPreview({
                       title: url,
                       description: "Add a new description",
@@ -365,6 +372,7 @@ const NavLinks = ({
                       id: sidefolio.id,
                       data: sidefolio.counter,
                     });
+                    setIsLoading(false);
                     window.location.reload();
                   }}
                 >

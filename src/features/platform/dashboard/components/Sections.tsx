@@ -83,7 +83,7 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
     xs: sections,
     xxs: sections,
   });
-  const [layout, setLayout] = useState([]);
+
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [imgLoading, setImgLoading] = useState<string | null>(null);
 
@@ -93,8 +93,6 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
   const router = useRouter();
   const onLayoutChange = useCallback(
     async (newLayout: any, allLayouts: any) => {
-      setLayout(newLayout);
-      console.log(newLayout);
       setLayouts(allLayouts);
       setIsSaving(true);
       try {
@@ -144,10 +142,10 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
 
       try {
         await updateSectionAction({ id: l.id, data: formData });
-        router.refresh();
       } catch (error) {
         console.log(error);
       } finally {
+        router.refresh();
         setIsSaving(false);
       }
     },
@@ -215,11 +213,11 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
     setIsSaving(true);
     try {
       await removeSectionAction({ i: i, id: sidefolio.id });
-      router.refresh();
     } catch (error) {
       console.log(error);
     } finally {
       setIsSaving(false);
+      router.refresh();
     }
   };
   const handleSendReview = async () => {
