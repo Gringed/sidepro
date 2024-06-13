@@ -10,21 +10,6 @@ import { SectionSchema } from "./section.schema";
 import { revalidatePath } from "next/cache";
 import urlMetadata from "url-metadata";
 import { put } from "@vercel/blob";
-const verifySlugUniqueness = async (userId?: string) => {
-  const slugExists = await prisma.user.count({
-    where: {
-      id: userId
-        ? {
-            not: userId,
-          }
-        : undefined,
-    },
-  });
-
-  if (slugExists) {
-    throw new ActionError("Slug already exists");
-  }
-};
 
 const verifyUserPlan = async (user: User) => {
   if (user.plan === "PREMIUM_ONE") {
@@ -74,7 +59,6 @@ export const updateOrderSectionB = userAction(
     data: z.any(),
   }),
   async (input, context) => {
-    await verifySlugUniqueness(context.user.id);
     const updatePromises = input.data.map((section: any) =>
       prisma.section.update({
         where: { sideId: input.id, i: section.i },
@@ -110,8 +94,6 @@ export const updateSectionAction = userAction(
     data: SectionSchema,
   }),
   async (input, context) => {
-    await verifySlugUniqueness(context.user.id);
-
     const updateRequest = await prisma.section.update({
       where: {
         id: input.id,
@@ -133,8 +115,6 @@ export const updateSectionImageAction = userAction(
     }),
   }),
   async (input, context) => {
-    await verifySlugUniqueness(context.user.id);
-
     const updateRequest = await prisma.section.update({
       where: {
         id: input.id,
@@ -153,7 +133,6 @@ export const uploadImageSection = userAction(
   }),
 
   async (input, context) => {
-    await verifySlugUniqueness(context.user.id);
     const file = input.data.get("file") as File;
     const fileName = file.name;
     console.log(file);
