@@ -265,8 +265,8 @@ const NavLinks = ({
                       i: `n${makeid(40)}`,
                     });
 
-                    setIsLoading(false);
                     window.location.reload();
+                    setIsLoading(false);
                   }}
                 >
                   Text

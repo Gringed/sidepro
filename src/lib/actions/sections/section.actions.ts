@@ -59,18 +59,26 @@ export const updateOrderSectionB = userAction(
     data: z.any(),
   }),
   async (input, context) => {
-    const updatePromises = input.data.map((section: any) =>
-      prisma.section.update({
-        where: { sideId: input.id, i: section.i },
-        data: {
-          w: section.w,
-          h: section.h,
-          x: section.x,
-          y: section.y,
-        },
-      })
-    );
-    await prisma.$transaction(updatePromises);
+    let updateSections;
+    try {
+      const updatePromises = input.data.map((section: any) =>
+        prisma.section.update({
+          where: { sideId: input.id, i: section.i },
+          data: {
+            w: section.w,
+            h: section.h,
+            x: section.x,
+            y: section.y,
+          },
+        })
+      );
+
+      updateSections = await prisma.$transaction(updatePromises);
+    } catch (error) {
+      return { error: error };
+    }
+    revalidatePath("/dashboard");
+    return updateSections;
   }
 );
 
