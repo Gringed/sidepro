@@ -82,7 +82,7 @@ const NavLinks = ({
       h: 2,
       i: `n${sidefolio.counter}`,
     });
-    await updateCounter({
+    updateCounter({
       id: sidefolio.id,
       data: sidefolio.counter,
     });
