@@ -34,10 +34,18 @@ export const createSectionAction = userAction(
   async (input, context) => {
     /*  await verifySlugUniqueness(context.user.id);
     await verifyUserPlan(context.user); */
-
-    await prisma.section.create({
-      data: input,
-    });
+    let createSection;
+    try {
+      createSection = await prisma.section.create({
+        data: input,
+      });
+    } catch (error) {
+      return {
+        error: "Failed to create.",
+      };
+    }
+    revalidatePath("/dashboard");
+    return createSection;
   }
 );
 export const getPreview = userAction(SectionSchema, async (input, context) => {

@@ -83,20 +83,15 @@ const NavLinks = ({
     return result;
   }
 
-  const handleCreateSection = async (type: any) => {
-    await createSectionAction({
-      title: "New title bloc",
+  const handleCreateSection = (title: string, type: any) => {
+    createSectionAction({
+      title,
       slug: "",
-      type: "TITLE",
+      type: type,
       description: "Add a new description",
       sideId: sidefolio.id,
-      y: 0,
-      x: 0,
-      w: 2,
-      h: 2,
       i: `n${makeid(40)}`,
     });
-    window.location.reload();
   };
   const inputFileRef = useRef<HTMLInputElement>(null);
   return (
@@ -243,7 +238,7 @@ const NavLinks = ({
                   className=" flex-1"
                   size={"icon"}
                   disabled={isSaving || isLoading}
-                  onClick={() => handleCreateSection("TITLE")}
+                  onClick={() => handleCreateSection("New title bloc", "TITLE")}
                 >
                   Title
                 </Button>
@@ -252,21 +247,7 @@ const NavLinks = ({
                   size={"icon"}
                   disabled={isSaving || isLoading}
                   onClick={() => {
-                    setIsLoading(true);
-                    createSectionAction({
-                      title: "New text bloc",
-                      description: "Add a new description",
-                      sideId: sidefolio.id,
-                      type: "TEXT",
-                      h: 2,
-                      w: 2,
-                      y: 0,
-                      x: 0,
-                      i: `n${makeid(40)}`,
-                    });
-
-                    window.location.reload();
-                    setIsLoading(false);
+                    handleCreateSection("New text bloc", "TEXT");
                   }}
                 >
                   Text

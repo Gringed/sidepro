@@ -63,7 +63,7 @@ export function LandingHeader() {
           }}
           className="flex cursor-pointer origin-left items-center gap-4 text-xl"
         >
-          <Image src="/icon.png" width={45} height={35} alt="Linkers logo" />{" "}
+          <Image src="/icon.png" width={40} height={35} alt="Linkers logo" />{" "}
           <h1 className="md:block hidden font-MontserratAlt font-extrabold">
             SidePro
           </h1>
