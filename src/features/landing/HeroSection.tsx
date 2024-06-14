@@ -34,7 +34,7 @@ export const HeroSection = () => {
             <div className="h-full">
               <label className="flex border h-full border-noir bg-primary-foreground flex-row  items-center rounded ">
                 <span className="pl-5 w-full h-full flex-1 py-3 font-medium">
-                  sidepro.net/
+                  sidepro.me/
                 </span>
                 <Input
                   type="text"

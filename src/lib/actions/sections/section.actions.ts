@@ -49,16 +49,19 @@ export const createSectionAction = userAction(
   }
 );
 export const getPreview = userAction(SectionSchema, async (input, context) => {
+  let createLink;
   try {
-    const metadata = await urlMetadata(input.title!);
-    if (metadata) {
+    createLink = await urlMetadata(input.title!);
+    if (createLink) {
       await prisma.section.create({
-        data: { ...input, link: metadata },
+        data: { ...input, link: createLink },
       });
     }
   } catch (err) {
     console.log(err);
   }
+  revalidatePath("/dashboard");
+  return createLink;
 });
 
 export const updateOrderSectionB = userAction(
@@ -110,12 +113,14 @@ export const updateSectionAction = userAction(
     data: SectionSchema,
   }),
   async (input, context) => {
-    const updateRequest = await prisma.section.update({
+    let updateRequest;
+    updateRequest = await prisma.section.update({
       where: {
         id: input.id,
       },
       data: input.data,
     });
+    revalidatePath("/dashboard");
 
     return updateRequest;
   }
@@ -131,25 +136,25 @@ export const updateSectionImageAction = userAction(
     }),
   }),
   async (input, context) => {
-    const updateRequest = await prisma.section.update({
+    let updateRequest;
+    updateRequest = await prisma.section.update({
       where: {
         id: input.id,
       },
       data: input.data,
     });
-
+    revalidatePath("/dashboard");
     return updateRequest;
   }
 );
 export const uploadImageSection = userAction(
   z.object({
-    id: z.string(),
-    sidefolio: z.any(),
-    data: z.any(),
+    file: z.any(),
+    data: SectionSchema,
   }),
 
   async (input, context) => {
-    const file = input.data.get("file") as File;
+    const file = input.file.get("file") as File;
     const fileName = file.name;
     console.log(file);
     const blob = await put(fileName, file, {
@@ -160,17 +165,12 @@ export const uploadImageSection = userAction(
     if (blob.url) {
       response = await prisma.section.create({
         data: {
-          sideId: input.id,
+          ...input.data,
           image: blob.url,
-          type: "IMAGE",
-          h: 2,
-          w: 2,
-          y: 0,
-          x: 0,
-          i: `n${input.sidefolio.counter}`,
         },
       });
     }
+    revalidatePath("/dashboard");
     return response;
   }
 );

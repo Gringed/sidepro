@@ -95,14 +95,12 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
     async (newLayout: any, allLayouts: any) => {
       setLayouts(allLayouts);
       setIsSaving(true);
-      try {
-        await updateOrderSectionB({
-          id: sidefolio.id,
-          data: newLayout,
-        });
-      } catch (error) {
-        console.log(error);
-      } finally {
+
+      const res = await updateOrderSectionB({
+        id: sidefolio.id,
+        data: newLayout,
+      });
+      if (res) {
         setIsSaving(false);
       }
     },
@@ -145,7 +143,6 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
       } catch (error) {
         console.log(error);
       } finally {
-        router.refresh();
         setIsSaving(false);
       }
     },
@@ -162,9 +159,10 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
       showTitleUrl: url ? !l?.showTitleUrl : l?.showTitleUrl,
       sideId: sidefolio.id,
     };
-    await updateSectionImageAction({ id: l.id, data: data });
-    router.refresh();
-    setImgLoading(null);
+    const res = await updateSectionImageAction({ id: l.id, data: data });
+    if (res) {
+      setImgLoading(null);
+    }
   };
   const handleChange = async (e: React.ChangeEvent<any>, l: any) => {
     e.preventDefault();
@@ -316,7 +314,7 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
             id={l.id}
             key={l.i}
             className={
-              "border border-gray-300/50 shadow hover:shadow-md group/item rounded-md bg-white relative  flex justify-start cursor-grab"
+              "border border-gray-300/50 shadow hover:shadow-md group/item hover:z-50 rounded-md bg-white relative  flex justify-start cursor-grab"
             }
           >
             {l?.type === "TEXT" ? (
@@ -550,14 +548,14 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
                     target="_blank"
                     href={l?.link.url}
                     style={{ scrollbarWidth: "none" }}
-                    className="z-10 h-full overflow-auto w-full flex gap-2 items-start cursor-pointer break-all justify-center"
+                    className="z-0 h-full overflow-auto w-full flex gap-2 items-start cursor-pointer break-all justify-center"
                   >
-                    <Avatar className="size-10 border shadow-md h-fit object-cover p-1">
+                    <Avatar className="size-10 border shadow-md h-fit object-cover p-0.5">
                       <AvatarFallback>{l.link?.title[0]}</AvatarFallback>
                       {l.link?.favicons[0]?.href ? (
                         <AvatarImage
                           src={l.link?.favicons[0]?.href}
-                          className=" object-cover"
+                          className=" object-cover rounded-full"
                           alt={`${l?.link && l.link.title} picture`}
                         />
                       ) : null}
@@ -591,7 +589,7 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
                   </Link>
                 </div>
                 <span
-                  className="absolute group/span opacity-0 group-focus-visible/item:opacity-100 group-hover/item:opacity-100 transition-all hover:bg-gray-50 hover:shadow-md -right-2 p-2 shadow -m-1 bg-white rounded-full z-20 -top-2 cursor-pointer"
+                  className="absolute group/span opacity-0 group-focus-visible/item:opacity-100 group-hover/item:opacity-100 transition-all hover:bg-gray-50 hover:shadow-md -right-2 p-2 shadow -m-1 bg-white rounded-full z-50 -top-2 cursor-pointer"
                   onClick={() => onRemoveItem(l.i)}
                 >
                   <Trash className="text-primary" size={15} />

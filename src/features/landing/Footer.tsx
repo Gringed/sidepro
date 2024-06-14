@@ -43,7 +43,7 @@ const Footer = () => {
                   <div className="h-full w-full">
                     <label className="flex border h-full border-noir bg-primary-foreground flex-row  items-center rounded ">
                       <span className="pl-2 w-full h-full flex-1 py-3 font-medium">
-                        sidepro.net/
+                        sidepro.me/
                       </span>
                       <Input
                         type="text"
@@ -82,7 +82,7 @@ const Footer = () => {
                 <Link href={"/policy"}>Privacy Policy</Link>
                 <Link
                   href={
-                    "mailto:contact@sidepro.fr?subject=Help me with SidePro"
+                    "mailto:contact@sidepro.me?subject=Help me with SidePro"
                   }
                 >
                   Contact

@@ -19,6 +19,7 @@ import {
   GalleryHorizontal,
   GalleryVertical,
   Loader,
+  Loader2,
   LoaderCircle,
   Plus,
   Send,
@@ -93,6 +94,23 @@ const NavLinks = ({
       i: `n${makeid(40)}`,
     });
   };
+  const handleUploadImage = async (file: any) => {
+    const res = await uploadImageSection({
+      file,
+      data: {
+        title: "New image bloc",
+        slug: "",
+        type: "IMAGE",
+        description: "Add a new description",
+        sideId: sidefolio.id,
+        i: `n${makeid(40)}`,
+      },
+    });
+    if (res) {
+      setImageLoading(false);
+    }
+  };
+  const handlePay = (type: string) => {};
   const inputFileRef = useRef<HTMLInputElement>(null);
   return (
     <nav className={cn("flex items-center gap-5 ")}>
@@ -143,75 +161,62 @@ const NavLinks = ({
           </DropdownMenuPortal>
         </DropdownMenu>
         <DialogPortal>
-          <DialogContent className="sm:max-w-[425px] lg:max-w-[50%]">
+          <DialogContent className="sm:max-w-[425px] lg:max-w-[50%] h-fit">
             <DialogHeader>
               <DialogTitle>Plan to publish your sidefolio</DialogTitle>
             </DialogHeader>
-            <div className="flex flex-col gap-4 py-4">
+            <div className="">
               <div className="h-full w-full">
-                <div className="flex w-full justify-center items-center flex-col gap-10">
-                  <div className="mx-auto mb-16 md:mb-16 p-8 lg:p-12 bg-secondary/30 rounded-3xl flex flex-col lg:flex-row gap-8 lg:gap-12 lg:justify-between ">
-                    <div className="flex flex-col lg:flex-row gap-8 lg:gap-14">
-                      <div className="border border-foreground/30 bg-zinc-200 rounded-2xl lg:rounded-3xl text-center p-8 lg:p-12 -mx-4 -mb-4 lg:-my-8">
-                        <div className="flex flex-col gap-6 lg:gap-8 justify-center h-full">
-                          <p className="text-xl font-semibold">1-Year Pass</p>
-                          <div className="flex items-baseline justify-center gap-x-2">
-                            <span className="text-lg tracking-tight text-base-content-secondary/80 line-through decoration-[1.5px]">
-                              50
-                            </span>
-                            <div className="text-5xl font-bold tracking-tight">
-                              20
-                            </div>
-                            <span className="text-sm font-base leading-6 tracking-wide text-base-content-secondary/80">
-                              €
-                            </span>
-                          </div>
-                          <p className="text-sm text-base-content-secondary">
-                            One-time payment. No subscription
-                          </p>
-                          <div className="w-full">
-                            <Link
-                              className={cn(
-                                buttonVariants({ variant: "default" })
-                              )}
-                              href="/#signup"
-                            >
-                              Start for free
-                            </Link>
-                          </div>
+                <div className="flex flex-col lg:flex-row gap-8 lg:gap-14">
+                  <div className="border border-foreground/30 bg-zinc-200 rounded-2xl lg:rounded-3xl text-center p-8 lg:p-12  ">
+                    <div className="flex flex-col gap-6 lg:gap-8 justify-center h-full">
+                      <p className="text-xl font-semibold">1-Year Pass</p>
+                      <div className="flex items-baseline justify-center gap-x-2">
+                        <span className="text-lg tracking-tight text-base-content-secondary/80 line-through decoration-[1.5px]">
+                          50
+                        </span>
+                        <div className="text-5xl font-bold tracking-tight">
+                          20
                         </div>
+                        <span className="text-sm font-base leading-6 tracking-wide text-base-content-secondary/80">
+                          €
+                        </span>
                       </div>
-                      <div className="border-2  border-primary relative lg:!py-16 lg:!-my-16 lg:!px-16 lg:!-mx-16 z-10 bg-zinc-100 rounded-2xl lg:rounded-3xl text-center p-8 lg:p-12 -mx-4 -mb-4 ">
-                        <Badge className="absolute left-1/2 -translate-x-1/2 top-0 -translate-y-1/2 badge badge-accent badge-sm uppercase font-semibold">
-                          Popular
-                        </Badge>
-                        <div className="flex flex-col gap-6 lg:gap-8 justify-center h-full">
-                          <p className="text-xl font-semibold">Lifetime Deal</p>
-                          <div className="flex items-baseline justify-center gap-x-2">
-                            <span className="text-lg tracking-tight text-base-content-secondary/80 line-through decoration-[1.5px]">
-                              80
-                            </span>
-                            <div className="text-5xl font-bold tracking-tight">
-                              45
-                            </div>
-                            <span className="text-sm font-base leading-6 tracking-wide text-base-content-secondary/80">
-                              €
-                            </span>
-                          </div>
-                          <p className="text-sm text-base-content-secondary">
-                            One-time payment. No subscription
-                          </p>
-                          <div className="w-full">
-                            <Link
-                              className={cn(
-                                buttonVariants({ variant: "default" })
-                              )}
-                              href="/#signup"
-                            >
-                              Start for free
-                            </Link>
-                          </div>
+                      <p className="text-sm text-base-content-secondary">
+                        One-time payment. No subscription
+                      </p>
+                      <div className="w-full">
+                        <Button onClick={() => handlePay("one")}>Buy it</Button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="border-2  border-primary relative lg:!py-16 lg:!-my-16 lg:!px-16 lg:!-mx-16 z-10 bg-zinc-100 rounded-2xl lg:rounded-3xl text-center p-8 lg:p-12 -mx-4 -mb-4 ">
+                    <Badge className="absolute left-1/2 -translate-x-1/2 top-0 -translate-y-1/2 badge badge-accent badge-sm uppercase font-semibold">
+                      Popular
+                    </Badge>
+                    <div className="flex flex-col gap-6 lg:gap-8 justify-center h-full">
+                      <p className="text-xl font-semibold">Lifetime Deal</p>
+                      <div className="flex items-baseline justify-center gap-x-2">
+                        <span className="text-lg tracking-tight text-base-content-secondary/80 line-through decoration-[1.5px]">
+                          80
+                        </span>
+                        <div className="text-5xl font-bold tracking-tight">
+                          45
                         </div>
+                        <span className="text-sm font-base leading-6 tracking-wide text-base-content-secondary/80">
+                          €
+                        </span>
+                      </div>
+                      <p className="text-sm text-base-content-secondary">
+                        One-time payment. No subscription
+                      </p>
+                      <div className="w-full">
+                        <Link
+                          className={cn(buttonVariants({ variant: "default" }))}
+                          href="/#signup"
+                        >
+                          Start for free
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -262,35 +267,32 @@ const NavLinks = ({
                   ref={inputFileRef}
                   onChangeCapture={async (event) => {
                     event.preventDefault();
+                    setImageLoading(true);
                     if (!inputFileRef.current?.files) {
                       throw new Error("No file selected");
                     }
+
                     const file = inputFileRef.current.files[0];
                     const formData = new FormData();
                     formData.append("file", file);
-                    setImageLoading(true);
-                    try {
-                      await uploadImageSection({
-                        id: sidefolio.id,
-                        sidefolio: sidefolio,
-                        data: formData,
-                      });
+                    handleUploadImage(formData);
 
-                      setImageLoading(false);
-                      window.location.reload();
-                    } catch (error) {
-                      console.log(error);
-                    }
                     /*  */
                   }}
                 />
                 <Button
-                  onClick={() => inputFileRef.current?.click()}
+                  onClick={() => {
+                    inputFileRef.current?.click();
+                  }}
                   className=" flex-1"
                   size={"icon"}
-                  disabled={imageLoading}
+                  disabled={imageLoading || isSaving}
                 >
-                  Image
+                  {imageLoading ? (
+                    <Loader2 className=" animate-spin" size={16} />
+                  ) : (
+                    "Image"
+                  )}
                 </Button>
                 <Button
                   className=" flex-1"
@@ -302,23 +304,7 @@ const NavLinks = ({
                     isLoading
                   }
                   onClick={() => {
-                    setIsLoading(true);
-                    createSectionAction({
-                      name: "Jean Clenche",
-                      bio: "",
-                      location: "",
-                      description: "Add a new description",
-                      sideId: sidefolio.id,
-                      type: "ME",
-                      h: 4,
-                      w: 2,
-                      y: 0,
-                      x: 0,
-                      i: `n${makeid(40)}`,
-                    });
-
-                    setIsLoading(false);
-                    window.location.reload();
+                    handleCreateSection("New Infos bloc", "ME");
                   }}
                 >
                   Infos
@@ -342,7 +328,6 @@ const NavLinks = ({
                     isLoading
                   }
                   onClick={() => {
-                    setIsLoading(true);
                     getPreview({
                       title: url,
                       description: "Add a new description",
@@ -354,9 +339,6 @@ const NavLinks = ({
                       x: 0,
                       i: `n${makeid(40)}`,
                     });
-
-                    setIsLoading(false);
-                    window.location.reload();
                   }}
                 >
                   Add link
