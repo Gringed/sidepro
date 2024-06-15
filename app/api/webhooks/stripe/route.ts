@@ -29,9 +29,13 @@ export const POST = async (req: NextRequest) => {
   switch (event.type) {
     case "checkout.session.completed": {
       const session = event.data.object as Stripe.Checkout.Session;
-      const stripeCustomerId = session.customer;
+      const stripeCustomerId = session.customer as any;
       console.log(session);
-      const user = await findUser(stripeCustomerId || auth?.id);
+      const user = await prisma.user.findFirst({
+        where: {
+          id: stripeCustomerId || auth?.id,
+        },
+      });
       await prisma.user.update({
         where: { id: user?.id },
         data: {
@@ -43,8 +47,12 @@ export const POST = async (req: NextRequest) => {
     }
     case "invoice.paid": {
       const invoice = event.data.object as Stripe.Invoice;
-      const stripeCustomerId = invoice.customer;
-      const user = await findUser(stripeCustomerId || auth?.id);
+      const stripeCustomerId = invoice.customer as any;
+      const user = await prisma.user.findFirst({
+        where: {
+          id: stripeCustomerId || auth?.id,
+        },
+      });
       await prisma.user.update({
         where: { id: user?.id },
         data: {
@@ -56,8 +64,12 @@ export const POST = async (req: NextRequest) => {
     }
     case "invoice.payment_failed": {
       const invoice = event.data.object as Stripe.Invoice;
-      const stripeCustomerId = invoice.customer;
-      const user = await findUser(stripeCustomerId || auth?.id);
+      const stripeCustomerId = invoice.customer as any;
+      const user = await prisma.user.findFirst({
+        where: {
+          id: stripeCustomerId || auth?.id,
+        },
+      });
       await prisma.user.update({
         where: { id: user?.id },
         data: {
@@ -71,12 +83,4 @@ export const POST = async (req: NextRequest) => {
     // Unhandled event type
   }
   return NextResponse.json({ ok: true });
-};
-
-export const findUser = async (stripeCustomerId: any) => {
-  return prisma.user.findFirst({
-    where: {
-      stripeCustomerId,
-    },
-  });
 };
