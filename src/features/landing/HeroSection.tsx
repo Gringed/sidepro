@@ -22,13 +22,13 @@ export const HeroSection = () => {
               Your portfolio.
             </h1>
             <h1 className="max-w-2xl mb-4 text-4xl text-center font-black tracking-tight leading-none md:text-5xl xl:text-7xl text-primary">
-              In few clics.
+              In few moves.
             </h1>
           </div>
           <p className="max-w-lg mb-6 text-center font-semibold text-noir lg:mb-8 md:text-lg lg:text-lg dark:text-gray-400">
-            Build your portfolio in just a few clicks: showcase your talents
-            with our intuitive{" "}
-            <span className="text-primary font-bold">Sidefolio Builder</span>!
+            Build a portfolio or anything in just a few moves: showcase your
+            talents with our intuitive{" "}
+            <span className="text-primary font-bold">Bento Builder</span>!
           </p>
           <div className="flex items-center flex-col md:flex-row h-full gap-3">
             <div className="h-full">

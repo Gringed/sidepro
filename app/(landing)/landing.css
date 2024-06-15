@@ -49,6 +49,10 @@ html {
   stroke-dasharray: 100;
   stroke-dashoffset: 0;
 }
+.sceneContainer.plan-starter .viewportContainer.isIframe:after {
+  background: none !important;
+  height: 0 !important;
+}
 @keyframes rotateL {
   from {
     transform: rotate(0deg);
