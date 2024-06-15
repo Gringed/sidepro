@@ -73,10 +73,14 @@ export const buySidefolioAction = userAction(
       payment_method_types: ["card"],
       mode: "payment",
       billing_address_collection: "auto",
+      customer: stripeCustomerId,
       customer_email: user?.email,
       line_items: [
         {
-          price: "price_1PREtDCZhRRHqlVz3oWoTy5D",
+          price:
+            input.type === "ONE_YEAR"
+              ? process.env.PRICE_ONE_YEAR
+              : process.env.PRICE_LIFETIME,
           quantity: 1,
         },
       ],
