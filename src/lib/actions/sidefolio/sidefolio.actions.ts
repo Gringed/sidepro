@@ -3,6 +3,8 @@ import { userAction } from "@/lib/safe.actions";
 import { SidefolioSchema } from "./sidefolio.schema";
 import { z } from "zod";
 import { prisma } from "@/prisma";
+import { stripe } from "@/stripe";
+import { redirect } from "next/navigation";
 
 export const sendReviewAction = userAction(
   z.string(),
@@ -47,5 +49,41 @@ export const updateCounter = userAction(
     });
 
     return updateSidefolio;
+  }
+);
+
+export const buySidefolioAction = userAction(
+  z.object({
+    type: z.string(),
+  }),
+  async (input, context) => {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: context.user.id,
+      },
+      select: {
+        stripeCustomerId: true,
+        email: true,
+      },
+    });
+    const stripeCustomerId = user?.stripeCustomerId ?? undefined;
+    const session = await stripe.checkout.sessions.create({
+      success_url: process.env.NEXT_PUBLIC_APP_URL + "/dashboard",
+      cancel_url: process.env.NEXT_PUBLIC_APP_URL + "/dashboard",
+      payment_method_types: ["card"],
+      mode: "payment",
+      billing_address_collection: "auto",
+      customer_email: user?.email,
+      line_items: [
+        {
+          price: "price_1PREtDCZhRRHqlVz3oWoTy5D",
+          quantity: 1,
+        },
+      ],
+    });
+    if (!session.url) {
+      throw new Error("Error");
+    }
+    redirect(session.url);
   }
 );

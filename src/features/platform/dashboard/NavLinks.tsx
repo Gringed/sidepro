@@ -29,7 +29,10 @@ import {
 } from "lucide-react";
 
 import React, { useRef, useState } from "react";
-import { updateCounter } from "../../../lib/actions/sidefolio/sidefolio.actions";
+import {
+  buySidefolioAction,
+  updateCounter,
+} from "../../../lib/actions/sidefolio/sidefolio.actions";
 
 import {
   Tooltip,
@@ -110,7 +113,9 @@ const NavLinks = ({
       setImageLoading(false);
     }
   };
-  const handlePay = (type: string) => {};
+  const handlePay = (type: string) => {
+    buySidefolioAction({ type });
+  };
   const inputFileRef = useRef<HTMLInputElement>(null);
   return (
     <nav className={cn("flex items-center gap-5 ")}>
@@ -167,8 +172,8 @@ const NavLinks = ({
             </DialogHeader>
             <div className="">
               <div className="h-full w-full">
-                <div className="flex flex-col lg:flex-row gap-8 lg:gap-14">
-                  <div className="border border-foreground/30 bg-zinc-200 rounded-2xl lg:rounded-3xl text-center p-8 lg:p-12  ">
+                <div className="flex flex-col lg:flex-row justify-between ">
+                  <div className="border border-foreground/30 bg-zinc-200 rounded-2xl lg:rounded-3xl text-center p-12   ">
                     <div className="flex flex-col gap-6 lg:gap-8 justify-center h-full">
                       <p className="text-xl font-semibold">1-Year Pass</p>
                       <div className="flex items-baseline justify-center gap-x-2">
@@ -190,7 +195,7 @@ const NavLinks = ({
                       </div>
                     </div>
                   </div>
-                  <div className="border-2  border-primary relative lg:!py-16 lg:!-my-16 lg:!px-16 lg:!-mx-16 z-10 bg-zinc-100 rounded-2xl lg:rounded-3xl text-center p-8 lg:p-12 -mx-4 -mb-4 ">
+                  <div className="border-2  border-primary relative   z-10 bg-zinc-100 rounded-2xl lg:rounded-3xl text-center p-12   ">
                     <Badge className="absolute left-1/2 -translate-x-1/2 top-0 -translate-y-1/2 badge badge-accent badge-sm uppercase font-semibold">
                       Popular
                     </Badge>

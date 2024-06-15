@@ -99,6 +99,7 @@ model User {
   image            String?
   plan             Plan        @default(FREEMIUM)
   stripeCustomerId String?
+  expiresAt        DateTime?
   emailVerified    DateTime?
   review           Review[]
   sidefolio        Sidefolio[]
