@@ -30,7 +30,7 @@ export const POST = async (req: NextRequest) => {
     case "checkout.session.completed": {
       const session = event.data.object as Stripe.Checkout.Session;
       const stripeCustomerId = session.customer as any;
-      console.log(session);
+      console.log(session.amount_subtotal);
       const user = await prisma.user.findFirst({
         where: {
           id: stripeCustomerId || auth?.id,
@@ -39,8 +39,12 @@ export const POST = async (req: NextRequest) => {
       await prisma.user.update({
         where: { id: user?.id },
         data: {
-          plan: "PREMIUM_ONE",
-          expiresAt: getOneYearLaterDate(),
+          plan:
+            session.amount_subtotal === 2000 ? "PREMIUM_ONE" : "PREMIUM_LIFE",
+          expiresAt:
+            session.amount_subtotal === 2000
+              ? getOneYearLaterDate()
+              : undefined,
         },
       });
       break;
