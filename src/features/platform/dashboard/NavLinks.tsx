@@ -166,7 +166,7 @@ const NavLinks = ({
           </DropdownMenuPortal>
         </DropdownMenu>
         <DialogPortal>
-          <DialogContent className="sm:max-w-[425px] lg:max-w-[50%] h-fit">
+          <DialogContent className="sm:max-w-[750px] h-fit">
             <DialogHeader>
               <DialogTitle>Plan to publish your sidefolio</DialogTitle>
             </DialogHeader>
@@ -216,12 +216,9 @@ const NavLinks = ({
                         One-time payment. No subscription
                       </p>
                       <div className="w-full">
-                        <Link
-                          className={cn(buttonVariants({ variant: "default" }))}
-                          href="/#signup"
-                        >
-                          Start for free
-                        </Link>
+                        <Button onClick={() => handlePay("life")}>
+                          Buy it
+                        </Button>
                       </div>
                     </div>
                   </div>

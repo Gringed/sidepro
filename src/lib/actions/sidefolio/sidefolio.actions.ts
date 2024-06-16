@@ -57,6 +57,7 @@ export const buySidefolioAction = userAction(
     type: z.string(),
   }),
   async (input, context) => {
+    console.log(input);
     const user = await prisma.user.findUnique({
       where: {
         id: context.user.id,
@@ -71,6 +72,7 @@ export const buySidefolioAction = userAction(
       success_url: process.env.NEXT_PUBLIC_APP_URL + "/dashboard",
       cancel_url: process.env.NEXT_PUBLIC_APP_URL + "/dashboard",
       payment_method_types: ["card"],
+      allow_promotion_codes: true,
       mode: "payment",
       billing_address_collection: "auto",
       customer: stripeCustomerId,
@@ -78,7 +80,7 @@ export const buySidefolioAction = userAction(
       line_items: [
         {
           price:
-            input.type === "ONE_YEAR"
+            input.type === "one"
               ? process.env.PRICE_ONE_YEAR
               : process.env.PRICE_LIFETIME,
           quantity: 1,

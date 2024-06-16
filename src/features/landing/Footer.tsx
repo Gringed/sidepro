@@ -16,14 +16,11 @@ const Footer = () => {
     <FadeInSection>
       <Section
         id="signup"
-        className="py-2 border-t-4 border-primary mt-20 bg-gray-100 w-full col-start-1 row-start-1 h-full bg-opacity-20"
+        className="py-2 !max-w-full  bg-gray-100 w-full col-start-1 row-start-1 h-full bg-opacity-20"
       >
         <section
-          className="relative bg-cover col-start-1 row-start-1 grid place-items-center w-full h-full overflow-hidden min-h-screen"
+          className=" col-start-1 row-start-1 grid place-items-center w-full h-full overflow-hidden min-h-screen"
           id="signup"
-          style={{
-            backgroundImage: "url(back.svg)",
-          }}
         >
           <div className="col-start-1 row-start-1 text-center ">
             <div className="max-w-4xl space-y-12 md:space-y-24 p-6">

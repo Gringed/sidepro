@@ -50,11 +50,11 @@ const Pricing = () => {
                     <TooltipProvider delayDuration={0}>
                       <Tooltip>
                         <TooltipTrigger className="font-medium underline decoration-primary decoration-dashed underline-offset-2 hover:decoration-solid duration-200 cursor-help">
-                          Analytics
+                          blocks
                         </TooltipTrigger>
                         <TooltipContent className="bg-white">
                           <div className="text-foreground text-medium text-base">
-                            <h2>Number of visits to your sidefolio</h2>
+                            <h2>Blocks build your sidefolio</h2>
                           </div>
                         </TooltipContent>
                       </Tooltip>
@@ -115,8 +115,7 @@ const Pricing = () => {
                         <TooltipContent className="bg-white">
                           <div className="text-foreground text-medium text-base">
                             <h2>
-                              We have a summary of all our users with the most
-                              visits
+                              Publish your sidefolio and share link to everyone
                             </h2>
                           </div>
                         </TooltipContent>
@@ -137,7 +136,7 @@ const Pricing = () => {
                       clipRule="evenodd"
                     ></path>
                   </svg>
-                  Google follows your links for SEO
+                  Premium support
                 </li>
               </ul>
             </div>
