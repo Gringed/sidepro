@@ -5,6 +5,8 @@ import { z } from "zod";
 import { prisma } from "@/prisma";
 import { stripe } from "@/stripe";
 import { redirect } from "next/navigation";
+import { UserSchema } from "../users/user.schema";
+import { revalidatePath } from "next/cache";
 
 export const sendReviewAction = userAction(
   z.string(),
@@ -36,6 +38,7 @@ export const updateSidefolioAction = userAction(
 export const publishSidefolioAction = userAction(
   z.object({
     id: z.string(),
+    data: UserSchema,
   }),
   async (input, context) => {
     const user = await prisma.user.findUnique({
@@ -51,12 +54,14 @@ export const publishSidefolioAction = userAction(
         },
         data: {
           publish: true,
+          publicImage: input.data.image,
+          publicName: input.data.name,
         },
       });
     } else {
       throw new Error("Not authorized");
     }
-
+    revalidatePath("/dashboard");
     return pusblishedSidefolio;
   }
 );

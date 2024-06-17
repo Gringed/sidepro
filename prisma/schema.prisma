@@ -80,6 +80,8 @@ model Sidefolio {
   color       String?
   background  String?
   publish     Boolean   @default(false)
+  publicName  String?
+  publicImage String?
   section     Section[]
   links       Links[]
   counter     Int       @default(0)

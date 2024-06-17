@@ -46,14 +46,13 @@ import Link from "next/link";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 interface SectionsProps {
-  user: any;
   sections: any;
   sidefolio: any;
   className?: string;
   rowHeight?: number;
 }
 
-const PublishedSections = ({ sections, sidefolio, user }: SectionsProps) => {
+const PublishedSections = ({ sections, sidefolio }: SectionsProps) => {
   const cols = { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 };
   const [currentBreakpoint, setCurrentBreakpoint] = useState("lg");
 
@@ -154,12 +153,14 @@ const PublishedSections = ({ sections, sidefolio, user }: SectionsProps) => {
                   }}
                 >
                   <Avatar className="size-32 cursor-pointer ">
-                    <AvatarFallback>{user.name?.[0]}</AvatarFallback>
-                    {user.image ? (
+                    <AvatarFallback>
+                      {sidefolio?.publicName?.[0]}
+                    </AvatarFallback>
+                    {sidefolio.publicImage ? (
                       <AvatarImage
-                        src={user.image}
+                        src={sidefolio.publicImage}
                         className=" object-cover"
-                        alt={`${user.name ?? "-"}'s profile picture`}
+                        alt={`${sidefolio.publicName ?? "-"}'s profile picture`}
                       />
                     ) : null}
                   </Avatar>

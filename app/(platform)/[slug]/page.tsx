@@ -9,6 +9,8 @@ import PublishedSections from "@/features/platform/published/PublishedSections";
 import { signInAction } from "@/features/auth/auth.action";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { signIn } from "@/auth/auth";
+import { SignInButton } from "@/features/auth/SignInButton";
 const page = async (props: PageParams<{ slug: string }>) => {
   const user = await currentUser();
   if (!props.params.slug) {
@@ -31,11 +33,7 @@ const page = async (props: PageParams<{ slug: string }>) => {
     <>
       {sidefolio ? (
         <div>
-          <PublishedSections
-            sections={sections}
-            user={user}
-            sidefolio={sidefolio}
-          />
+          <PublishedSections sections={sections} sidefolio={sidefolio} />
         </div>
       ) : (
         <div className="h-screen w-full flex justify-center items-center flex-col gap-4">
@@ -53,7 +51,7 @@ const page = async (props: PageParams<{ slug: string }>) => {
               Go to my dashboard
             </Link>
           ) : (
-            <Button onClick={signInAction}>Create my sidefolio</Button>
+            <SignInButton />
           )}
         </div>
       )}

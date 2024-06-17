@@ -122,7 +122,8 @@ const NavLinks = ({
   };
   const handlePublish = async () => {
     setIsPublish(true);
-    const res = await publishSidefolioAction({ id: sidefolio.id });
+    const res = await publishSidefolioAction({ id: sidefolio.id, data: user });
+    console.log(res);
     if (res.data) {
       setIsPublish(false);
       toast.success("Sidefolio published");

@@ -4,16 +4,6 @@ export const UserSchema = z.object({
   name: z.string(),
   email: z.string().email(),
   image: z.string().optional(),
-  rs: z.array(
-    z.object({
-      value: z.string().url({ message: "Please enter a valid URL." }),
-    })
-  ),
-  categories: z
-    .array(z.string())
-    .refine((value) => value.some((item) => item), {
-      message: "You have to select at least one item.",
-    }),
 });
 
 export const UserSearchSchema = z.object({
