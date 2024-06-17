@@ -19,7 +19,7 @@ export const LoggedInButton = ({ user, sidefolio }: any) => {
             />
           ) : null}
         </Avatar>
-        {user.plan === "PREMIUM_ONE" ? (
+        {user.plan === "PREMIUM_ONE" || user.plan === "PREMIUM_LIFE" ? (
           <svg
             fill="#5584FA"
             viewBox="0 -5.47 56.254 56.254"
