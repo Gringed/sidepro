@@ -33,6 +33,34 @@ export const updateSidefolioAction = userAction(
   }
 );
 
+export const publishSidefolioAction = userAction(
+  z.object({
+    id: z.string(),
+  }),
+  async (input, context) => {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: context.user.id,
+      },
+    });
+    let pusblishedSidefolio;
+    if (user?.plan === "PREMIUM_LIFE" || user?.plan === "PREMIUM_ONE") {
+      pusblishedSidefolio = await prisma.sidefolio.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          publish: true,
+        },
+      });
+    } else {
+      throw new Error("Not authorized");
+    }
+
+    return pusblishedSidefolio;
+  }
+);
+
 export const updateCounter = userAction(
   z.object({
     id: z.string(),

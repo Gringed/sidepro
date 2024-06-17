@@ -133,6 +133,9 @@
 .react-grid-item-preview > .react-resizable-handle {
   display: none;
 }
+.react-grid-item-publish > .react-resizable-handle {
+  display: none;
+}
 
 @layer base {
   * {

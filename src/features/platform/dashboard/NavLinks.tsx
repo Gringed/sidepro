@@ -21,16 +21,18 @@ import {
   Loader,
   Loader2,
   LoaderCircle,
+  MonitorCheck,
   Plus,
   Send,
   Share,
   Share2,
   SquareSplitHorizontal,
 } from "lucide-react";
-
+import confetti from "canvas-confetti";
 import React, { useRef, useState } from "react";
 import {
   buySidefolioAction,
+  publishSidefolioAction,
   updateCounter,
 } from "../../../lib/actions/sidefolio/sidefolio.actions";
 
@@ -62,6 +64,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
 const NavLinks = ({
   sidefolio,
   isSaving,
@@ -74,6 +77,7 @@ const NavLinks = ({
   const [open, setOpen] = useState(false);
   const [imageLoading, setImageLoading] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isPublish, setIsPublish] = useState<boolean>(false);
   function makeid(length: number) {
     let result = "";
     const characters =
@@ -116,6 +120,19 @@ const NavLinks = ({
   const handlePay = (type: string) => {
     buySidefolioAction({ type });
   };
+  const handlePublish = async () => {
+    setIsPublish(true);
+    const res = await publishSidefolioAction({ id: sidefolio.id });
+    if (res.data) {
+      setIsPublish(false);
+      toast.success("Sidefolio published");
+      confetti({
+        particleCount: 150,
+        spread: 100,
+        origin: { y: 0.6 },
+      });
+    }
+  };
   const inputFileRef = useRef<HTMLInputElement>(null);
   return (
     <nav className={cn("flex items-center gap-5 ")}>
@@ -153,13 +170,32 @@ const NavLinks = ({
                 </DialogTrigger>
               ) : (
                 <DropdownMenuItem className="hover:bg-gray-200/10 focus:bg-gray-200/10 hover:text-primary focus:text-primary cursor-pointer font-medium">
-                  <Link
-                    href={"/preview/" + sidefolio.slug}
-                    className="flex gap-0.5 items-center"
-                  >
-                    <Send size={16} className="mr-2" />
-                    Publish my sidefolio
-                  </Link>
+                  {sidefolio.publish ? (
+                    <Link
+                      href={`/${sidefolio.slug}`}
+                      className="font-bold flex items-center"
+                    >
+                      <MonitorCheck size={16} className="mr-2" />
+                      See my online sidefolio
+                    </Link>
+                  ) : (
+                    <div
+                      onClick={handlePublish}
+                      className="flex gap-0.5 items-center"
+                    >
+                      {isPublish ? (
+                        <>
+                          <Loader2 size={16} className="mr-2 animate-spin" />
+                          Publish in progress
+                        </>
+                      ) : (
+                        <>
+                          <Send size={16} className="mr-2" />
+                          Publish my sidefolio
+                        </>
+                      )}
+                    </div>
+                  )}
                 </DropdownMenuItem>
               )}
             </DropdownMenuContent>

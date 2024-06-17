@@ -79,6 +79,7 @@ model Sidefolio {
   compactType String?
   color       String?
   background  String?
+  publish     Boolean   @default(false)
   section     Section[]
   links       Links[]
   counter     Int       @default(0)

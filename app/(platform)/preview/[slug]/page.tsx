@@ -12,7 +12,9 @@ import React from "react";
 
 const page = async (props: PageParams<{ slug: string }>) => {
   const user = await currentUser();
-
+  if (!props.params.slug) {
+    redirect("/dashboard");
+  }
   if (!user) {
     redirect("/");
   }
