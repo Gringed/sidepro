@@ -68,7 +68,7 @@ interface SectionsProps {
 }
 
 const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
-  const cols = { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 };
+  const cols = { lg: 12, md: 4, sm: 2, xs: 1, xxs: 1 };
   const [currentBreakpoint, setCurrentBreakpoint] = useState("lg");
   const [isFocus, setIsFocus] = useState(false);
   const [openReview, setOpenReview] = useState(false);

@@ -13,6 +13,7 @@ import { signIn } from "@/auth/auth";
 import { SignInButton } from "@/features/auth/SignInButton";
 import { LoggedInButton } from "@/features/auth/LoggedInButton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import ShinyButton from "@/components/magicui/shiny-button";
 const page = async (props: PageParams<{ slug: string }>) => {
   const user = await currentUser();
   if (!props.params.slug) {
@@ -53,21 +54,24 @@ const page = async (props: PageParams<{ slug: string }>) => {
                 <span className="text-sm font-medium">My sidefolio</span>
               </Link>
             ) : (
-              <Link
+              <>
+                {/* <Link
                 href={"/api/auth/signin"}
                 className="relative cursor-pointer hover:bg-slate-200 transition-all rounded-md p-2 flex items-center gap-2 w-fit"
-              >
+                >
                 <Avatar className="size-6  ">
-                  <AvatarFallback>{"S"}</AvatarFallback>
-
-                  <AvatarImage
-                    src={"./icon.svg"}
-                    className=" object-cover border rounded-full"
-                    alt={`logo}'s profile picture`}
-                  />
+                <AvatarFallback>{"S"}</AvatarFallback>
+                
+                <AvatarImage
+                src={"./icon.svg"}
+                className=" object-cover border rounded-full"
+                alt={`logo}'s profile picture`}
+                />
                 </Avatar>
                 <span className="text-sm font-medium">Create my sidefolio</span>
-              </Link>
+                </Link> */}
+                <ShinyButton text="Create my sidefolio" />
+              </>
             )}
           </div>
           <PublishedSections sections={sections} sidefolio={sidefolio} />

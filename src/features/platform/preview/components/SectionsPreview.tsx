@@ -282,12 +282,16 @@ const Sections = ({ sections, sidefolio, user }: SectionsProps) => {
                     style={{ scrollbarWidth: "none" }}
                     className="z-10 h-full overflow-auto w-full flex gap-2 items-start cursor-pointer break-all justify-center"
                   >
-                    <Avatar className="size-10 border shadow-md h-fit object-cover p-1">
+                    <Avatar className="size-10 border shadow-md h-fit object-cover p-0.5">
                       <AvatarFallback>{l.link?.title[0]}</AvatarFallback>
-                      {l.link?.favicons[0]?.href ? (
+                      {l.link?.favicons ? (
                         <AvatarImage
-                          src={l.link?.favicons[0]?.href}
-                          className=" object-cover"
+                          src={
+                            l?.link.url?.split("/")[2] === "read.cv"
+                              ? l.link?.favicons[1]?.href
+                              : l.link?.favicons[0]?.href
+                          }
+                          className=" object-cover rounded-full"
                           alt={`${l?.link && l.link.title} picture`}
                         />
                       ) : null}

@@ -2,7 +2,7 @@
 import { Input } from "@/components/ui/input";
 import { Section } from "./Section";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, CircleAlert } from "lucide-react";
 import { useState } from "react";
 import { signInAction } from "../auth/auth.action";
 
@@ -25,11 +25,18 @@ export const HeroSection = () => {
               In few moves.
             </h1>
           </div>
-          <p className="max-w-lg mb-6 text-center font-semibold text-noir lg:mb-8 md:text-lg lg:text-lg dark:text-gray-400">
-            Build a portfolio or anything in just a few moves: showcase your
-            talents with our intuitive{" "}
-            <span className="text-primary font-bold">Bento Builder</span>!
-          </p>
+          <div>
+            <p className="max-w-lg mb-6 text-center font-semibold text-noir lg:mb-8 md:text-lg lg:text-lg dark:text-gray-400">
+              Build a portfolio or anything in just a few moves: showcase your
+              talents with our intuitive{" "}
+              <span className="text-primary font-bold">Bento Builder</span>!
+            </p>
+            {/* <p className="text-orange-500 flex items-center justify-center font-bold text-xs text-center">
+              <CircleAlert className="mr-2" size={15} /> Currently optimized for
+              desktop
+            </p> */}
+          </div>
+
           <div className="flex items-center flex-col md:flex-row h-full gap-3">
             <div className="h-full">
               <label className="flex border h-full border-noir bg-primary-foreground flex-row  items-center rounded ">
