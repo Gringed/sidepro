@@ -68,6 +68,8 @@ const PublishedSections = ({
           useCSSTransforms={mounted}
           compactType={compactType}
           cols={cols}
+          isDraggable={false}
+          isResizable={false}
           margin={[30, 30]}
           preventCollision={!compactType}
           {...{ rowHeight: 70 }}
