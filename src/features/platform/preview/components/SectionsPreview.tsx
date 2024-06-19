@@ -1,63 +1,19 @@
 "use client";
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { NextPage } from "next";
 
 import { Responsive, WidthProvider, Layout, Layouts } from "react-grid-layout";
 import { Input } from "@/components/ui/input";
-import {
-  getPreview,
-  removeSectionAction,
-  updateOrderSectionB,
-  updateSectionAction,
-  updateSectionImageAction,
-} from "@/lib/actions/sections/section.actions";
+
 import { Button, buttonVariants } from "@/components/ui/button";
 
-import { LoggedInButton } from "@/features/auth/LoggedInButton";
-import {
-  Captions,
-  CaptionsOff,
-  Edit2,
-  Heart,
-  ImageIcon,
-  ImageOff,
-  Loader2,
-  LoaderIcon,
-  Locate,
-  MapPin,
-  MessageCircleHeart,
-  MessageCircleWarning,
-  PaintBucket,
-  Share2,
-  Trash,
-  Trash2,
-  Type,
-  X,
-} from "lucide-react";
+import { Edit2, MapPin } from "lucide-react";
 
-import { revalidatePath } from "next/cache";
-import { redirect, useRouter } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  sendReviewAction,
-  updateSidefolioAction,
-} from "@/lib/actions/sidefolio/sidefolio.actions";
+
 import Link from "next/link";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { AlertDialogHeader } from "@/components/ui/alert-dialog";
-import { HeartFilledIcon } from "@radix-ui/react-icons";
-import { toast } from "sonner";
+
 import {
   Tooltip,
   TooltipContent,
