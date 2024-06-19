@@ -60,7 +60,7 @@ const page = async (props: PageParams<{ slug: string }>) => {
   return (
     <>
       {sidefolio ? (
-        <div>
+        <div className="flex justify-center h-max">
           <div className="fixed bottom-5 right-5 bg-transparent p-2   z-50">
             {user ? (
               <Link

@@ -39,7 +39,7 @@ const Sections = ({
   desktop,
   mobile,
 }: SectionsProps) => {
-  const cols = { lg: 8, md: 4, sm: 2, xs: 1, xxs: 1 };
+  const cols = { lg: 8, md: 1, sm: 1, xs: 1, xxs: 1 };
   const [currentBreakpoint, setCurrentBreakpoint] = useState("lg");
 
   const [compactType, setCompactType] = useState(sidefolio?.compactType);
@@ -56,6 +56,14 @@ const Sections = ({
   const textInputRef = useRef<HTMLInputElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
+  const onLayoutChange = useCallback(
+    async (newLayout: any, allLayouts: any) => {
+      console.log(newLayout);
+      setLayouts(allLayouts);
+    },
+
+    []
+  );
   console.log(currentBreakpoint);
 
   useEffect(() => {
@@ -66,20 +74,27 @@ const Sections = ({
     setCurrentBreakpoint(breakpoint);
   }, []);
 
+  const handleLayoutChange = useCallback(
+    (layout: Layout[], allLayouts: Layouts) => {
+      onLayoutChange(layout, allLayouts);
+    },
+    [onLayoutChange]
+  );
+
   return (
     <div
       style={{ scrollbarWidth: "none" }}
       className={`flex ${
         currentBreakpoint === "xs"
           ? "w-96 border-2 h-[800px] overflow-scroll rounded-[60px] shadow-2xl"
-          : "w-full h-max"
+          : " max-xl:max-w-xs w-full h-max"
       }   mb-20  mx-10`}
     >
       <div className="w-full">
         <div className=" fixed z-20  flex bottom-5 left-1/2 -translate-x-2/4 rounded-full shadow bg-white/85 backdrop-blur-md">
           <div className="mx-auto py-1 border flex w-full items-center rounded-full shadow-lg  justify-between px-1">
             <div className="flex origin-left  items-center gap-4 text-xl">
-              <div className=" items-center gap-2 flex">
+              <div className=" items-center flex">
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
@@ -126,11 +141,9 @@ const Sections = ({
         </div>
         <ResponsiveReactGridLayout
           layouts={layouts}
-          onBreakpointChange={handleBreakpointChange}
           measureBeforeMount={false}
           useCSSTransforms={mounted}
           compactType={compactType}
-          breakpoint={currentBreakpoint}
           cols={cols}
           isDraggable={false}
           isResizable={false}
