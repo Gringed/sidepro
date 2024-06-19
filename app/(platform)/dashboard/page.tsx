@@ -21,7 +21,7 @@ const Home = async (props: PageParams<{}>) => {
       authorId: user.id,
     },
   });
-  const sections = await prisma.desktopSection.findMany({
+  const sections = await prisma.section.findMany({
     where: {
       sideId: sidefolio?.id,
     },

@@ -36,7 +36,7 @@ export const createSectionAction = userAction(
     await verifyUserPlan(context.user); */
     let createSection;
     try {
-      createSection = await prisma.desktopSection.create({
+      createSection = await prisma.section.create({
         data: {
           ...input,
           desktop: { create: { i: input.i, x: 0, y: 0, h: 1, w: 1 } },
@@ -57,7 +57,7 @@ export const getPreview = userAction(SectionSchema, async (input, context) => {
   try {
     createLink = await urlMetadata(input.title!);
     if (createLink) {
-      await prisma.desktopSection.create({
+      await prisma.section.create({
         data: { ...input, link: createLink },
       });
     }
@@ -77,7 +77,7 @@ export const updateOrderDesktopSection = userAction(
     let updateSections;
     try {
       const updatePromises = input.data.map((section: any) =>
-        prisma.desktopSection.update({
+        prisma.section.update({
           where: { sideId: input.id, desktop: { some: { i: section.i } } },
           data: {
             desktop: {
@@ -114,7 +114,7 @@ export const updateOrderMobileSection = userAction(
     let updateSections;
     try {
       const updatePromises = input.data.map((section: any) =>
-        prisma.desktopSection.update({
+        prisma.section.update({
           where: { sideId: input.id, mobile: { some: { i: section.i } } },
           data: {
             mobile: {
@@ -164,7 +164,7 @@ export const updateSectionAction = userAction(
   }),
   async (input, context) => {
     let updateRequest;
-    updateRequest = await prisma.desktopSection.update({
+    updateRequest = await prisma.section.update({
       where: {
         id: input.id,
       },
@@ -187,7 +187,7 @@ export const updateSectionImageAction = userAction(
   }),
   async (input, context) => {
     let updateRequest;
-    updateRequest = await prisma.desktopSection.update({
+    updateRequest = await prisma.section.update({
       where: {
         id: input.id,
       },
@@ -213,7 +213,7 @@ export const uploadImageSection = userAction(
     console.log(blob);
     let response;
     if (blob.url) {
-      response = await prisma.desktopSection.create({
+      response = await prisma.section.create({
         data: {
           ...input.data,
           image: blob.url,
@@ -227,7 +227,7 @@ export const uploadImageSection = userAction(
 export const removeSectionAction = userAction(
   z.object({ id: z.string(), i: z.string() }),
   async (input, context) => {
-    await prisma.desktopSection.delete({
+    await prisma.section.delete({
       where: {
         sideId: input.id,
         i: input.i,

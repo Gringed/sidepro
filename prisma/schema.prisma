@@ -36,7 +36,7 @@ model Review {
   message  String
 }
 
-model DesktopSection {
+model Section {
   id           String    @id @default(auto()) @map("_id") @db.ObjectId
   slug         String?   @unique
   sidefolio    Sidefolio @relation(fields: [sideId], references: [id])
@@ -61,55 +61,29 @@ model DesktopSection {
 }
 
 model Mobile {
-  id               String          @id @default(auto()) @map("_id") @db.ObjectId
-  i                String?         @unique
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  i                String?  @unique
   x                Int?
   y                Int?
   h                Int?
   w                Int?
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
-  DesktopSection   DesktopSection? @relation(fields: [desktopSectionId], references: [id])
-  desktopSectionId String?         @db.ObjectId
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  section          Section? @relation(fields: [desktopSectionId], references: [id])
+  desktopSectionId String?  @db.ObjectId
 }
 
 model Desktop {
-  id               String          @id @default(auto()) @map("_id") @db.ObjectId
-  i                String?         @unique
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  i                String?  @unique
   x                Int?
   y                Int?
   h                Int?
   w                Int?
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
-  DesktopSection   DesktopSection? @relation(fields: [desktopSectionId], references: [id])
-  desktopSectionId String?         @db.ObjectId
-}
-
-model MobileSection {
-  id           String    @id @default(auto()) @map("_id") @db.ObjectId
-  slug         String?   @unique
-  sidefolio    Sidefolio @relation(fields: [sideId], references: [id])
-  sideId       String    @unique @db.ObjectId
-  title        String?
-  name         String?
-  bio          String?
-  location     String?
-  link         Json?
-  image        String?
-  showImage    Boolean   @default(true)
-  showTitleUrl Boolean   @default(true)
-  type         Type?
-  background   String?
-  color        String?
-  description  String?
-  i            String?   @unique
-  x            Int?
-  y            Int?
-  h            Int?
-  w            Int?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  section          Section? @relation(fields: [desktopSectionId], references: [id])
+  desktopSectionId String?  @db.ObjectId
 }
 
 enum compactType {
@@ -119,25 +93,24 @@ enum compactType {
 }
 
 model Sidefolio {
-  id             String           @id @default(auto()) @map("_id") @db.ObjectId
-  slug           String           @unique
-  title          String
-  author         User             @relation(fields: [authorId], references: [id])
-  authorId       String           @db.ObjectId
-  bio            String?
-  location       String?
-  compactType    String?
-  color          String?
-  background     String?
-  publish        Boolean          @default(false)
-  publicName     String?
-  publicImage    String?
-  mobileSection  MobileSection[]
-  desktopSection DesktopSection[]
-  links          Links[]
-  counter        Int              @default(0)
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  slug        String    @unique
+  title       String
+  author      User      @relation(fields: [authorId], references: [id])
+  authorId    String    @db.ObjectId
+  bio         String?
+  location    String?
+  compactType String?
+  color       String?
+  background  String?
+  publish     Boolean   @default(false)
+  publicName  String?
+  publicImage String?
+  section     Section[]
+  links       Links[]
+  counter     Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 enum Plan {
