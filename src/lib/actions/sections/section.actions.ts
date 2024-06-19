@@ -36,8 +36,12 @@ export const createSectionAction = userAction(
     await verifyUserPlan(context.user); */
     let createSection;
     try {
-      createSection = await prisma.section.create({
-        data: input,
+      createSection = await prisma.desktopSection.create({
+        data: {
+          ...input,
+          desktop: { create: { i: input.i, x: 0, y: 0, h: 1, w: 1 } },
+          mobile: { create: { i: input.i, x: 0, y: 0, h: 1, w: 1 } },
+        },
       });
     } catch (error) {
       return {
@@ -53,7 +57,7 @@ export const getPreview = userAction(SectionSchema, async (input, context) => {
   try {
     createLink = await urlMetadata(input.title!);
     if (createLink) {
-      await prisma.section.create({
+      await prisma.desktopSection.create({
         data: { ...input, link: createLink },
       });
     }
@@ -64,7 +68,7 @@ export const getPreview = userAction(SectionSchema, async (input, context) => {
   return createLink;
 });
 
-export const updateOrderSectionB = userAction(
+export const updateOrderDesktopSection = userAction(
   z.object({
     id: z.string(),
     data: z.any(),
@@ -73,13 +77,59 @@ export const updateOrderSectionB = userAction(
     let updateSections;
     try {
       const updatePromises = input.data.map((section: any) =>
-        prisma.section.update({
-          where: { sideId: input.id, i: section.i },
+        prisma.desktopSection.update({
+          where: { sideId: input.id, desktop: { some: { i: section.i } } },
           data: {
-            w: section.w,
-            h: section.h,
-            x: section.x,
-            y: section.y,
+            desktop: {
+              update: {
+                where: {
+                  i: section.i,
+                },
+                data: {
+                  w: section.w,
+                  h: section.h,
+                  x: section.x,
+                  y: section.y,
+                },
+              },
+            },
+          },
+        })
+      );
+
+      updateSections = await prisma.$transaction(updatePromises);
+    } catch (error) {
+      return { error: error };
+    }
+    revalidatePath("/dashboard");
+    return updateSections;
+  }
+);
+export const updateOrderMobileSection = userAction(
+  z.object({
+    id: z.string(),
+    data: z.any(),
+  }),
+  async (input, context) => {
+    let updateSections;
+    try {
+      const updatePromises = input.data.map((section: any) =>
+        prisma.desktopSection.update({
+          where: { sideId: input.id, mobile: { some: { i: section.i } } },
+          data: {
+            mobile: {
+              update: {
+                where: {
+                  i: section.i,
+                },
+                data: {
+                  w: section.w,
+                  h: section.h,
+                  x: section.x,
+                  y: section.y,
+                },
+              },
+            },
           },
         })
       );
@@ -114,7 +164,7 @@ export const updateSectionAction = userAction(
   }),
   async (input, context) => {
     let updateRequest;
-    updateRequest = await prisma.section.update({
+    updateRequest = await prisma.desktopSection.update({
       where: {
         id: input.id,
       },
@@ -137,7 +187,7 @@ export const updateSectionImageAction = userAction(
   }),
   async (input, context) => {
     let updateRequest;
-    updateRequest = await prisma.section.update({
+    updateRequest = await prisma.desktopSection.update({
       where: {
         id: input.id,
       },
@@ -163,7 +213,7 @@ export const uploadImageSection = userAction(
     console.log(blob);
     let response;
     if (blob.url) {
-      response = await prisma.section.create({
+      response = await prisma.desktopSection.create({
         data: {
           ...input.data,
           image: blob.url,
@@ -177,7 +227,7 @@ export const uploadImageSection = userAction(
 export const removeSectionAction = userAction(
   z.object({ id: z.string(), i: z.string() }),
   async (input, context) => {
-    await prisma.section.delete({
+    await prisma.desktopSection.delete({
       where: {
         sideId: input.id,
         i: input.i,

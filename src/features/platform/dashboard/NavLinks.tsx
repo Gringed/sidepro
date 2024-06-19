@@ -21,11 +21,13 @@ import {
   Loader,
   Loader2,
   LoaderCircle,
+  Monitor,
   MonitorCheck,
   Plus,
   Send,
   Share,
   Share2,
+  Smartphone,
   SquareSplitHorizontal,
 } from "lucide-react";
 import confetti from "canvas-confetti";
@@ -66,6 +68,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 const NavLinks = ({
+  currentBreakpoint,
+  setCurrentBreakpoint,
   sidefolio,
   isSaving,
   handleCompactTypeChange,
@@ -372,10 +376,6 @@ const NavLinks = ({
                       description: "Add a new description",
                       sideId: sidefolio.id,
                       type: "LINK",
-                      h: 2,
-                      w: 2,
-                      y: 0,
-                      x: 0,
                       i: `n${makeid(40)}`,
                     });
                   }}
@@ -418,6 +418,27 @@ const NavLinks = ({
               ? compactType[0].toUpperCase() + compactType.slice(1)
               : "No Compaction"}
           </TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              size={"icon"}
+              variant={"outline"}
+              className="rounded-full"
+              onClick={() =>
+                currentBreakpoint === "xs"
+                  ? setCurrentBreakpoint("lg")
+                  : setCurrentBreakpoint("xs")
+              }
+            >
+              {currentBreakpoint === "xs" ? (
+                <Smartphone size={17} />
+              ) : (
+                <Monitor size={17} />
+              )}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Device</TooltipContent>
         </Tooltip>
       </TooltipProvider>
     </nav>

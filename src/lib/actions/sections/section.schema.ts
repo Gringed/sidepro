@@ -11,11 +11,9 @@ export const SectionSchema = z.object({
   type: z.enum(["TITLE", "TEXT", "LINK", "IMAGE", "ME"]).optional(),
   color: z.string().optional(),
   background: z.string().optional(),
+  mobile: z.any().optional(),
+  desktop: z.any().optional(),
   i: z.string().optional(),
-  h: z.number().optional(),
-  y: z.number().optional(),
-  w: z.number().optional(),
-  x: z.number().optional(),
 });
 
 export type SectionType = z.infer<typeof SectionSchema>;

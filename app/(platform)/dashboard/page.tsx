@@ -21,17 +21,46 @@ const Home = async (props: PageParams<{}>) => {
       authorId: user.id,
     },
   });
-  const sections = await prisma.section.findMany({
+  const sections = await prisma.desktopSection.findMany({
     where: {
       sideId: sidefolio?.id,
     },
   });
-
+  const sectionIds = sections?.map((section) => section.id);
+  const desktop = await prisma.desktop.findMany({
+    where: {
+      desktopSectionId: { in: sectionIds },
+    },
+    select: {
+      x: true,
+      y: true,
+      i: true,
+      w: true,
+      h: true,
+    },
+  });
+  const mobile = await prisma.mobile.findMany({
+    where: {
+      desktopSectionId: { in: sectionIds },
+    },
+    select: {
+      x: true,
+      y: true,
+      i: true,
+      w: true,
+      h: true,
+    },
+  });
+  console.log(mobile);
   return (
-    <div className="flex   h-max">
-      <div className="flex w-full h-max mb-20 mt-10 mx-10">
-        <Sections sidefolio={sidefolio} sections={sections} user={user} />
-      </div>
+    <div className="flex justify-center h-max">
+      <Sections
+        sidefolio={sidefolio}
+        desktop={desktop}
+        mobile={mobile}
+        sections={sections}
+        user={user}
+      />
     </div>
   );
 };
