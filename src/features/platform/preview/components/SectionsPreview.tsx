@@ -94,7 +94,7 @@ const Sections = ({
         <div className=" fixed z-20  flex bottom-5 left-1/2 -translate-x-2/4 rounded-full shadow bg-white/85 backdrop-blur-md">
           <div className="mx-auto py-1 border flex w-full items-center rounded-full shadow-lg  justify-between px-1">
             <div className="flex origin-left  items-center gap-4 text-xl">
-              <div className=" items-center flex">
+              <div className=" items-center flex gap-2">
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>

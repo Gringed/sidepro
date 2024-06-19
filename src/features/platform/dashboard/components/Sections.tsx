@@ -267,8 +267,8 @@ const Sections = ({
     >
       <div className="w-full">
         <div className=" fixed z-[9999] flex bottom-5 left-1/2 -translate-x-2/4 rounded-md shadow bg-white/85 backdrop-blur-md">
-          <div className="mx-auto py-1 border flex w-full items-center rounded-md shadow-lg  justify-between px-6">
-            <div className="flex origin-left  items-center gap-3 text-xl">
+          <div className="mx-auto py-1 border flex w-full items-center rounded-md shadow-lg  justify-between px-4">
+            <div className="flex origin-left  items-center gap-2 text-xl">
               {/* <Image src="/icon.svg" width={30} height={30} alt="SidePro Logo" />{" "} */}
               <NavLinks
                 currentBreakpoint={currentBreakpoint}
@@ -280,59 +280,61 @@ const Sections = ({
                 sections={sections}
                 user={user}
               />
-              <div className=" items-center flex">
+              <div className=" items-center gap-2 flex">
                 <LoggedInButton user={user} sidefolio={sidefolio} />
+                <Dialog open={openReview} onOpenChange={setOpenReview}>
+                  <DialogTrigger asChild>
+                    <Button
+                      size={"icon"}
+                      variant={"outline"}
+                      className="rounded-full"
+                    >
+                      <MessageCircleHeart size={17} />
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                      <DialogTitle className="flex items-center gap-3">
+                        Leave a review and support{" "}
+                        <HeartFilledIcon className="text-red-500" />
+                      </DialogTitle>
+                      <DialogDescription>
+                        If you like it and have any idea to improve this app,
+                        please leave me a review
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="flex flex-col gap-4 py-4">
+                      <div className="h-full w-full">
+                        <Textarea
+                          placeholder="Leave anything can help us, thanks"
+                          className=" text-base   h-full border-0  w-full"
+                          required
+                          onChange={(e) => setReview(e.target.value)}
+                        />
+                        <div className="absolute right-2">
+                          {isLoading && (
+                            <Loader2 size={20} className=" animate-spin" />
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <DialogFooter className="flex !justify-between items-center">
+                      <Button
+                        type="button"
+                        disabled={isLoading}
+                        onClick={handleSendReview}
+                      >
+                        {isLoading && (
+                          <Loader2 size={20} className=" animate-spin" />
+                        )}
+                        Send
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               </div>
             </div>
           </div>
-        </div>
-        <div className=" fixed z-20  flex bottom-5 right-5  rounded-full shadow bg-white/85 backdrop-blur-md">
-          <Dialog open={openReview} onOpenChange={setOpenReview}>
-            <DialogTrigger asChild>
-              <div className="mx-auto cursor-pointer border flex w-full items-center rounded-full shadow-lg  justify-between p-3">
-                <div className="flex origin-left  items-center gap-4 text-xl">
-                  <MessageCircleHeart size={20} />
-                </div>
-              </div>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle className="flex items-center gap-3">
-                  Leave a review and support{" "}
-                  <HeartFilledIcon className="text-red-500" />
-                </DialogTitle>
-                <DialogDescription>
-                  If you like it and have any idea to improve this app, please
-                  leave me a review
-                </DialogDescription>
-              </DialogHeader>
-              <div className="flex flex-col gap-4 py-4">
-                <div className="h-full w-full">
-                  <Textarea
-                    placeholder="Leave anything can help us, thanks"
-                    className=" text-base   h-full border-0  w-full"
-                    required
-                    onChange={(e) => setReview(e.target.value)}
-                  />
-                  <div className="absolute right-2">
-                    {isLoading && (
-                      <Loader2 size={20} className=" animate-spin" />
-                    )}
-                  </div>
-                </div>
-              </div>
-              <DialogFooter className="flex !justify-between items-center">
-                <Button
-                  type="button"
-                  disabled={isLoading}
-                  onClick={handleSendReview}
-                >
-                  {isLoading && <Loader2 size={20} className=" animate-spin" />}
-                  Send
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
         </div>
 
         <ResponsiveReactGridLayout
