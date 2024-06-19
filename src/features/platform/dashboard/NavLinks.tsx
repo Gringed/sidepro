@@ -140,7 +140,7 @@ const NavLinks = ({
   };
   const inputFileRef = useRef<HTMLInputElement>(null);
   return (
-    <nav className={cn("flex items-center gap-5 ")}>
+    <nav className={cn("flex items-center gap-3 ")}>
       <Dialog open={open} onOpenChange={setOpen}>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

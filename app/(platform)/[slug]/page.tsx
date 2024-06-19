@@ -31,6 +31,31 @@ const page = async (props: PageParams<{ slug: string }>) => {
       sideId: sidefolio?.id,
     },
   });
+  const sectionIds = sections?.map((section) => section.id);
+  const desktop = await prisma.desktop.findMany({
+    where: {
+      desktopSectionId: { in: sectionIds },
+    },
+    select: {
+      x: true,
+      y: true,
+      i: true,
+      w: true,
+      h: true,
+    },
+  });
+  const mobile = await prisma.mobile.findMany({
+    where: {
+      desktopSectionId: { in: sectionIds },
+    },
+    select: {
+      x: true,
+      y: true,
+      i: true,
+      w: true,
+      h: true,
+    },
+  });
   console.log(sidefolio);
   return (
     <>
@@ -55,26 +80,16 @@ const page = async (props: PageParams<{ slug: string }>) => {
               </Link>
             ) : (
               <>
-                {/* <Link
-                href={"/api/auth/signin"}
-                className="relative cursor-pointer hover:bg-slate-200 transition-all rounded-md p-2 flex items-center gap-2 w-fit"
-                >
-                <Avatar className="size-6  ">
-                <AvatarFallback>{"S"}</AvatarFallback>
-                
-                <AvatarImage
-                src={"./icon.svg"}
-                className=" object-cover border rounded-full"
-                alt={`logo}'s profile picture`}
-                />
-                </Avatar>
-                <span className="text-sm font-medium">Create my sidefolio</span>
-                </Link> */}
                 <ShinyButton text="Create my sidefolio" />
               </>
             )}
           </div>
-          <PublishedSections sections={sections} sidefolio={sidefolio} />
+          <PublishedSections
+            desktop={desktop}
+            mobile={mobile}
+            sections={sections}
+            sidefolio={sidefolio}
+          />
         </div>
       ) : (
         <div className="h-screen w-full flex justify-center items-center flex-col gap-4">

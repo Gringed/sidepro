@@ -17,23 +17,28 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 interface SectionsProps {
   sections: any;
   sidefolio: any;
-  className?: string;
-  rowHeight?: number;
+  desktop: any;
+  mobile: any;
 }
 
-const PublishedSections = ({ sections, sidefolio }: SectionsProps) => {
-  const cols = { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 };
+const PublishedSections = ({
+  sections,
+  sidefolio,
+  desktop,
+  mobile,
+}: SectionsProps) => {
+  const cols = { lg: 8, md: 4, sm: 2, xs: 1, xxs: 1 };
   const [currentBreakpoint, setCurrentBreakpoint] = useState("lg");
 
   const [compactType, setCompactType] = useState(sidefolio?.compactType);
 
   const [mounted, setMounted] = useState(false);
   const [layouts, setLayouts] = useState<Layouts>({
-    lg: sections,
-    md: sections,
-    sm: sections,
-    xs: sections,
-    xxs: sections,
+    lg: desktop,
+    md: mobile,
+    sm: mobile,
+    xs: mobile,
+    xxs: mobile,
   });
 
   const textInputRef = useRef<HTMLInputElement>(null);
@@ -54,6 +59,9 @@ const PublishedSections = ({ sections, sidefolio }: SectionsProps) => {
         onBreakpointChange={handleBreakpointChange}
         measureBeforeMount={false}
         useCSSTransforms={mounted}
+        isDraggable={false}
+        isResizable={false}
+        breakpoint={currentBreakpoint}
         compactType={compactType}
         cols={cols}
         margin={[30, 30]}
@@ -67,7 +75,6 @@ const PublishedSections = ({ sections, sidefolio }: SectionsProps) => {
             className={
               "border border-gray-300/50 shadow react-grid-item-publish hover:shadow-md group/item rounded-md bg-white relative  flex justify-start cursor-default"
             }
-            data-grid={{ x: l.x, y: l.y, h: l.h, w: l.w, static: true }}
           >
             {l?.type === "TEXT" ? (
               <>

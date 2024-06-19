@@ -29,17 +29,42 @@ const page = async (props: PageParams<{ slug: string }>) => {
       sideId: sidefolio?.id,
     },
   });
+  const sectionIds = sections?.map((section) => section.id);
+  const desktop = await prisma.desktop.findMany({
+    where: {
+      desktopSectionId: { in: sectionIds },
+    },
+    select: {
+      x: true,
+      y: true,
+      i: true,
+      w: true,
+      h: true,
+    },
+  });
+  const mobile = await prisma.mobile.findMany({
+    where: {
+      desktopSectionId: { in: sectionIds },
+    },
+    select: {
+      x: true,
+      y: true,
+      i: true,
+      w: true,
+      h: true,
+    },
+  });
   console.log(sidefolio);
   return (
-    <div>
+    <div className="flex justify-center h-max">
       {sidefolio ? (
-        <div>
-          <SectionsPreview
-            sections={sections}
-            user={user}
-            sidefolio={sidefolio}
-          />
-        </div>
+        <SectionsPreview
+          desktop={desktop}
+          mobile={mobile}
+          sections={sections}
+          user={user}
+          sidefolio={sidefolio}
+        />
       ) : (
         <div className="h-screen w-full flex justify-center items-center flex-col gap-4">
           You are not the owner of this sidefolio or you are not logged in. If
