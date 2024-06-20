@@ -15,9 +15,14 @@ import {
 } from "@/lib/actions/sections/section.actions";
 import { cn } from "@/lib/utils";
 import {
+  Contact,
   Eye,
   GalleryHorizontal,
   GalleryVertical,
+  Heading,
+  Image,
+  ImagePlus,
+  Link2,
   Loader,
   Loader2,
   LoaderCircle,
@@ -29,6 +34,7 @@ import {
   Share2,
   Smartphone,
   SquareSplitHorizontal,
+  Type,
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import React, { useRef, useState } from "react";
@@ -78,6 +84,7 @@ const NavLinks = ({
   user,
 }: any) => {
   const [url, setURL] = useState("");
+  const [openLink, setOpenLink] = useState(false);
   const [open, setOpen] = useState(false);
   const [imageLoading, setImageLoading] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -281,107 +288,158 @@ const NavLinks = ({
               <h4 className="font-medium leading-none">Add anything</h4>
             </div>
             <div className="grid gap-2">
-              <div className="flex w-full flex-wrap justify-between items-center gap-4">
-                <Button
-                  className=" flex-1"
-                  size={"icon"}
-                  disabled={isSaving || isLoading}
-                  onClick={() => handleCreateSection("New title bloc", "TITLE")}
-                >
-                  Title
-                </Button>
-                <Button
-                  className=" flex-1"
-                  size={"icon"}
-                  disabled={isSaving || isLoading}
-                  onClick={() => {
-                    handleCreateSection("New text bloc", "TEXT");
-                  }}
-                >
-                  Text
-                </Button>
-              </div>
-              <div className="flex w-full flex-wrap justify-between items-center gap-4">
-                <Input
-                  className=" flex-1 hidden"
-                  type="file"
-                  name="file"
-                  hidden
-                  ref={inputFileRef}
-                  onChangeCapture={async (event) => {
-                    event.preventDefault();
-                    setImageLoading(true);
-                    if (!inputFileRef.current?.files) {
-                      throw new Error("No file selected");
+              <div className="flex w-full flex-wrap items-center gap-2">
+                <div className="group/tooltip relative  ">
+                  <Button
+                    size={"icon"}
+                    variant={"outline"}
+                    className="rounded-sm "
+                    disabled={isSaving || isLoading}
+                    onClick={() =>
+                      handleCreateSection("New title bloc", "TITLE")
                     }
+                  >
+                    <Heading strokeWidth={3} size={17} />
+                  </Button>
+                  <span className="group-hover/tooltip:visible transition-all p-1 px-2 font-medium group-hover/tooltip:opacity-100 z-50 text-xs text-white rounded-full bg-primary opacity-0 absolute -top-7 -translate-x-2/4 left-1/2 invisible">
+                    Title
+                  </span>
+                </div>
+                <div className="group/tooltip relative  ">
+                  <Button
+                    size={"icon"}
+                    variant={"outline"}
+                    className="rounded-sm"
+                    disabled={isSaving || isLoading}
+                    onClick={() => {
+                      handleCreateSection("New text bloc", "TEXT");
+                    }}
+                  >
+                    <Type strokeWidth={3} size={17} />
+                  </Button>
+                  <span className="group-hover/tooltip:visible transition-all p-1 px-2 font-medium group-hover/tooltip:opacity-100 z-50 text-xs text-white rounded-full bg-primary opacity-0 absolute -top-7 -translate-x-2/4 left-1/2 invisible">
+                    Text
+                  </span>
+                </div>
+                <div className="group/tooltip relative  ">
+                  <Input
+                    className=" flex-1 hidden"
+                    type="file"
+                    name="file"
+                    hidden
+                    ref={inputFileRef}
+                    onChangeCapture={async (event) => {
+                      event.preventDefault();
+                      setImageLoading(true);
+                      if (!inputFileRef.current?.files) {
+                        throw new Error("No file selected");
+                      }
 
-                    const file = inputFileRef.current.files[0];
-                    const formData = new FormData();
-                    formData.append("file", file);
-                    handleUploadImage(formData);
+                      const file = inputFileRef.current.files[0];
+                      const formData = new FormData();
+                      formData.append("file", file);
+                      handleUploadImage(formData);
 
-                    /*  */
-                  }}
-                />
-                <Button
-                  onClick={() => {
-                    inputFileRef.current?.click();
-                  }}
-                  className=" flex-1"
-                  size={"icon"}
-                  disabled={imageLoading || isSaving}
-                >
-                  {imageLoading ? (
-                    <Loader2 className=" animate-spin" size={16} />
-                  ) : (
-                    "Image"
-                  )}
-                </Button>
-                <Button
-                  className=" flex-1"
-                  size={"icon"}
-                  disabled={
-                    sections?.filter((x: any) => x.type === "ME")?.length >=
-                      1 ||
-                    isSaving ||
-                    isLoading
-                  }
-                  onClick={() => {
-                    handleCreateSection("New Infos bloc", "ME");
-                  }}
-                >
-                  Infos
-                </Button>
-              </div>
-              <div className="flex  items-center gap-4">
-                <Input
-                  type="text"
-                  className="flex-[2]"
-                  placeholder="Paste your link here"
-                  onChange={(e) => setURL(e.target.value)}
-                />
-                <Button
-                  className=" flex-1"
-                  size={"icon"}
-                  disabled={
-                    url.match(
-                      /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
-                    ) === null ||
-                    isSaving ||
-                    isLoading
-                  }
-                  onClick={() => {
-                    getPreview({
-                      title: url,
-                      description: "Add a new description",
-                      sideId: sidefolio.id,
-                      type: "LINK",
-                      i: `n${makeid(40)}`,
-                    });
-                  }}
-                >
-                  Add link
-                </Button>
+                      /*  */
+                    }}
+                  />
+
+                  <Button
+                    onClick={() => {
+                      inputFileRef.current?.click();
+                    }}
+                    size={"icon"}
+                    variant={"outline"}
+                    className="rounded-sm"
+                    disabled={imageLoading || isSaving}
+                  >
+                    {imageLoading ? (
+                      <Loader2 className=" animate-spin" size={16} />
+                    ) : (
+                      <ImagePlus strokeWidth={2.5} size={17} />
+                    )}
+                  </Button>
+                  <span className="group-hover/tooltip:visible transition-all p-1 px-2 font-medium group-hover/tooltip:opacity-100 z-50 text-xs text-white rounded-full bg-primary opacity-0 absolute -top-7 -translate-x-2/4 left-1/2 invisible">
+                    Image
+                  </span>
+                </div>
+                <div className="group/tooltip relative  ">
+                  <Button
+                    size={"icon"}
+                    variant={"outline"}
+                    className="rounded-sm"
+                    disabled={
+                      sections?.filter((x: any) => x.type === "ME")?.length >=
+                        1 ||
+                      isSaving ||
+                      isLoading
+                    }
+                    onClick={() => {
+                      handleCreateSection("New Infos bloc", "ME");
+                    }}
+                  >
+                    <Contact strokeWidth={2.5} size={17} />
+                  </Button>
+                  <span className="group-hover/tooltip:visible transition-all p-1 px-2 font-medium group-hover/tooltip:opacity-100 z-50 text-xs text-white rounded-full bg-primary opacity-0 absolute -top-7 -translate-x-2/4 left-1/2 invisible">
+                    Infos
+                  </span>
+                </div>
+                <div className="group/tooltip relative  ">
+                  <Dialog open={openLink} onOpenChange={setOpenLink}>
+                    <DialogTrigger asChild>
+                      <Button
+                        size={"icon"}
+                        variant={"outline"}
+                        className="rounded-sm"
+                      >
+                        <Link2 strokeWidth={2.5} size={17} />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]">
+                      <DialogHeader>
+                        <DialogTitle>Add link</DialogTitle>
+                      </DialogHeader>
+                      <div className="grid gap-4 py-4">
+                        <Input
+                          type="text"
+                          className="flex-[2]"
+                          placeholder="Paste your link here"
+                          onChange={(e) => setURL(e.target.value)}
+                        />
+                      </div>
+                      <DialogFooter>
+                        <Button
+                          className=" flex-1"
+                          size={"icon"}
+                          disabled={
+                            url.match(
+                              /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+                            ) === null ||
+                            isSaving ||
+                            isLoading
+                          }
+                          onClick={() => {
+                            getPreview({
+                              title: url,
+                              description: "Add a new description",
+                              sideId: sidefolio.id,
+                              type: "LINK",
+                              i: `n${makeid(40)}`,
+                            });
+                            setOpenLink(false);
+                          }}
+                        >
+                          Add link
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+
+                  <span className="group-hover/tooltip:visible transition-all p-1 px-2 font-medium group-hover/tooltip:opacity-100 z-50 text-xs text-white rounded-full bg-primary opacity-0 absolute -top-7 -translate-x-2/4 left-1/2 invisible">
+                    Link
+                  </span>
+                </div>
+                {/*  */}
               </div>
             </div>
           </div>

@@ -593,18 +593,26 @@ const Sections = ({
                       style={{ scrollbarWidth: "none" }}
                       className="z-0 h-full overflow-auto w-full flex gap-2 items-start cursor-pointer break-all justify-center"
                     >
-                      <Avatar className="size-10 border shadow-md h-fit object-cover p-0.5">
+                      <Avatar className="size-10 border shadow-md h-fit object-cover p-1.5">
                         <AvatarFallback>{l.link?.title[0]}</AvatarFallback>
                         {l.link?.favicons ? (
-                          <AvatarImage
-                            src={
+                          <object
+                            data={
                               l?.link.url?.split("/")[2] === "read.cv"
                                 ? l.link?.favicons[1]?.href
                                 : l.link?.favicons[0]?.href
                             }
-                            className=" object-cover rounded-full"
-                            alt={`${l?.link && l.link.title} picture`}
-                          />
+                            type="image/jpeg"
+                            className=" object-cover w-full h-full"
+                          >
+                            <AvatarImage
+                              src={
+                                "https://upload.wikimedia.org/wikipedia/commons/5/56/Chain_link_icon_slanted.png"
+                              }
+                              className=" object-cover "
+                              alt={`${l?.link && l.link.title} picture`}
+                            />
+                          </object>
                         ) : null}
                       </Avatar>
                       <div
@@ -618,11 +626,19 @@ const Sections = ({
                           <Loader2 className=" absolute top-1/2 left-[45%]  animate-spin" />
                         )}
                         {l?.showImage && (
-                          <img
-                            className=" object-cover w-fit rounded-md"
-                            src={l.link?.["og:image"]}
-                            alt=""
-                          />
+                          <object
+                            data={
+                              l.link?.["og:image"] || l.link?.imgTags[0]?.src
+                            }
+                            type="image/jpeg"
+                            className=" object-cover w-full h-full rounded-md"
+                          >
+                            <img
+                              className=" object-cover w-full h-full rounded-md"
+                              src="https://www.penworthy.com/Image/Getimage?id=ItemImages\BigCover\0000000010152.jpg"
+                              alt=""
+                            />
+                          </object>
                         )}
                         {l?.showTitleUrl && (
                           <span

@@ -58,7 +58,12 @@ export const getPreview = userAction(SectionSchema, async (input, context) => {
     createLink = await urlMetadata(input.title!);
     if (createLink) {
       await prisma.section.create({
-        data: { ...input, link: createLink },
+        data: {
+          ...input,
+          link: createLink,
+          desktop: { create: { i: input.i, x: 0, y: 0, h: 1, w: 1 } },
+          mobile: { create: { i: input.i, x: 0, y: 0, h: 1, w: 1 } },
+        },
       });
     }
   } catch (err) {
@@ -217,6 +222,8 @@ export const uploadImageSection = userAction(
         data: {
           ...input.data,
           image: blob.url,
+          desktop: { create: { i: input.data.i, x: 0, y: 0, h: 1, w: 1 } },
+          mobile: { create: { i: input.data.i, x: 0, y: 0, h: 1, w: 1 } },
         },
       });
     }
