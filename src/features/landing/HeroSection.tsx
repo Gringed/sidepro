@@ -25,16 +25,23 @@ export const HeroSection = () => {
               In few moves.
             </h1>
           </div>
-          <div>
-            <p className="max-w-lg mb-6 text-center font-semibold text-noir lg:mb-8 md:text-lg lg:text-lg dark:text-gray-400">
+          <div className="flex items-center gap-3 flex-col">
+            <p className="max-w-lg  text-justify font-semibold text-noir  md:text-lg lg:text-lg dark:text-gray-400">
               Build a portfolio or anything in just a few moves: showcase your
               talents with our intuitive{" "}
               <span className="text-primary font-bold">Bento Builder</span>!
             </p>
-            {/* <p className="text-orange-500 flex items-center justify-center font-bold text-xs text-center">
-              <CircleAlert className="mr-2" size={15} /> Currently optimized for
-              desktop
-            </p> */}
+            <a
+              href="https://www.producthunt.com/posts/sidepro?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-sidepro"
+              target="_blank"
+            >
+              <img
+                src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=463493&theme=light"
+                alt="SidePro - Create&#0032;and&#0032;publish&#0032;professional&#0032;sidefolio&#0032;easily | Product Hunt"
+                width="250"
+                height="54"
+              />
+            </a>
           </div>
 
           <div className="flex items-center flex-col md:flex-row h-full gap-3">
