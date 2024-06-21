@@ -41,7 +41,6 @@ import React, { useRef, useState } from "react";
 import {
   buySidefolioAction,
   publishSidefolioAction,
-  updateCounter,
 } from "../../../lib/actions/sidefolio/sidefolio.actions";
 
 import {
@@ -50,8 +49,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import type { PutBlobResult } from "@vercel/blob";
-import { Separator } from "@/components/ui/separator";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -134,7 +132,7 @@ const NavLinks = ({
   const handlePublish = async () => {
     setIsPublish(true);
     const res = await publishSidefolioAction({ id: sidefolio.id, data: user });
-    console.log(res);
+
     if (res.data) {
       setIsPublish(false);
       toast.success("Sidefolio published");
@@ -282,14 +280,14 @@ const NavLinks = ({
             <Plus size={17} />
           </Button>
         </PopoverTrigger>
-        <PopoverContent side="top" className="w-80">
+        <PopoverContent side="top" className="w-full">
           <div className="grid gap-4">
             <div className="space-y-2">
               <h4 className="font-medium leading-none">Add anything</h4>
             </div>
             <div className="grid gap-2">
-              <div className="flex w-full flex-wrap items-center gap-2">
-                <div className="group/tooltip relative  ">
+              <div className="flex w-full justify-between gap-3 flex-wrap items-center">
+                <div className="group/tooltip relative">
                   <Button
                     size={"icon"}
                     variant={"outline"}
@@ -440,6 +438,10 @@ const NavLinks = ({
                   </span>
                 </div>
                 {/*  */}
+              </div>
+              <div className="flex w-full justify-between items-center">
+                <div>c</div>
+                <div>c</div>
               </div>
             </div>
           </div>

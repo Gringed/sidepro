@@ -105,7 +105,6 @@ const Sections = ({
   const router = useRouter();
   const onLayoutChange = useCallback(
     async (newLayout: any, allLayouts: any) => {
-      console.log(allLayouts);
       if (currentBreakpoint === "xs") {
         setLayouts(allLayouts);
         setIsSaving(true);
@@ -140,7 +139,6 @@ const Sections = ({
 
   const handleBreakpointChange = useCallback((breakpoint: string) => {
     setCurrentBreakpoint(breakpoint);
-    console.log(breakpoint);
   }, []);
 
   const handleCompactTypeChange = useCallback((prev: any) => {
@@ -233,10 +231,10 @@ const Sections = ({
       saveChanges(name, newValue, l);
     }, 100);
   };
-  const onRemoveItem = async (i: string) => {
+  const onRemoveItem = async (i: string, image?: string) => {
     setIsSaving(true);
     try {
-      await removeSectionAction({ i: i, id: sidefolio.id });
+      await removeSectionAction({ i: i, id: sidefolio.id, image });
     } catch (error) {
       console.log(error);
     } finally {
@@ -751,7 +749,7 @@ const Sections = ({
                   </div>
                   <span
                     className="absolute group/span opacity-0 group-focus-visible/item:opacity-100 group-hover/item:opacity-100 transition-all hover:bg-gray-50 hover:shadow-md -right-2 p-2 shadow -m-1 bg-white rounded-full z-20 -top-2 cursor-pointer"
-                    onClick={() => onRemoveItem(l.i)}
+                    onClick={() => onRemoveItem(l.i, l.image)}
                   >
                     <Trash className="text-primary" size={15} />
                   </span>

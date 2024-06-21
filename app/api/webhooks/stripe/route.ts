@@ -30,7 +30,7 @@ export const POST = async (req: NextRequest) => {
     case "checkout.session.completed": {
       const session = event.data.object as Stripe.Checkout.Session;
       const stripeCustomerId = session.customer as any;
-      console.log(session.amount_subtotal);
+
       const user = await prisma.user.findFirst({
         where: {
           id: stripeCustomerId || auth?.id,

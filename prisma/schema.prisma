@@ -7,20 +7,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Links {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  slug      String    @unique
-  sidefolio Sidefolio @relation(fields: [sideId], references: [id])
-  sideId    String    @db.ObjectId
-  type      String
-  body      String
-  cta       String
-  stats     String
-  link      String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-}
-
 enum Type {
   TEXT
   IMAGE
@@ -98,8 +84,6 @@ model Sidefolio {
   title       String
   author      User      @relation(fields: [authorId], references: [id])
   authorId    String    @db.ObjectId
-  bio         String?
-  location    String?
   compactType String?
   color       String?
   background  String?
@@ -107,8 +91,6 @@ model Sidefolio {
   publicName  String?
   publicImage String?
   section     Section[]
-  links       Links[]
-  counter     Int       @default(0)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }

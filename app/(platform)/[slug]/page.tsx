@@ -56,16 +56,16 @@ const page = async (props: PageParams<{ slug: string }>) => {
       h: true,
     },
   });
-  console.log(sidefolio);
+
   return (
     <>
       {sidefolio ? (
         <div className="flex justify-center h-max">
-          <div className="fixed bottom-5 right-5 bg-transparent p-2   z-50">
+          <div className="fixed bottom-5 xl:right-5 bg-transparent p-2   z-50">
             {user ? (
               <Link
                 href={"/dashboard"}
-                className="relative cursor-pointer hover:bg-slate-200 transition-all rounded-md p-2 flex items-center gap-2 w-fit"
+                className="relative cursor-pointer backdrop-blur-xl hover:bg-slate-200 transition-all rounded-md p-2 flex items-center gap-2 w-fit"
               >
                 <Avatar className="size-6  ">
                   <AvatarFallback>{user.name?.[0]}</AvatarFallback>

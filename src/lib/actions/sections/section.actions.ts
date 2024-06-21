@@ -9,7 +9,7 @@ import { ActionError, userAction } from "@/lib/safe.actions";
 import { SectionSchema } from "./section.schema";
 import { revalidatePath } from "next/cache";
 import urlMetadata from "url-metadata";
-import { put } from "@vercel/blob";
+import { del, put } from "@vercel/blob";
 
 const verifyUserPlan = async (user: User) => {
   if (user.plan === "PREMIUM_ONE") {
@@ -158,7 +158,7 @@ export const verifySlug = userAction(
         slug: input.value,
       },
     });
-    console.log(slugExists);
+
     return slugExists === 0;
   }
 );
@@ -211,11 +211,11 @@ export const uploadImageSection = userAction(
   async (input, context) => {
     const file = input.file.get("file") as File;
     const fileName = file.name;
-    console.log(file);
+
     const blob = await put(fileName, file, {
       access: "public",
     });
-    console.log(blob);
+
     let response;
     if (blob.url) {
       response = await prisma.section.create({
@@ -232,7 +232,7 @@ export const uploadImageSection = userAction(
   }
 );
 export const removeSectionAction = userAction(
-  z.object({ id: z.string(), i: z.string() }),
+  z.object({ id: z.string(), i: z.string(), image: z.any() }),
   async (input, context) => {
     await prisma.section.delete({
       where: {
@@ -240,5 +240,8 @@ export const removeSectionAction = userAction(
         i: input.i,
       },
     });
+    if (input.image) {
+      await del(input.image);
+    }
   }
 );

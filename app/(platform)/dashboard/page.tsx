@@ -51,7 +51,7 @@ const Home = async (props: PageParams<{}>) => {
       h: true,
     },
   });
-  console.log(mobile);
+
   return (
     <div className="flex justify-center h-max">
       <Sections

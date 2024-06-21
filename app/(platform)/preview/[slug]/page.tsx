@@ -54,7 +54,7 @@ const page = async (props: PageParams<{ slug: string }>) => {
       h: true,
     },
   });
-  console.log(sidefolio);
+
   return (
     <div className="flex justify-center h-max">
       {sidefolio ? (

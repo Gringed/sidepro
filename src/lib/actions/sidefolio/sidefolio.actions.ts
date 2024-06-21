@@ -66,31 +66,11 @@ export const publishSidefolioAction = userAction(
   }
 );
 
-export const updateCounter = userAction(
-  z.object({
-    id: z.string(),
-    data: z.number(),
-  }),
-  async (input, context) => {
-    const updateSidefolio = await prisma.sidefolio.update({
-      where: {
-        id: input.id,
-      },
-      data: {
-        counter: input.data + 1,
-      },
-    });
-
-    return updateSidefolio;
-  }
-);
-
 export const buySidefolioAction = userAction(
   z.object({
     type: z.string(),
   }),
   async (input, context) => {
-    console.log(input);
     const user = await prisma.user.findUnique({
       where: {
         id: context.user.id,
