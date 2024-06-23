@@ -7,6 +7,7 @@ import { stripe } from "@/stripe";
 import { redirect } from "next/navigation";
 import { UserSchema } from "../users/user.schema";
 import { revalidatePath } from "next/cache";
+import { del, put } from "@vercel/blob";
 
 export const sendReviewAction = userAction(
   z.string(),
@@ -22,19 +23,52 @@ export const updateSidefolioAction = userAction(
   z.object({
     id: z.string(),
     data: SidefolioSchema,
+    image: z.string().optional(),
   }),
   async (input, context) => {
+    if (input.image) {
+      await del(input.image);
+    }
     const updateSidefolio = await prisma.sidefolio.update({
       where: {
         id: input.id,
       },
       data: input.data,
     });
+    revalidatePath("/dashboard");
 
     return updateSidefolio;
   }
 );
+export const uploadImageSidefolio = userAction(
+  z.object({
+    id: z.string(),
+    file: z.any(),
+  }),
 
+  async (input, context) => {
+    const file = input.file.get("file") as File;
+    const fileName = file.name;
+
+    const blob = await put(fileName, file, {
+      access: "public",
+    });
+
+    let response;
+    if (blob.url) {
+      response = await prisma.sidefolio.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          background: blob.url,
+        },
+      });
+    }
+    revalidatePath("/dashboard");
+    return response;
+  }
+);
 export const publishSidefolioAction = userAction(
   z.object({
     id: z.string(),

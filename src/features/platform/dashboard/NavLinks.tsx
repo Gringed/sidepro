@@ -21,6 +21,7 @@ import {
   GalleryVertical,
   Heading,
   Image,
+  ImageOff,
   ImagePlus,
   Link2,
   Loader,
@@ -28,6 +29,7 @@ import {
   LoaderCircle,
   Monitor,
   MonitorCheck,
+  PaintBucket,
   Plus,
   Send,
   Share,
@@ -37,10 +39,12 @@ import {
   Type,
 } from "lucide-react";
 import confetti from "canvas-confetti";
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import {
   buySidefolioAction,
   publishSidefolioAction,
+  updateSidefolioAction,
+  uploadImageSidefolio,
 } from "../../../lib/actions/sidefolio/sidefolio.actions";
 
 import {
@@ -71,6 +75,7 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
+import { del } from "@vercel/blob";
 const NavLinks = ({
   currentBreakpoint,
   setCurrentBreakpoint,
@@ -85,8 +90,10 @@ const NavLinks = ({
   const [openLink, setOpenLink] = useState(false);
   const [open, setOpen] = useState(false);
   const [imageLoading, setImageLoading] = useState<boolean>(false);
+  const [imageSideLoading, setImageSideLoading] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isPublish, setIsPublish] = useState<boolean>(false);
+  const [isSavingC, setIsSavingC] = useState<boolean>(false);
   function makeid(length: number) {
     let result = "";
     const characters =
@@ -126,6 +133,15 @@ const NavLinks = ({
       setImageLoading(false);
     }
   };
+  const handleUploadImageSidefolio = async (file: any) => {
+    const res = await uploadImageSidefolio({
+      id: sidefolio.id,
+      file,
+    });
+    if (res) {
+      setImageSideLoading(false);
+    }
+  };
   const handlePay = (type: string) => {
     buySidefolioAction({ type });
   };
@@ -144,6 +160,50 @@ const NavLinks = ({
     }
   };
   const inputFileRef = useRef<HTMLInputElement>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const saveChanges = useCallback(
+    async (name: any, newValue: any, image?: string) => {
+      const formData = { [name]: newValue };
+
+      setIsSavingC(true);
+
+      try {
+        await updateSidefolioAction({
+          id: sidefolio.id,
+          data: formData,
+          image,
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsSavingC(false);
+      }
+    },
+    [sidefolio]
+  );
+  const handleDeleteImageSidefolio = async () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = setTimeout(() => {
+      saveChanges("background", "", sidefolio.background);
+    }, 100);
+  };
+  const handleBackgroundColorChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    e.preventDefault();
+    const newValue = e.target.value;
+    const name = e.target.name;
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = setTimeout(() => {
+      saveChanges(name, newValue);
+    }, 100);
+  };
   return (
     <nav className={cn("flex items-center gap-2 ")}>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -439,9 +499,64 @@ const NavLinks = ({
                 </div>
                 {/*  */}
               </div>
-              <div className="flex w-full justify-between items-center">
-                <div>c</div>
-                <div>c</div>
+              <div className="flex w-full h-full justify-between items-center">
+                <div className="w-full h-full flex items-center">
+                  Background
+                </div>
+                <div className="w-full flex justify-between gap-3 h-full">
+                  <Input
+                    type="color"
+                    name="color"
+                    disabled={sidefolio?.background}
+                    defaultValue={sidefolio?.color || "#ffffff"}
+                    onChange={(e) => handleBackgroundColorChange(e)}
+                    className={cn(
+                      buttonVariants({ size: "default", variant: "outline" }),
+                      "rounded-sm flex-1 p-1"
+                    )}
+                  />
+                  <Input
+                    className=" w-full hidden"
+                    type="file"
+                    name="file"
+                    hidden
+                    ref={inputFileRef}
+                    onChangeCapture={async (event) => {
+                      event.preventDefault();
+                      setImageSideLoading(true);
+                      if (!inputFileRef.current?.files) {
+                        throw new Error("No file selected");
+                      }
+
+                      const file = inputFileRef.current.files[0];
+                      const formData = new FormData();
+                      formData.append("file", file);
+                      handleUploadImageSidefolio(formData);
+
+                      /*  */
+                    }}
+                  />
+
+                  <Button
+                    onClick={() => {
+                      sidefolio?.background
+                        ? handleDeleteImageSidefolio()
+                        : inputFileRef.current?.click();
+                    }}
+                    size={"icon"}
+                    variant={"outline"}
+                    className="rounded-sm"
+                    disabled={imageSideLoading || isSavingC}
+                  >
+                    {imageSideLoading ? (
+                      <Loader2 className=" animate-spin" size={16} />
+                    ) : sidefolio?.background ? (
+                      <ImageOff strokeWidth={2.5} size={17} />
+                    ) : (
+                      <Image strokeWidth={2.5} size={17} />
+                    )}
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
