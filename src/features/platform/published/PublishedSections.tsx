@@ -240,7 +240,7 @@ const PublishedSections = ({
                           >
                             <img
                               className=" object-cover w-full h-full rounded-md"
-                              src="https://www.penworthy.com/Image/Getimage?id=ItemImages\BigCover\0000000010152.jpg"
+                              src="https://learning.knowbility.org/local/sitepages/upload/no-preview-available.png"
                               alt=""
                             />
                           </object>

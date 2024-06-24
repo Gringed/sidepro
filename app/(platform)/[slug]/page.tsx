@@ -65,9 +65,9 @@ const page = async (props: PageParams<{ slug: string }>) => {
             {user ? (
               <Link
                 href={"/dashboard"}
-                className="relative cursor-pointer backdrop-blur-xl hover:bg-slate-200 transition-all rounded-md p-2 flex items-center gap-2 w-fit"
+                className="relative bg-white cursor-pointer backdrop-blur-xl hover:bg-slate-200 transition-all rounded-md p-2 flex items-center gap-2 w-fit"
               >
-                <Avatar className="size-6  ">
+                <Avatar className="size-6 border ">
                   <AvatarFallback>{user.name?.[0]}</AvatarFallback>
                   {user.image ? (
                     <AvatarImage
