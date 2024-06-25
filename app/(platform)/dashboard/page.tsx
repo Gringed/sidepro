@@ -16,6 +16,10 @@ const Home = async (props: PageParams<{}>) => {
     redirect("/");
   }
 
+  const date = new Date();
+  const expire = new Date(user?.expiresAt!!);
+  console.log(date);
+  console.log(expire);
   const sidefolio = await prisma.sidefolio.findFirst({
     where: {
       authorId: user.id,
@@ -26,6 +30,29 @@ const Home = async (props: PageParams<{}>) => {
       sideId: sidefolio?.id,
     },
   });
+  if (user?.expiresAt) {
+    if (expire < date) {
+      await prisma.sidefolio.update({
+        where: {
+          id: sidefolio?.id,
+        },
+        data: {
+          publish: false,
+          publicImage: null,
+          publicName: null,
+        },
+      });
+      await prisma.user.update({
+        where: {
+          id: user?.id,
+        },
+        data: {
+          plan: "FREEMIUM",
+          expiresAt: null,
+        },
+      });
+    }
+  }
   const sectionIds = sections?.map((section) => section.id);
   const desktop = await prisma.desktop.findMany({
     where: {
