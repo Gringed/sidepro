@@ -18,8 +18,7 @@ const Home = async (props: PageParams<{}>) => {
 
   const date = new Date();
   const expire = new Date(user?.expiresAt!!);
-  console.log(date);
-  console.log(expire);
+
   const sidefolio = await prisma.sidefolio.findFirst({
     where: {
       authorId: user.id,

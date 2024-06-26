@@ -160,6 +160,7 @@ const NavLinks = ({
     }
   };
   const inputFileRef = useRef<HTMLInputElement>(null);
+  const inputFileSideRef = useRef<HTMLInputElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const saveChanges = useCallback(
     async (name: any, newValue: any, image?: string) => {
@@ -520,15 +521,15 @@ const NavLinks = ({
                     type="file"
                     name="file"
                     hidden
-                    ref={inputFileRef}
+                    ref={inputFileSideRef}
                     onChangeCapture={async (event) => {
                       event.preventDefault();
                       setImageSideLoading(true);
-                      if (!inputFileRef.current?.files) {
+                      if (!inputFileSideRef.current?.files) {
                         throw new Error("No file selected");
                       }
 
-                      const file = inputFileRef.current.files[0];
+                      const file = inputFileSideRef.current.files[0];
                       const formData = new FormData();
                       formData.append("file", file);
                       handleUploadImageSidefolio(formData);
@@ -541,7 +542,7 @@ const NavLinks = ({
                     onClick={() => {
                       sidefolio?.background
                         ? handleDeleteImageSidefolio()
-                        : inputFileRef.current?.click();
+                        : inputFileSideRef.current?.click();
                     }}
                     size={"icon"}
                     variant={"outline"}

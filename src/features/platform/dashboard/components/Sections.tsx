@@ -265,7 +265,7 @@ const Sections = ({
     >
       <div className="w-full">
         <div className=" fixed z-[9999] flex bottom-5 left-1/2 -translate-x-2/4 rounded-md shadow bg-white/85 backdrop-blur-md">
-          <div className="mx-auto py-1 border flex w-full items-center rounded-md shadow-lg  justify-between px-4">
+          <div className="mx-auto p-2 border flex w-full items-center rounded-md shadow-lg  justify-between px-4">
             <div className="flex origin-left  items-center gap-2 text-xl">
               {/* <Image src="/icon.svg" width={30} height={30} alt="SidePro Logo" />{" "} */}
               <NavLinks
@@ -733,7 +733,7 @@ const Sections = ({
                     >
                       {l?.image && (
                         <img
-                          className=" object-cover w-fit rounded-md"
+                          className=" object-cover w-full h-full rounded-md"
                           src={l.image}
                           alt=""
                         />
