@@ -8,7 +8,7 @@ import { StarFilledIcon } from "@radix-ui/react-icons";
 
 export const LoggedInButton = ({ user, sidefolio }: any) => {
   return (
-    <LoggedInDropdown>
+    <LoggedInDropdown sidefolio={sidefolio}>
       <div className="relative w-fit">
         <Avatar className="size-9 cursor-pointer ">
           <AvatarFallback>{user.name?.[0]}</AvatarFallback>

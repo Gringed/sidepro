@@ -62,8 +62,8 @@ export type LoggedInDropdownProps = PropsWithChildren;
 
 export const LoggedInDropdown = (props: any) => {
   const router = useRouter();
-  let sidefolio = props?.children?._owner?.memoizedProps?.sidefolio;
-  console.log(sidefolio);
+  let sidefolio = props?.sidefolio;
+
   const [isLoading, setIsLoading] = useState(false);
   const [field, setField] = useState<string>(sidefolio?.slug);
   const [isAvailable, setIsAvailable] = useState<Boolean>(
