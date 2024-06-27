@@ -335,11 +335,11 @@ const Sections = ({
                   >
                     <div
                       style={{ scrollbarWidth: "none" }}
-                      className=" overflow-hidden h-full w-full flex gap-2 items-center  break-all justify-center"
+                      className=" overflow-hidden h-full w-full flex  pointer-events-none  items-center  break-all justify-center"
                     >
                       {l?.image && (
                         <img
-                          className=" object-cover w-fit rounded-md"
+                          className="  object-cover w-full h-full rounded-md"
                           src={l.image}
                           alt=""
                         />

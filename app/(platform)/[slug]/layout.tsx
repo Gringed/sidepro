@@ -7,9 +7,6 @@ import { prisma } from "@/prisma";
 const PlatformLayout = async ({ children }: { children: React.ReactNode }) => {
   const user = await currentUser();
 
-  if (!user) {
-    redirect("/");
-  }
   const sidefolio = await prisma.sidefolio.findFirst({
     where: {
       authorId: user?.id,

@@ -271,7 +271,7 @@ const PublishedSections = ({
                     >
                       {l?.image && (
                         <img
-                          className=" object-cover w-fit  rounded-md"
+                          className="  object-cover w-full h-full rounded-md"
                           src={l.image}
                           alt=""
                         />
