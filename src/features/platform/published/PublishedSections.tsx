@@ -58,7 +58,7 @@ const PublishedSections = ({
       className={`flex ${
         currentBreakpoint === "xs"
           ? "w-96 border-2 h-[800px] overflow-scroll rounded-[60px] shadow-2xl"
-          : " max-lg:max-w-xs max-xl:max-w-md w-full h-max"
+          : " max-xl:max-w-md w-full h-max"
       }   mb-20`}
     >
       <div className="w-full">
