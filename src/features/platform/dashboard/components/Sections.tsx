@@ -261,7 +261,7 @@ const Sections = ({
         currentBreakpoint === "xs"
           ? "w-96 border-2 h-[800px] mt-10 overflow-scroll rounded-[60px] shadow-2xl"
           : "w-full h-max"
-      }   mb-20  mx-10`}
+      }   mb-20`}
     >
       <div className="w-full">
         <div className=" fixed z-[9999] flex bottom-5 left-1/2 -translate-x-2/4 rounded-md shadow bg-white/85 backdrop-blur-md">
