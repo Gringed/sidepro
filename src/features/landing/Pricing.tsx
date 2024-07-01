@@ -158,7 +158,7 @@ const Pricing = () => {
                   </p>
                   <div className="w-full">
                     <Link
-                      className={cn(buttonVariants({ variant: "default" }))}
+                      className={cn(buttonVariants({ variant: "secondary" }))}
                       href="/#signup"
                     >
                       Start for free
