@@ -35,14 +35,13 @@ const HowWorksSection = () => {
                     2
                   </span>
                   <h1 className="max-w-2xl mb-4 text-3xl font-extrabold tracking-tight leading-none text-noir">
-                    Setup your sidefolio name
+                    Build anything
                   </h1>
                   <p>
-                    Find your sidefolio name (
+                    Build your sidefolio your way with{" "}
                     <span className="text-primary font-semibold">
-                      very cool name
+                      what you want to showcase.
                     </span>
-                    )
                   </p>
                 </div>
               </div>
@@ -52,13 +51,14 @@ const HowWorksSection = () => {
                     3
                   </span>
                   <h1 className="max-w-2xl mb-4 text-3xl font-extrabold tracking-tight leading-none text-noir">
-                    Build anything
+                    Setup your sidefolio name
                   </h1>
                   <p>
-                    Build your sidefolio your way with{" "}
+                    Find your sidefolio name (
                     <span className="text-primary font-semibold">
-                      what you want to showcase.
+                      very cool name
                     </span>
+                    )
                   </p>
                 </div>
               </div>
