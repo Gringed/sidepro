@@ -5,27 +5,29 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, CircleAlert } from "lucide-react";
 import { useState } from "react";
 import { signInAction } from "../auth/auth.action";
+import AnimatedGridPattern from "@/components/magicui/animated-grid-pattern";
+import { cn } from "@/lib/utils";
+import WordRotate from "@/components/magicui/word-rotate";
 
 export const HeroSection = () => {
-  const [name, setName] = useState<String>();
+  const [name, setName] = useState<string>();
   return (
     <>
-      <Section className="lg:py-16 py-8">
-        <div
-          className="flex w-full justify-center bg-contain bg-repeat bg- items-center flex-col gap-10"
-          style={{
-            backgroundImage: "url(back.svg)",
-          }}
-        >
-          <div className="flex flex-col gap-1">
+      <Section className="lg:py-16 py-8 h-full relative">
+        <div className="flex  w-full justify-center overflow-hidden bg-contain bg-repeat h-full bg- items-center flex-col gap-10">
+          <div className="flex flex-col z-10 gap-1">
             <h1 className="max-w-2xl mb-4 text-4xl text-center font-black tracking-tight leading-none md:text-5xl xl:text-7xl text-noir">
               Your portfolio.
             </h1>
-            <h1 className="max-w-2xl mb-4 text-4xl text-center font-black tracking-tight leading-none md:text-5xl xl:text-7xl text-primary">
-              In few moves.
+            <h1 className="max-w-2xl mb-4 text-4xl flex items-center gap-4 text-center font-black tracking-tight leading-none md:text-5xl xl:text-7xl text-primary">
+              In few{" "}
+              <WordRotate
+                className="  dark:text-white"
+                words={["Moves.", "Blocks."]}
+              />
             </h1>
           </div>
-          <div className="flex items-center gap-3 flex-col">
+          <div className="flex items-center z-10 gap-8 flex-col">
             <p className="max-w-lg  text-justify font-semibold text-noir  md:text-lg lg:text-lg dark:text-gray-400">
               Build a portfolio or anything in just a few moves: showcase your
               talents with our intuitive{" "}
@@ -67,10 +69,25 @@ export const HeroSection = () => {
               Claim my sidefolio <ArrowRight className="ml-2" size={15} />
             </Button>
           </div>
+          <div>
+            <img />
+          </div>
         </div>
+        <AnimatedGridPattern
+          numSquares={30}
+          width={100}
+          maxOpacity={0.1}
+          duration={3}
+          repeatDelay={1}
+          className={cn(
+            "[mask-image:radial-gradient(900px_circle_at_center,white,transparent)]",
+            "inset-x-0 w-full -top-20  h-[100%] opacity-50 skew-y-6"
+          )}
+        />
       </Section>
       <div className="h-[200px] my-20 w-full  overflow-hidden ">
-        <div className=" h-full rotate-3 w-[200%] -ml-8 bg-primary"></div>
+        <div className=" h-full    bg-gradient-to-b to-90% from-primary to-white"></div>
+        <div className=" h-full  w-[200%] -ml-8 bg-gradient-to-b to-90% from-primary to-white"></div>
       </div>
     </>
   );

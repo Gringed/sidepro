@@ -61,11 +61,11 @@ export function LandingHeader() {
               [1, 0.9]
             ),
           }}
-          className="flex cursor-pointer origin-left items-center gap-4 text-xl"
+          className="flex cursor-pointer origin-left items-center gap-2 text-xl"
         >
-          <Image src="/icon.svg" width={40} height={35} alt="Linkers logo" />{" "}
+          <Image src="/icon.svg" width={30} height={30} alt="Linkers logo" />{" "}
           <h1 className="md:block hidden font-MontserratAlt font-extrabold">
-            SidePro
+            Sidepro
           </h1>
         </motion.div>
         <motion.nav
