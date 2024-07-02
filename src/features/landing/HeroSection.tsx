@@ -7,7 +7,7 @@ import { useState } from "react";
 import { signInAction } from "../auth/auth.action";
 import AnimatedGridPattern from "@/components/magicui/animated-grid-pattern";
 import { cn } from "@/lib/utils";
-import WordRotate from "@/components/magicui/word-rotate";
+import { FlipWords } from "@/components/ui/flip-words";
 
 export const HeroSection = () => {
   const [name, setName] = useState<string>();
@@ -19,10 +19,10 @@ export const HeroSection = () => {
             <h1 className="max-w-2xl mb-4 text-4xl text-center font-black tracking-tight leading-none md:text-5xl xl:text-7xl text-noir">
               Your portfolio.
             </h1>
-            <h1 className="max-w-2xl mb-4 text-4xl flex items-center gap-4 text-center font-black tracking-tight leading-none md:text-5xl xl:text-7xl text-primary">
+            <h1 className="max-w-2xl mb-4 text-4xl  items-center gap-4 text-center font-black tracking-tight leading-none md:text-5xl xl:text-7xl text-primary">
               In few{" "}
-              <WordRotate
-                className="  dark:text-white"
+              <FlipWords
+                className="  text-primary"
                 words={["Moves.", "Blocks."]}
               />
             </h1>
