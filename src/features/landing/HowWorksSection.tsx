@@ -1,87 +1,343 @@
+"use client";
 import React from "react";
 import { Section } from "./Section";
 import { Button } from "@/components/ui/button";
 import { FadeInSection } from "./FadeInSection";
-
+import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
+import { cn } from "@/lib/utils";
+import {
+  CircleUserRound,
+  ClipboardCopy,
+  Heading,
+  Image,
+  Link,
+  Send,
+  Share,
+  Share2,
+  Type,
+} from "lucide-react";
+import { motion } from "framer-motion";
 const HowWorksSection = () => {
+  const infosVariant = {
+    initial: {
+      x: 0,
+    },
+    animate: {
+      x: -10,
+      scale: 1.1,
+      transition: {
+        duration: 0.2,
+      },
+    },
+  };
+  const variants = {
+    initial: {
+      x: 0,
+    },
+    animate: {
+      x: 10,
+      rotate: 5,
+      transition: {
+        duration: 0.2,
+      },
+    },
+  };
+  const variantsSecond = {
+    initial: {
+      x: 0,
+    },
+    animate: {
+      x: -10,
+      rotate: -5,
+      transition: {
+        duration: 0.2,
+      },
+    },
+  };
+  const SkeletonOne = () => {
+    return (
+      <motion.div
+        initial="initial"
+        whileHover="animate"
+        whileTap="animate"
+        className="flex flex-1 gap-5 w-full h-full min-h-[6rem] dark:bg-dot-white/[0.2] bg-dot-black/[0.2] flex-col space-y-2"
+      >
+        <motion.div
+          variants={variants}
+          className="flex  justify-center rounded-full border border-neutral-100  p-2  items-center space-x-2 bg-white dark:bg-black"
+        >
+          <div className="h-10 w-10 flex items-center justify-center rounded-full bg-white border flex-shrink-0">
+            <img
+              className="h-8 w-8 text-neutral-500"
+              src="https://www.svgrepo.com/show/475656/google-color.svg"
+            />
+          </div>
+        </motion.div>
+
+        <motion.div
+          variants={variantsSecond}
+          className="flex flex-row rounded-full border border-neutral-100  p-2 items-center space-x-2 bg-white dark:bg-black"
+        >
+          <div className="h-6 w-6 flex items-center justify-center rounded-full bg-gradient-to-r from-neutral-300 border flex-shrink-0">
+            <img
+              className="h-4 w-4 "
+              src="https://www.svgrepo.com/show/475656/google-color.svg"
+            />
+          </div>
+          <div className="w-full text-neutral-700 flex items-center text-sm px-3 bg-gray-100 h-6 rounded-full dark:bg-neutral-900">
+            Sign in with Google
+          </div>
+        </motion.div>
+      </motion.div>
+    );
+  };
   return (
     <FadeInSection>
       <div className="relative">
         <Section id="howworks" className="py-2 my-20">
           <div className="flex flex-col justify-center w-full">
-            <div className="flex items-center mb-7 gap-1 flex-col w-full justify-center">
+            <div className="flex items-center mb-16 gap-3 flex-col w-full justify-center">
               <h1 className="max-w-2xl  text-4xl font-black tracking-tight leading-none md:text-5xl text-noir">
-                How it works ?
+                Build anything,{" "}
+                <span className="text-primary">effortlessly</span>
               </h1>
-              <p className="font-medium">It's so easy</p>
+              <p className="font-medium italic">"Very easily"</p>
             </div>
-            <div className="relative mt-10 flex flex-col lg:items-center gap-10 w-full">
-              <div className="scroll flex items-start w-1 h-full"></div>
-              <div className="border border-dashed border-primary absolute  w-[2px] rounded-full m-[1px] h-full"></div>
-              <div className="flex px-5 relative lg:px-0  flex-wrap w-full justify-center lg:justify-start">
-                <div className="flex bg-white/50 w-full relative lg:max-w-sm xl:max-w-lg p-10 shadow-xl border rounded-xl flex-col gap-1">
-                  <span className="absolute justify-center text-2xl top-6 font-extrabold items-center border text-white flex -right-8 lg:-left-8 w-16 h-16 bg-primary rounded-full">
-                    1
+            <BentoGrid className=" mx-auto md:grid-cols-2 lg:grid-cols-3 w-full md:auto-rows-[20rem] grid-rows-3">
+              <BentoGridItem
+                title={"Sign up"}
+                description={
+                  <span className="text-sm">
+                    Sign in/up with Google, easy way.
                   </span>
-                  <h1 className="max-w-2xl mb-4 text-3xl font-extrabold tracking-tight leading-none text-noir">
-                    Register | Login
-                  </h1>
-                  <p>With a simple Google account it couldn't be easier.</p>
-                </div>
-              </div>
-              <div className="flex px-5 lg:px-0  flex-wrap w-full justify-center lg:justify-end">
-                <div className="flex bg-white/50 w-full relative lg:max-w-sm xl:max-w-lg p-10 shadow-lg shadow-secondary border rounded-xl flex-col gap-1">
-                  <span className="absolute justify-center text-2xl top-6 font-extrabold items-center border text-white flex -right-8 w-16 h-16 bg-primary rounded-full">
-                    2
+                }
+                header={<SkeletonOne />}
+                className={cn("[&>p:text-lg] md:col-span-1 border-neutral-300")}
+                icon={
+                  <img
+                    className="h-4 w-4 text-neutral-500"
+                    src="https://www.svgrepo.com/show/475656/google-color.svg"
+                  />
+                }
+              />
+              <BentoGridItem
+                title={"Informations Block"}
+                description={
+                  <span className="text-sm">
+                    This block contains your profile picture, your first name,
+                    your bio and your location.
                   </span>
-                  <h1 className="max-w-2xl mb-4 text-3xl font-extrabold tracking-tight leading-none text-noir">
-                    Build anything
-                  </h1>
-                  <p>
-                    Build your sidefolio your way with{" "}
-                    <span className="text-primary font-semibold">
-                      what you want to showcase.
-                    </span>
-                  </p>
-                </div>
-              </div>
-              <div className="flex px-5 lg:px-0  flex-wrap w-full justify-center lg:justify-start">
-                <div className="flex bg-white/50 w-full relative lg:max-w-sm xl:max-w-lg p-10 shadow-lg shadow-tertiary border rounded-xl flex-col gap-1">
-                  <span className="absolute justify-center text-2xl top-6 font-extrabold items-center border text-white flex -right-8 lg:-left-8 w-16 h-16 bg-primary rounded-full">
-                    3
+                }
+                header={
+                  <motion.div
+                    initial="initial"
+                    whileHover="animate"
+                    whileTap="animate"
+                    className="h-full w-full"
+                  >
+                    <motion.div
+                      className="h-full w-full object-cover object-left"
+                      variants={infosVariant}
+                    >
+                      <video
+                        className="h-full w-full object-cover object-left"
+                        loop
+                        autoPlay={true}
+                        muted
+                      >
+                        <source
+                          src="https://res.cloudinary.com/dhgoagdvr/video/upload/v1719949507/Sidepro/klxdfcfuejipcvnzkvbp.mp4"
+                          type="video/webm"
+                        />
+                        <source
+                          src="https://res.cloudinary.com/dhgoagdvr/video/upload/v1719949507/Sidepro/klxdfcfuejipcvnzkvbp.mp4"
+                          type="video/mp4"
+                        />
+                        Download the
+                        <a href="https://res.cloudinary.com/dhgoagdvr/video/upload/v1719949507/Sidepro/klxdfcfuejipcvnzkvbp.mp4">
+                          WEBM
+                        </a>
+                        or
+                        <a href="https://res.cloudinary.com/dhgoagdvr/video/upload/v1719949507/Sidepro/klxdfcfuejipcvnzkvbp.mp4">
+                          MP4
+                        </a>
+                        video.
+                      </video>
+                    </motion.div>
+                  </motion.div>
+                }
+                className={cn(
+                  "[&>p:text-lg] md:col-span-1 md:row-span-3 border-neutral-300"
+                )}
+                icon={
+                  <CircleUserRound
+                    strokeWidth={2}
+                    className="h-4 w-4 text-neutral-500"
+                  />
+                }
+              />
+              <BentoGridItem
+                title={"Text Block"}
+                description={
+                  <span className="text-sm">
+                    This block lets you insert any text of any size.
                   </span>
-                  <h1 className="max-w-2xl mb-4 text-3xl font-extrabold tracking-tight leading-none text-noir">
-                    Setup your sidefolio name
-                  </h1>
-                  <p>
-                    Find your sidefolio name (
-                    <span className="text-primary font-semibold">
-                      very cool name
-                    </span>
-                    )
-                  </p>
-                </div>
-              </div>
-              <div className="flex px-5 lg:px-0  flex-wrap w-full justify-center lg:justify-end">
-                <div className="flex bg-white/50 w-full relative lg:max-w-sm xl:max-w-lg p-10 border-2 border-tertiary shadow-xl rounded-xl flex-col gap-1">
-                  <span className="absolute justify-center text-2xl top-6 font-extrabold items-center border-tertiary text-white flex -right-8 w-16 h-16 bg-primary rounded-full">
-                    4
+                }
+                header={
+                  <motion.div
+                    initial="initial"
+                    whileHover="animate"
+                    whileTap="animate"
+                    className="flex flex-1 gap-5 w-full h-full min-h-[6rem]  bg-dot-black/[0.2] flex-col space-y-2"
+                  >
+                    <motion.div
+                      variants={variantsSecond}
+                      className=" flex justify-center  items-center h-full w-fit object-cover object-left"
+                    >
+                      <img
+                        className="h-fit w-fit object-cover object-left"
+                        src="http://res.cloudinary.com/dhgoagdvr/image/upload/v1720009454/Sidepro/bpksew5aorlw4exoqujc.png"
+                      />
+                    </motion.div>
+                  </motion.div>
+                }
+                className={cn("[&>p:text-lg] md:col-span-1 border-neutral-300")}
+                icon={
+                  <Type strokeWidth={3} className="h-4 w-4 text-neutral-500" />
+                }
+              />
+              <BentoGridItem
+                title={"Title Block"}
+                description={
+                  <span className="text-sm">
+                    This block is used to create a title to separate your
+                    different blocks.
                   </span>
-                  <h1 className="max-w-2xl mb-4 text-3xl font-extrabold tracking-tight leading-none text-noir">
-                    Publish It
-                  </h1>
-                  <p>
-                    Make your work accessible to everyone once it's finished, no
-                    need to host it{" "}
-                    <span className="text-primary font-semibold">
-                      {" "}
-                      just C/C your link
-                    </span>
-                    .
-                  </p>
-                </div>
-              </div>
-            </div>
+                }
+                header={
+                  <motion.div
+                    initial="initial"
+                    whileHover="animate"
+                    whileTap="animate"
+                    className="flex flex-1 gap-5 w-full h-full min-h-[6rem]  bg-dot-black/[0.2] flex-col space-y-2"
+                  >
+                    <motion.div
+                      variants={variants}
+                      className=" flex justify-center  items-center h-full w-fit object-cover object-left"
+                    >
+                      <img
+                        className="h-fit w-fit object-cover object-left"
+                        src="http://res.cloudinary.com/dhgoagdvr/image/upload/v1720009254/Sidepro/ltuf9a6yyoi7l3u0ffbl.png"
+                      />
+                    </motion.div>
+                  </motion.div>
+                }
+                className={cn(
+                  "[&>p:text-lg] md:col-span-1  border-neutral-300"
+                )}
+                icon={
+                  <Heading
+                    strokeWidth={3}
+                    className="h-4 w-4 text-neutral-500"
+                  />
+                }
+              />
+              <BentoGridItem
+                title={"Links and Images Blocks"}
+                description={
+                  <span className="text-sm">
+                    You can implement links with associated visuals and images,
+                    both customizable.
+                  </span>
+                }
+                header={
+                  <motion.div
+                    initial="initial"
+                    whileHover="animate"
+                    whileTap="animate"
+                    className="flex flex-1 gap-5 w-full h-full min-h-[6rem] dark:bg-dot-white/[0.2] bg-dot-black/[0.2] flex-col space-y-2"
+                  >
+                    <motion.div
+                      variants={variants}
+                      className="flex  justify-center  border border-neutral-100  p-2  items-center space-x-2 bg-white dark:bg-black"
+                    >
+                      <div className=" flex items-center justify-center  text-primary font-medium flex-shrink-0">
+                        <img
+                          className="h-fit w-fit object-cover object-left"
+                          src="http://res.cloudinary.com/dhgoagdvr/image/upload/v1720010500/Sidepro/o6cjqjiqs1td9gstqf7a.png"
+                        />
+                      </div>
+                    </motion.div>
+
+                    <motion.div
+                      variants={variantsSecond}
+                      className="flex justify-center  border border-neutral-100  p-2 items-center space-x-2 bg-white dark:bg-black"
+                    >
+                      <div className=" flex items-center justify-center  text-primary font-medium ">
+                        <img
+                          className="h-fit w-fit object-cover object-left"
+                          src="http://res.cloudinary.com/dhgoagdvr/image/upload/v1720010377/Sidepro/cvqkcy9ftubsjlfcbxpq.png"
+                        />
+                      </div>
+                    </motion.div>
+                  </motion.div>
+                }
+                className={cn(
+                  "[&>p:text-lg] md:col-span-1 row-span-2 border-neutral-300"
+                )}
+                icon={
+                  <div className=" flex gap-2">
+                    <Link
+                      strokeWidth={2.5}
+                      className="h-4 w-4 text-neutral-500"
+                    />
+                    <Image
+                      strokeWidth={2.5}
+                      className="h-4 w-4 text-neutral-500"
+                    />
+                  </div>
+                }
+              />
+              <BentoGridItem
+                title={"Publish it"}
+                description={
+                  <span className="text-sm">
+                    You can publish your sidefolio online for all to see!
+                  </span>
+                }
+                header={
+                  <motion.div
+                    initial="initial"
+                    whileHover="animate"
+                    whileTap="animate"
+                    className="flex flex-1 gap-5 w-full h-full min-h-[6rem] dark:bg-dot-white/[0.2] bg-dot-black/[0.2] flex-col space-y-2"
+                  >
+                    <motion.div
+                      variants={variants}
+                      className="flex  justify-center rounded-full border border-neutral-100  p-2  items-center space-x-2 bg-white dark:bg-black"
+                    >
+                      <div className=" flex items-center justify-center  text-primary font-medium flex-shrink-0">
+                        Let everyone see your sidefolio
+                      </div>
+                    </motion.div>
+
+                    <motion.div
+                      variants={variantsSecond}
+                      className="flex flex-row rounded-full border border-neutral-100  p-2 items-center space-x-2 bg-white dark:bg-black"
+                    >
+                      <div className="h-6 w-6 flex items-center justify-center rounded-full bg-gradient-to-r from-neutral-300 border flex-shrink-0">
+                        <Send className="h-4 w-4 " />
+                      </div>
+                      <div className="w-full text-neutral-700 flex items-center text-sm px-3 bg-gray-100 h-6 rounded-full dark:bg-neutral-900">
+                        Publish my sidefolio
+                      </div>
+                    </motion.div>
+                  </motion.div>
+                }
+                className={cn("[&>p:text-lg] md:col-span-1 border-neutral-300")}
+                icon={<Send className="h-4 w-4 text-neutral-500" />}
+              />
+            </BentoGrid>
           </div>
         </Section>
       </div>

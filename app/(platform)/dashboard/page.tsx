@@ -80,13 +80,17 @@ const Home = async (props: PageParams<{}>) => {
 
   return (
     <div className="flex justify-center h-max">
-      <Sections
-        sidefolio={sidefolio}
-        desktop={desktop}
-        mobile={mobile}
-        sections={sections}
-        user={user}
-      />
+      {!sections ? (
+        <div>Nothing</div>
+      ) : (
+        <Sections
+          sidefolio={sidefolio}
+          desktop={desktop}
+          mobile={mobile}
+          sections={sections}
+          user={user}
+        />
+      )}
     </div>
   );
 };
