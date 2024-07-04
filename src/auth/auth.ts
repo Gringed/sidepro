@@ -22,6 +22,9 @@ export const {
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
     }),
   ],
+  pages: {
+    signIn: "/auth/signIn",
+  },
   events: {
     createUser: async (message) => {
       const userId = message.user.id;
