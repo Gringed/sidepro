@@ -26,6 +26,9 @@ export default async function Home() {
       <div
         className="relative bg-cover mt-20 border-t-4 border-primary"
         id="signup"
+        style={{
+          backgroundImage: "url(/back.svg)",
+        }}
       >
         <Footer />
       </div>
