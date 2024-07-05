@@ -94,10 +94,10 @@ const HowWorksSection = () => {
   return (
     <FadeInSection>
       <div className="relative">
-        <Section id="howworks" className="py-2 my-20">
+        <Section id="howworks" className="py-2 my-2 lg:my-20">
           <div className="flex flex-col justify-center w-full">
             <div className="flex items-center mb-16 gap-3 flex-col w-full justify-center">
-              <h1 className="max-w-2xl  text-4xl font-black tracking-tight leading-none md:text-5xl text-noir">
+              <h1 className="max-w-2xl text-center text-4xl font-black tracking-tight leading-none md:text-5xl text-noir">
                 Build anything,{" "}
                 <span className="text-primary">effortlessly</span>
               </h1>
@@ -261,7 +261,7 @@ const HowWorksSection = () => {
                       variants={variants}
                       className="flex  justify-center  border border-neutral-100  p-2  items-center space-x-2 bg-white dark:bg-black"
                     >
-                      <div className=" flex items-center justify-center  text-primary font-medium flex-shrink-0">
+                      <div className=" flex items-center w-fit justify-center  text-primary font-medium flex-shrink-0">
                         <img
                           className="h-fit w-fit object-cover object-left"
                           src="http://res.cloudinary.com/dhgoagdvr/image/upload/v1720010500/Sidepro/o6cjqjiqs1td9gstqf7a.png"
