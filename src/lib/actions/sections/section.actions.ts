@@ -10,6 +10,7 @@ import { SectionSchema } from "./section.schema";
 import { revalidatePath } from "next/cache";
 import urlMetadata from "url-metadata";
 import { del, put } from "@vercel/blob";
+import { toast } from "sonner";
 
 const verifyUserPlan = async (user: User) => {
   if (user.plan === "PREMIUM_ONE") {
@@ -67,7 +68,9 @@ export const getPreview = userAction(SectionSchema, async (input, context) => {
       });
     }
   } catch (err) {
-    console.log(err);
+    return {
+      error: "Failed to create.",
+    };
   }
   revalidatePath("/dashboard");
   return createLink;

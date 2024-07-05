@@ -319,7 +319,7 @@ const Sections = ({
                     <DialogFooter className="flex !justify-between items-center">
                       <Button
                         type="button"
-                        disabled={isLoading}
+                        disabled={isLoading || !review}
                         onClick={handleSendReview}
                       >
                         {isLoading && (

@@ -159,6 +159,31 @@ const NavLinks = ({
       });
     }
   };
+  const handleCreateLink = async () => {
+    setIsLoading(true);
+    let urlFull = url.includes("https://");
+    let newUrl;
+    if (urlFull) {
+      newUrl = url;
+    } else {
+      newUrl = "https://" + url;
+    }
+    console.log(newUrl);
+    const res = await getPreview({
+      title: newUrl,
+      description: "Add a new description",
+      sideId: sidefolio.id,
+      type: "LINK",
+      i: `n${makeid(40)}`,
+    });
+    if (res.data?.error) {
+      toast.error("Please fill a valid url");
+      setIsLoading(false);
+    } else {
+      setIsLoading(false);
+      setOpenLink(false);
+    }
+  };
   const inputFileRef = useRef<HTMLInputElement>(null);
   const inputFileSideRef = useRef<HTMLInputElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -219,7 +244,7 @@ const NavLinks = ({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuPortal>
-            <DropdownMenuContent className="w-72">
+            <DropdownMenuContent className="w-72 mb-2">
               <DropdownMenuLabel>Share it</DropdownMenuLabel>
               <DropdownMenuSeparator />
 
@@ -341,7 +366,7 @@ const NavLinks = ({
             <Plus size={17} />
           </Button>
         </PopoverTrigger>
-        <PopoverContent side="top" className="w-full">
+        <PopoverContent side="top" className="w-full mb-2">
           <div className="grid gap-4">
             <div className="space-y-2">
               <h4 className="font-medium leading-none">Add anything</h4>
@@ -450,6 +475,7 @@ const NavLinks = ({
                         size={"icon"}
                         variant={"outline"}
                         className="rounded-sm"
+                        disabled={isLoading || isSaving}
                       >
                         <Link2 strokeWidth={2.5} size={17} />
                       </Button>
@@ -477,16 +503,7 @@ const NavLinks = ({
                             isSaving ||
                             isLoading
                           }
-                          onClick={() => {
-                            getPreview({
-                              title: url,
-                              description: "Add a new description",
-                              sideId: sidefolio.id,
-                              type: "LINK",
-                              i: `n${makeid(40)}`,
-                            });
-                            setOpenLink(false);
-                          }}
+                          onClick={handleCreateLink}
                         >
                           Add link
                         </Button>
