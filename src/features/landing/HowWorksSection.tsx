@@ -103,7 +103,7 @@ const HowWorksSection = () => {
               </h1>
               <p className="font-medium italic">"Very easily"</p>
             </div>
-            <BentoGrid className=" mx-auto md:grid-cols-2 lg:grid-cols-3 w-full md:auto-rows-[20rem] grid-rows-3">
+            <BentoGrid className="!max-w-full mx-auto md:grid-cols-2 lg:grid-cols-3 w-full md:auto-rows-[20rem] grid-rows-3">
               <BentoGridItem
                 title={"Sign up"}
                 description={
