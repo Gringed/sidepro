@@ -116,7 +116,7 @@ export const LoggedInDropdown = (props: any) => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>{props.children}</DropdownMenuTrigger>
         <DropdownMenuPortal>
-          <DropdownMenuContent className="w-72">
+          <DropdownMenuContent className="w-72 mb-2">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DialogTrigger asChild>
