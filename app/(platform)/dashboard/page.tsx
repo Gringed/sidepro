@@ -8,7 +8,25 @@ import { PageParams } from "@/lib/types/next";
 
 import { prisma } from "@/prisma";
 import Sections from "@/features/platform/dashboard/components/Sections";
+import { Metadata } from "next";
 
+export async function generateMetadata(): Promise<Metadata> {
+  const user = await currentUser();
+  const sidefolio = await prisma.sidefolio.findFirst({
+    where: {
+      authorId: user?.id,
+    },
+  });
+
+  return {
+    title: sidefolio?.title,
+    icons: {
+      icon: [`${sidefolio?.publicImage}`],
+      apple: ["/apple-touch-icon.png?v=4"],
+      shortcut: ["/apple-touch-icon.png"],
+    },
+  };
+}
 const Home = async (props: PageParams<{}>) => {
   const user = await currentUser();
 

@@ -297,12 +297,18 @@ const Sections = ({
   };
   return (
     <div
-      style={{ scrollbarWidth: "none" }}
+      style={{
+        scrollbarWidth: "none",
+        transition: "all .25s cubic-bezier(.427,.073,.105,.997) .1s",
+        background: sidefolio?.background
+          ? `url("${sidefolio.background}") center / cover no-repeat`
+          : sidefolio?.color || "white",
+      }}
       className={`flex ${
         currentBreakpoint === "xs"
-          ? "w-96 border-2 h-[800px] mt-10 overflow-scroll rounded-[60px] shadow-2xl"
-          : "w-full h-max"
-      }   mb-20`}
+          ? "w-96 border-2 h-[800px] border-b-8 !opacity-100  mt-10 overflow-scroll rounded-[60px] shadow-2xl"
+          : "w-full  pb-20 !opacity-100"
+      }   transition-all`}
     >
       <div className="w-full">
         <div
