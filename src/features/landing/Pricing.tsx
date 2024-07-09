@@ -139,7 +139,7 @@ const Pricing = () => {
 
               <div className=" py-12 font-bold leading-none text-6xl md:text-7xl md:leading-none lg:text-7xl lg:leading-none  xl:leading-none">
                 <div className="inline-block">
-                  20<sup className="text-3xl">€</sup>
+                  12<sup className="text-3xl">€</sup>
                   <small className="block text-lg text-right">for life</small>
                 </div>
               </div>
@@ -236,7 +236,7 @@ const Pricing = () => {
 
               <div className=" py-12 font-bold leading-none text-6xl md:text-7xl md:leading-none lg:text-7xl lg:leading-none  xl:leading-none">
                 <div className="inline-block">
-                  45<sup className="text-3xl">€</sup>
+                  30<sup className="text-3xl">€</sup>
                   <small className="block text-lg text-right">
                     for one year
                   </small>

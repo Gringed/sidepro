@@ -12,12 +12,14 @@ import {
   updateSectionAction,
   updateSectionImageAction,
 } from "@/lib/actions/sections/section.actions";
+
 import { Button } from "@/components/ui/button";
 import NavLinks from "../NavLinks";
 import { LoggedInButton } from "@/features/auth/LoggedInButton";
 import {
   Captions,
   CaptionsOff,
+  Crop,
   Heart,
   ImageIcon,
   ImageOff,
@@ -57,7 +59,7 @@ import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { AlertDialogHeader } from "@/components/ui/alert-dialog";
 import { HeartFilledIcon } from "@radix-ui/react-icons";
 import { toast } from "sonner";
-
+import interact from "interactjs";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 interface SectionsProps {
@@ -77,6 +79,8 @@ const Sections = ({
   desktop,
   mobile,
 }: SectionsProps) => {
+  const [isCrop, setIsCrop] = useState(false);
+
   const cols = { lg: 8, md: 4, sm: 2, xs: 1, xxs: 1 };
   const [currentBreakpoint, setCurrentBreakpoint] = useState("lg");
   const [isFocus, setIsFocus] = useState(false);
@@ -93,8 +97,37 @@ const Sections = ({
     xs: mobile,
     xxs: mobile,
   });
+  const handleDragImage = (l: any) => {
+    const position = { x: l?.imageX || 0, y: l?.imageY || 0 };
+    interact(".draggable").draggable({
+      modifiers: [
+        interact.modifiers.restrictRect({
+          restriction: "parent",
+        }),
+      ],
+      inertia: { resistance: 30, minSpeed: 200, endSpeed: 100 },
+      listeners: {
+        start(event) {
+          console.log(event.type, event.target);
+        },
+        move(event) {
+          console.log(event.dy);
+          position.x += event.dx;
+          position.y += event.dy;
 
-  // PASSER EN ARRAY dans schema et pas juste en JSON mais en JSON[]
+          event.target.style.transform = `translate(${position.x}px, ${position.y}px)`;
+          if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+          }
+
+          timeoutRef.current = setTimeout(() => {
+            saveChanges("imageX", position.x, l);
+            saveChanges("imageY", position.y, l);
+          }, 1500);
+        },
+      },
+    });
+  };
 
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [imgLoading, setImgLoading] = useState<string | null>(null);
@@ -264,6 +297,13 @@ const Sections = ({
       }   mb-20`}
     >
       <div className="w-full">
+        <div
+          id="myNav"
+          className={`fixed backdrop-blur-md transition-all opacity-0 bg-black/0 h-full ${
+            isCrop && "!w-full !bg-white/50 !opacity-100 z-40"
+          }  top-0 left-0`}
+        ></div>
+
         <div className=" fixed z-[9999] flex bottom-5 left-1/2 -translate-x-2/4 rounded-md shadow bg-white/85 backdrop-blur-md">
           <div className="mx-auto p-2 border flex w-full items-center rounded-md shadow-lg  justify-between px-4">
             <div className="flex origin-left  items-center gap-2 text-xl">
@@ -354,9 +394,9 @@ const Sections = ({
             <div
               id={l.id}
               key={l.i}
-              className={
-                "border border-gray-300/50 shadow hover:shadow-md group/item hover:z-50 rounded-md bg-white relative  flex justify-start cursor-grab"
-              }
+              className={`border border-gray-300/50 shadow hover:shadow-md group/item hover:z-50 ${
+                isCrop && l?.type === "IMAGE" && "z-50"
+              } rounded-md bg-white relative  flex justify-start cursor-grab`}
             >
               {l?.type === "TEXT" ? (
                 <>
@@ -650,14 +690,14 @@ const Sections = ({
                     </Link>
                   </div>
                   <span
-                    className="absolute group/span opacity-0 group-focus-visible/item:opacity-100 group-hover/item:opacity-100 transition-all hover:bg-gray-50 hover:shadow-md -right-2 p-2 shadow -m-1 bg-white rounded-full z-50 -top-2 cursor-pointer"
-                    onClick={() => onRemoveItem(l.i)}
+                    className="absolute group/span opacity-0 group-focus-visible/item:opacity-100 group-hover/item:opacity-100 transition-all hover:bg-gray-50 hover:shadow-md -right-2 p-2 shadow -m-1 bg-white border rounded-full z-20 -top-2 cursor-pointer"
+                    onClick={() => onRemoveItem(l.i, l.image)}
                   >
-                    <Trash className="text-primary" size={15} />
+                    <Trash className="text-noir" size={15} />
                   </span>
-                  <div className="bg-primary flex rounded-full gap-3 cursor-auto px-2 py-1 opacity-0 group-focus-visible/item:opacity-100 group-hover/item:opacity-100 absolute z-50 left-1/2 -translate-x-2/4 -bottom-7 transition-all items-center justify-center">
+                  <div className="bg-white border shadow flex rounded-md gap-3 cursor-auto px-2 py-1 opacity-0 group-focus-visible/item:opacity-100 group-hover/item:opacity-100 absolute z-50 left-1/2 -translate-x-2/4 -bottom-7 transition-all items-center justify-center">
                     <div className="flex items-center gap-1">
-                      <Type className="text-white" size={15} />
+                      <Type className="text-noir" size={20} />
                       <Input
                         name="color"
                         type="color"
@@ -672,16 +712,16 @@ const Sections = ({
                           onClick={() =>
                             handleChangeImageOptions(l, true, false)
                           }
-                          className="p-1 text-primary cursor-pointer bg-white border  rounded-full"
-                          size={25}
+                          className="p-1 text-noir cursor-pointer bg-white border  rounded-full"
+                          size={30}
                         />
                       ) : (
                         <ImageOff
                           onClick={() =>
                             handleChangeImageOptions(l, true, false)
                           }
-                          className="p-1 text-primary cursor-pointer bg-white border  rounded-full"
-                          size={25}
+                          className="p-1 text-noir cursor-pointer bg-white border  rounded-full"
+                          size={30}
                         />
                       )}
                     </div>
@@ -691,21 +731,21 @@ const Sections = ({
                           onClick={() =>
                             handleChangeImageOptions(l, false, true)
                           }
-                          className="p-1 text-primary cursor-pointer bg-white border  rounded-full"
-                          size={25}
+                          className="p-1 text-noir cursor-pointer bg-white border  rounded-full"
+                          size={30}
                         />
                       ) : (
                         <CaptionsOff
                           onClick={() =>
                             handleChangeImageOptions(l, false, true)
                           }
-                          className="p-1 text-primary cursor-pointer bg-white border  rounded-full"
-                          size={25}
+                          className="p-1 text-noir cursor-pointer bg-white border  rounded-full"
+                          size={30}
                         />
                       )}
                     </div>
                     <div className="flex items-center gap-1">
-                      <PaintBucket className="text-white" size={15} />
+                      <PaintBucket className="text-noir" size={20} />
                       <Input
                         name="background"
                         type="color"
@@ -719,24 +759,57 @@ const Sections = ({
               ) : (
                 <>
                   <div
-                    className={"flex  w-full rounded-md h-full items-start p-3"}
+                    className={`
+                      ${!isCrop && "dragMe"}
+                        absolute  rounded-md  top-0 left-0 h-full w-full
+                      
+                    `}
                     style={{
                       background: l?.background ? `${l.background}` : "white",
                     }}
                   >
                     <div
-                      className={"absolute dragMe top-0 left-0 h-full w-full"}
+                      className={"absolute dragMe  top-0 left-0 h-full w-full"}
                     />
                     <div
-                      style={{ scrollbarWidth: "none" }}
-                      className=" overflow-hidden h-full w-full flex  items-center  break-all justify-center"
+                      style={{
+                        scrollbarWidth: "none",
+                        clipPath: !isCrop ? "inset(0px round 12px)" : "",
+                      }}
+                      className={` h-full w-full`}
                     >
-                      {l?.image && (
-                        <img
-                          className=" object-cover w-full h-full rounded-md"
-                          src={l.image}
-                          alt=""
-                        />
+                      {l?.imageUrl && (
+                        <>
+                          {isCrop ? (
+                            <div
+                              className="relative  rounded-md shadow-2xl w-full h-full "
+                              style={{ filter: "opacity(0.9)" }}
+                            >
+                              <img
+                                onMouseEnter={() => {
+                                  handleDragImage(l);
+                                }}
+                                className="absolute touch-none  !select-none pointer-events-auto draggable !cursor-move min-w-full min-h-full   rounded-md"
+                                src={l.imageUrl}
+                                style={{
+                                  transform: `translate(${l?.imageX}px, ${l?.imageY}px)`,
+                                  filter: "inherit",
+                                }}
+                                alt=""
+                              />
+                            </div>
+                          ) : (
+                            <img
+                              draggable="false"
+                              className="absolute min-w-full min-h-full  w-fit rounded-md"
+                              style={{
+                                transform: `translate(${l?.imageX}px, ${l?.imageY}px)`,
+                              }}
+                              src={l.imageUrl}
+                              alt=""
+                            />
+                          )}
+                        </>
                       )}
                       {l?.showTitleUrl && (
                         <span
@@ -748,20 +821,22 @@ const Sections = ({
                     </div>
                   </div>
                   <span
-                    className="absolute group/span opacity-0 group-focus-visible/item:opacity-100 group-hover/item:opacity-100 transition-all hover:bg-gray-50 hover:shadow-md -right-2 p-2 shadow -m-1 bg-white rounded-full z-20 -top-2 cursor-pointer"
+                    className="absolute group/span opacity-0 group-focus-visible/item:opacity-100 group-hover/item:opacity-100 transition-all hover:bg-gray-50 hover:shadow-md -right-2 p-2 shadow -m-1 bg-white border rounded-full z-20 -top-2 cursor-pointer"
                     onClick={() => onRemoveItem(l.i, l.image)}
                   >
-                    <Trash className="text-primary" size={15} />
+                    <Trash className="text-noir" size={15} />
                   </span>
-                  <div className="bg-primary flex rounded-full gap-3 cursor-auto px-2 py-1 opacity-0 group-focus-visible/item:opacity-100 group-hover/item:opacity-100 absolute z-50 left-1/2 -translate-x-2/4 -bottom-7 transition-all items-center justify-center">
-                    <div className="flex items-center gap-1">
-                      <PaintBucket className="text-white" size={15} />
-                      <Input
-                        name="background"
-                        type="color"
-                        defaultValue={l?.background || "#FFFFFF"}
-                        onChange={(e) => handleBackgroundColorChange(e, l)}
-                        className="w-6 h-6 p-0 border-none"
+                  <div className="bg-white flex border rounded-full gap-3 cursor-auto px-1 py-1 opacity-0 group-focus-visible/item:opacity-100 group-hover/item:opacity-100 absolute z-50 left-1/2 -translate-x-2/4 -bottom-7 shadow transition-all items-center justify-center">
+                    <div className="flex items-center ">
+                      <Crop
+                        onClick={() => setIsCrop(!isCrop)}
+                        className={`p-1  cursor-pointer  ${
+                          isCrop
+                            ? "bg-foreground text-white"
+                            : "text-noirbg-white"
+                        }  transition-all border  rounded-full`}
+                        size={30}
+                        strokeWidth={2}
                       />
                     </div>
                   </div>

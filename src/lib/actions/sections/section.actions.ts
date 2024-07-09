@@ -224,7 +224,10 @@ export const uploadImageSection = userAction(
       response = await prisma.section.create({
         data: {
           ...input.data,
-          image: blob.url,
+          imageUrl: blob.url,
+          imageX: 0,
+          imageY: 0,
+          imageCaption: undefined,
           desktop: { create: { i: input.data.i, x: 0, y: 0, h: 1, w: 1 } },
           mobile: { create: { i: input.data.i, x: 0, y: 0, h: 1, w: 1 } },
         },

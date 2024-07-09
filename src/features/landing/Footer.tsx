@@ -75,6 +75,9 @@ const Footer = () => {
                 2024 ♥ SidePro
               </div>
               <div className="flex gap-5 font-medium flex-col lg:flex-row flex-wrap items-center">
+                <Link href={"/changelog"} target="_blank">
+                  Changelog
+                </Link>
                 <Link href={"/tos"}>Terms</Link>
                 <Link href={"/policy"}>Privacy Policy</Link>
                 <Link

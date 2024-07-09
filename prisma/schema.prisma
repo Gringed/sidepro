@@ -32,7 +32,10 @@ model Section {
   bio          String?
   location     String?
   link         Json?
-  image        String?
+  imageUrl     String?
+  imageX       Int?
+  imageY       Int?
+  imageCaption String?
   showImage    Boolean   @default(true)
   showTitleUrl Boolean   @default(true)
   type         Type?
