@@ -35,6 +35,8 @@ model Section {
   imageUrl     String?
   imageX       Int?
   imageY       Int?
+  imageMobileX Int?
+  imageMobileY Int?
   imageCaption String?
   showImage    Boolean   @default(true)
   showTitleUrl Boolean   @default(true)

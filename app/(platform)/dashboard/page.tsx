@@ -79,7 +79,7 @@ const Home = async (props: PageParams<{}>) => {
   });
 
   return (
-    <div className="flex justify-center h-max">
+    <div className="flex justify-center h-max overflow-hidden">
       {!sections ? (
         <div>Nothing</div>
       ) : (

@@ -79,7 +79,7 @@ const Sections = ({
   desktop,
   mobile,
 }: SectionsProps) => {
-  const [isCrop, setIsCrop] = useState(false);
+  const [isCrop, setIsCrop] = useState("");
 
   const cols = { lg: 8, md: 4, sm: 2, xs: 1, xxs: 1 };
   const [currentBreakpoint, setCurrentBreakpoint] = useState("lg");
@@ -98,7 +98,10 @@ const Sections = ({
     xxs: mobile,
   });
   const handleDragImage = (l: any) => {
-    const position = { x: l?.imageX || 0, y: l?.imageY || 0 };
+    const position =
+      currentBreakpoint === "xs"
+        ? { x: l?.imageMobileX || 0, y: l?.imageMobileY || 0 }
+        : { x: l?.imageX || 0, y: l?.imageY || 0 };
     interact(".draggable").draggable({
       modifiers: [
         interact.modifiers.restrictRect({
@@ -121,8 +124,13 @@ const Sections = ({
           }
 
           timeoutRef.current = setTimeout(() => {
-            saveChanges("imageX", position.x, l);
-            saveChanges("imageY", position.y, l);
+            if (currentBreakpoint === "xs") {
+              saveChanges("imageMobileX", position.x, l);
+              saveChanges("imageMobileY", position.y, l);
+            } else {
+              saveChanges("imageX", position.x, l);
+              saveChanges("imageY", position.y, l);
+            }
           }, 1500);
         },
       },
@@ -298,7 +306,6 @@ const Sections = ({
     >
       <div className="w-full">
         <div
-          id="myNav"
           className={`fixed backdrop-blur-md transition-all opacity-0 bg-black/0 h-full ${
             isCrop && "!w-full !bg-white/50 !opacity-100 z-40"
           }  top-0 left-0`}
@@ -395,7 +402,7 @@ const Sections = ({
               id={l.id}
               key={l.i}
               className={`border border-gray-300/50 shadow hover:shadow-md group/item hover:z-50 ${
-                isCrop && l?.type === "IMAGE" && "z-50"
+                l?.i === isCrop && l?.type === "IMAGE" && "z-50"
               } rounded-md bg-white relative  flex justify-start cursor-grab`}
             >
               {l?.type === "TEXT" ? (
@@ -764,9 +771,6 @@ const Sections = ({
                         absolute  rounded-md  top-0 left-0 h-full w-full
                       
                     `}
-                    style={{
-                      background: l?.background ? `${l.background}` : "white",
-                    }}
                   >
                     <div
                       className={"absolute dragMe  top-0 left-0 h-full w-full"}
@@ -774,13 +778,14 @@ const Sections = ({
                     <div
                       style={{
                         scrollbarWidth: "none",
-                        clipPath: !isCrop ? "inset(0px round 12px)" : "",
+                        clipPath:
+                          isCrop !== l?.i ? "inset(0px round 12px)" : "",
                       }}
                       className={` h-full w-full`}
                     >
                       {l?.imageUrl && (
                         <>
-                          {isCrop ? (
+                          {isCrop === l?.i ? (
                             <div
                               className="relative  rounded-md shadow-2xl w-full h-full "
                               style={{ filter: "opacity(0.9)" }}
@@ -789,11 +794,17 @@ const Sections = ({
                                 onMouseEnter={() => {
                                   handleDragImage(l);
                                 }}
-                                className="absolute touch-none  !select-none pointer-events-auto draggable !cursor-move min-w-full min-h-full   rounded-md"
+                                className="absolute touch-none  !select-none pointer-events-auto draggable max-w-max !cursor-move min-w-full min-h-full   rounded-md"
                                 src={l.imageUrl}
                                 style={{
-                                  transform: `translate(${l?.imageX}px, ${l?.imageY}px)`,
+                                  transform: `translate(${
+                                    currentBreakpoint === "xs"
+                                      ? `${l?.imageMobileX}px, ${l?.imageMobileY}px`
+                                      : `${l?.imageX}px, ${l?.imageY}px`
+                                  })`,
                                   filter: "inherit",
+                                  maxWidth: "unset",
+                                  maxHeight: "unset",
                                 }}
                                 alt=""
                               />
@@ -801,9 +812,15 @@ const Sections = ({
                           ) : (
                             <img
                               draggable="false"
-                              className="absolute min-w-full min-h-full  w-fit rounded-md"
+                              className="absolute overflow-clip min-w-full min-h-full  rounded-md"
                               style={{
-                                transform: `translate(${l?.imageX}px, ${l?.imageY}px)`,
+                                transform: `translate(${
+                                  currentBreakpoint === "xs"
+                                    ? `${l?.imageMobileX}px, ${l?.imageMobileY}px`
+                                    : `${l?.imageX}px, ${l?.imageY}px`
+                                })`,
+                                maxWidth: "unset",
+                                maxHeight: "unset",
                               }}
                               src={l.imageUrl}
                               alt=""
@@ -829,7 +846,9 @@ const Sections = ({
                   <div className="bg-white flex border rounded-full gap-3 cursor-auto px-1 py-1 opacity-0 group-focus-visible/item:opacity-100 group-hover/item:opacity-100 absolute z-50 left-1/2 -translate-x-2/4 -bottom-7 shadow transition-all items-center justify-center">
                     <div className="flex items-center ">
                       <Crop
-                        onClick={() => setIsCrop(!isCrop)}
+                        onClick={() =>
+                          isCrop === "" ? setIsCrop(l?.i) : setIsCrop("")
+                        }
                         className={`p-1  cursor-pointer  ${
                           isCrop
                             ? "bg-foreground text-white"

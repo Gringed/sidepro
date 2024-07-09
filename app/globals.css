@@ -75,7 +75,7 @@
 
 .react-grid-item.react-grid-placeholder {
   background: hsl(var(--primary));
-  opacity: 0.2;
+  opacity: 0.3;
   border-radius: 10px;
   transition-duration: 100ms;
   z-index: 2;
