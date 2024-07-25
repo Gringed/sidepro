@@ -140,9 +140,9 @@ const PublishedSections = ({
           ? `url("${sidefolio.background}") center / cover no-repeat`
           : sidefolio?.color || "white",
       }}
-      className={`flex  animate-fade w-96 border-2 h-[800px] px-4 py-14 flex-col lg:${
+      className={`flex  animate-fade w-full  px-4 py-14 flex-col lg:${
         sidefolio?.sidebar === "left" ? "flex-row" : "flex-row-reverse"
-      } border-b-8 lg:border-none  mt-5 lg:mt-0 rounded-[60px] lg:rounded-none shadow-2xl
+      }     shadow-2xl
          lg:w-full lg:h-full overflow-auto lg:px-14 lg:py-14 
             !opacity-100
        transition-all`}

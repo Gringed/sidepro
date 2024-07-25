@@ -6,10 +6,27 @@ import SectionsPreview from "@/features/platform/preview/components/SectionsPrev
 import { PageParams } from "@/lib/types/next";
 import { cn } from "@/lib/utils";
 import { prisma } from "@/prisma";
+import { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
+export async function generateMetadata(): Promise<Metadata> {
+  const user = await currentUser();
+  const sidefolio = await prisma.sidefolio.findFirst({
+    where: {
+      authorId: user?.id,
+    },
+  });
 
+  return {
+    title: sidefolio?.name || sidefolio?.title,
+    icons: {
+      icon: [`${sidefolio?.image || "/favicon.ico"} `],
+      apple: ["/apple-touch-icon.png?v=4"],
+      shortcut: ["/apple-touch-icon.png"],
+    },
+  };
+}
 const page = async (props: PageParams<{ slug: string }>) => {
   const user = await currentUser();
   if (!props.params.slug) {

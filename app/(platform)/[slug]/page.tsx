@@ -14,6 +14,26 @@ import { SignInButton } from "@/features/auth/SignInButton";
 import { LoggedInButton } from "@/features/auth/LoggedInButton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ShinyButton from "@/components/magicui/shiny-button";
+import { Metadata } from "next";
+export async function generateMetadata(
+  props: PageParams<{ slug: string }>
+): Promise<Metadata> {
+  const sidefolio = await prisma.sidefolio.findFirst({
+    where: {
+      slug: decodeURI(props.params.slug),
+      publish: true,
+    },
+  });
+
+  return {
+    title: sidefolio?.name || sidefolio?.title,
+    icons: {
+      icon: [`${sidefolio?.image || "/favicon.ico"} `],
+      apple: ["/apple-touch-icon.png?v=4"],
+      shortcut: ["/apple-touch-icon.png"],
+    },
+  };
+}
 const page = async (props: PageParams<{ slug: string }>) => {
   const user = await currentUser();
   if (!props.params.slug) {
