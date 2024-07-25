@@ -70,9 +70,6 @@ const PublishedSections = ({
     setMounted(true);
   }, []);
 
-  const handleBreakpointChange = useCallback((breakpoint: string) => {
-    setCurrentBreakpoint(breakpoint);
-  }, []);
   const nameEditor = useEditor({
     content: sidefolio?.name.replaceAll("\n\n", "<p>") || "",
     editable: false,
@@ -140,9 +137,9 @@ const PublishedSections = ({
           ? `url("${sidefolio.background}") center / cover no-repeat`
           : sidefolio?.color || "white",
       }}
-      className={`flex  animate-fade w-full  px-4 py-14 flex-col lg:${
-        sidefolio?.sidebar === "left" ? "flex-row" : "flex-row-reverse"
-      }     shadow-2xl
+      className={`flex  animate-fade w-full  px-4 py-14 flex-col ${
+        sidefolio?.sidebar === "left" && "lg:flex-row"
+      } ${sidefolio?.sidebar === "right" && "lg:flex-row-reverse"} shadow-2xl
          lg:w-full lg:h-full overflow-auto lg:px-14 lg:py-14 
             !opacity-100
        transition-all`}
@@ -173,7 +170,7 @@ const PublishedSections = ({
                   <AvatarImage
                     src={sidefolio?.image}
                     className=" object-cover"
-                    alt={`${sidefolio?.publicName ?? "-"}'s profile picture`}
+                    alt={`${sidefolio?.name ?? "-"}'s profile picture`}
                   />
                 ) : (
                   <AvatarImage
