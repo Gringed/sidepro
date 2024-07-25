@@ -5,6 +5,11 @@ export const SidefolioSchema = z.object({
   background: z.string().optional(),
   color: z.string().optional(),
   compactType: z.enum(["horizontal", "vertical", "null"]).optional().nullable(),
+  sidebar: z.enum(["left", "right"]).optional().nullable(),
+  name: z.string().optional(),
+  image: z.string().optional(),
+  bio: z.string().optional(),
+  location: z.string().optional(),
 });
 
 export type SidefolioType = z.infer<typeof SidefolioSchema>;

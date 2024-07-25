@@ -25,6 +25,8 @@
     --input: 240 5.9% 90%;
     --ring: 142.1 76.2% 36.3%;
     --radius: 1rem;
+    --floatL: left;
+    --floatR: right;
   }
 
   .dark {
@@ -65,7 +67,20 @@
   z-index: 1;
   will-change: width, height;
 }
-
+.tiptap p.is-empty::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: attr(data-placeholder);
+  height: 0;
+  pointer-events: none;
+}
+.tiptap p.bio-is-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
 .react-grid-item.react-draggable-dragging {
   transition: none;
   z-index: 3;

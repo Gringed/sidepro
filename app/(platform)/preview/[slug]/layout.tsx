@@ -18,16 +18,7 @@ const PlatformLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="root h-full">
       <div className="root-container bg-background h-full">
-        <div
-          className={`wrapper h-full`}
-          style={{
-            background: sidefolio?.background
-              ? `url("${sidefolio.background}") center / cover no-repeat`
-              : sidefolio?.color || "white",
-          }}
-        >
-          {children}
-        </div>
+        <div className={`wrapper h-full`}>{children}</div>
       </div>
     </main>
   );

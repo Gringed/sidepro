@@ -11,6 +11,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import Link from "next/link";
+import BlurFade from "@/components/magicui/blur-fade";
+import { EditorContent, useEditor } from "@tiptap/react";
+import Image from "next/image";
+import StarterKit from "@tiptap/starter-kit";
+import Placeholder from "@tiptap/extension-placeholder";
+import CharacterCount from "@tiptap/extension-character-count";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -27,7 +33,7 @@ const PublishedSections = ({
   desktop,
   mobile,
 }: SectionsProps) => {
-  const cols = { lg: 8, md: 1, sm: 1, xs: 1, xxs: 1 };
+  const cols = { lg: 4, md: 4, sm: 2, xs: 1, xxs: 1 };
   const [currentBreakpoint, setCurrentBreakpoint] = useState("lg");
 
   const [compactType, setCompactType] = useState(sidefolio?.compactType);
@@ -41,6 +47,22 @@ const PublishedSections = ({
     xxs: mobile,
   });
 
+  const [matches, setMatches] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const mediaQueryList = window.matchMedia("(min-width: 1024px)");
+      setMatches(mediaQueryList.matches);
+
+      const handler = (e: MediaQueryListEvent) => setMatches(e.matches);
+
+      mediaQueryList.addEventListener("change", handler);
+
+      return () => {
+        mediaQueryList.removeEventListener("change", handler);
+      };
+    }
+  }, []);
   const textInputRef = useRef<HTMLInputElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -51,16 +73,154 @@ const PublishedSections = ({
   const handleBreakpointChange = useCallback((breakpoint: string) => {
     setCurrentBreakpoint(breakpoint);
   }, []);
+  const nameEditor = useEditor({
+    content: sidefolio?.name.replaceAll("\n\n", "<p>") || "",
+    editable: false,
 
+    extensions: [
+      StarterKit,
+      Placeholder.configure({
+        placeholder: "Your name",
+      }),
+      CharacterCount.configure({
+        limit: 40,
+      }),
+    ],
+
+    editorProps: {
+      attributes: {
+        class:
+          "prose prose-sm sm:prose-base lg:prose-lg xl:prose-2xl p-3 focus:outline-none",
+      },
+    },
+  });
+  const bioEditor = useEditor({
+    content: sidefolio?.bio || "No bio",
+    editable: false,
+    extensions: [
+      StarterKit,
+      Placeholder.configure({
+        placeholder: "Introduce yourself...",
+        emptyNodeClass: "bio-is-empty",
+      }),
+    ],
+
+    editorProps: {
+      attributes: {
+        class:
+          "prose prose-sm sm:prose-base  no-underline lg:prose-lg xl:prose-2xl px-3 focus:outline-none",
+      },
+    },
+  });
+
+  const locationEditor = useEditor({
+    content: sidefolio?.location || "No Location",
+    editable: false,
+    extensions: [
+      StarterKit,
+      Placeholder.configure({
+        placeholder: "Your location",
+        emptyNodeClass: "bio-is-empty",
+      }),
+    ],
+
+    editorProps: {
+      attributes: {
+        class:
+          "prose prose-sm sm:prose-base  no-underline lg:prose-lg xl:prose-2xl px-3 focus:outline-none",
+      },
+    },
+  });
   return (
     <div
-      style={{ scrollbarWidth: "none" }}
-      className={`flex ${
-        currentBreakpoint === "xs"
-          ? "w-96 border-2 h-[800px] overflow-scroll rounded-[60px] shadow-2xl"
-          : " max-xl:max-w-md w-full h-max"
-      }   mb-20`}
+      style={{
+        scrollbarWidth: "none",
+        transition: "all .25s cubic-bezier(.427,.073,.105,.997) .1s",
+        background: sidefolio?.background
+          ? `url("${sidefolio.background}") center / cover no-repeat`
+          : sidefolio?.color || "white",
+      }}
+      className={`flex  animate-fade w-96 border-2 h-[800px] px-4 py-14 flex-col lg:${
+        sidefolio?.sidebar === "left" ? "flex-row" : "flex-row-reverse"
+      } border-b-8 lg:border-none  mt-5 lg:mt-0 rounded-[60px] lg:rounded-none shadow-2xl
+         lg:w-full lg:h-full overflow-auto lg:px-14 lg:py-14 
+            !opacity-100
+       transition-all`}
     >
+      <div
+        className={` relative  h-full ${
+          currentBreakpoint === "xs" ? "w-full h-full" : "top-[0rem] xl:sticky "
+        } `}
+        style={{ scrollbarWidth: "none" }}
+      >
+        <BlurFade inView>
+          <div
+            className={
+              "flex flex-col  max-w  w-full rounded-md h-full items-start justify-start gap-4 px-3 py-8"
+            }
+            style={{
+              scrollbarWidth: "none",
+              minWidth: "min(500px,calc(100vw - 1000px))",
+            }}
+          >
+            <div className="group/avatar rounded-full relative shadow-lg">
+              <Avatar
+                className={`${
+                  currentBreakpoint === "xs" ? "size-28" : "lg:size-48 size-28"
+                }  cursor-pointer `}
+              >
+                {sidefolio?.image ? (
+                  <AvatarImage
+                    src={sidefolio?.image}
+                    className=" object-cover"
+                    alt={`${sidefolio?.publicName ?? "-"}'s profile picture`}
+                  />
+                ) : (
+                  <AvatarImage
+                    src={"/noAvatar.png"}
+                    draggable={false}
+                    className=" object-cover select-none "
+                  />
+                )}
+              </Avatar>
+            </div>
+            <div
+              className={`w-full transition-all font-bold ${
+                currentBreakpoint === "xs" ? "text-3xl" : "text-sm lg:text-5xl"
+              } `}
+            >
+              <EditorContent spellCheck={false} editor={nameEditor} />
+            </div>
+
+            <div
+              className={`w-full transition-all  ${
+                currentBreakpoint === "xs" ? "text-base" : "text-sm lg:text-lg"
+              } `}
+            >
+              <EditorContent editor={bioEditor} spellCheck={false} />
+            </div>
+            <div className="z-10 my-5 w-full text-sm flex items-center gap-1">
+              <div className="rounded-full  ms-2 border bg-white backdrop-blur-sm shadow">
+                <Image
+                  src={
+                    "https://www.svgrepo.com/show/235547/planet-earth-global.svg"
+                  }
+                  className=""
+                  width={25}
+                  height={25}
+                  alt=""
+                />
+              </div>
+              <EditorContent
+                editor={locationEditor}
+                max={10}
+                maxLength={10}
+                spellCheck={false}
+              />
+            </div>
+          </div>
+        </BlurFade>
+      </div>
       <div className="w-full">
         <ResponsiveReactGridLayout
           layouts={layouts}
@@ -72,7 +232,7 @@ const PublishedSections = ({
           isResizable={false}
           margin={[30, 30]}
           preventCollision={!compactType}
-          {...{ rowHeight: 70 }}
+          {...{ rowHeight: 90 }}
         >
           {sections.map((l: any, i: any) => (
             <div
@@ -260,21 +420,35 @@ const PublishedSections = ({
               ) : (
                 <>
                   <div
-                    className={"flex  w-full rounded-md h-full items-start p-3"}
-                    style={{
-                      background: l?.background ? `${l.background}` : "white",
-                    }}
+                    className={
+                      "absolute  rounded-md  top-0 left-0 h-full w-full"
+                    }
                   >
                     <div
-                      style={{ scrollbarWidth: "none" }}
-                      className=" overflow-hidden h-full w-full flex  pointer-events-none items-center  break-all justify-center"
+                      style={{
+                        scrollbarWidth: "none",
+                        clipPath: "inset(0px round 12px)",
+                      }}
+                      className={` h-full w-full`}
                     >
-                      {l?.image && (
-                        <img
-                          className="  object-cover w-full h-full rounded-md"
-                          src={l.image}
-                          alt=""
-                        />
+                      {l?.imageUrl && (
+                        <>
+                          <img
+                            draggable="false"
+                            className="absolute overflow-clip min-w-full min-h-full  rounded-md"
+                            style={{
+                              transform: `translate(${
+                                !matches
+                                  ? `${l?.imageMobileX}px, ${l?.imageMobileY}px`
+                                  : `${l?.imageX}px, ${l?.imageY}px`
+                              })`,
+                              maxWidth: "unset",
+                              maxHeight: "unset",
+                            }}
+                            src={l.imageUrl}
+                            alt=""
+                          />
+                        </>
                       )}
                       {l?.showTitleUrl && (
                         <span

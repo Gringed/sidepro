@@ -17,7 +17,7 @@ enum Type {
 
 model Review {
   id       String @id @default(auto()) @map("_id") @db.ObjectId
-  author   User   @relation(fields: [authorId], references: [id])
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String @db.ObjectId
   message  String
 }
@@ -25,12 +25,9 @@ model Review {
 model Section {
   id           String    @id @default(auto()) @map("_id") @db.ObjectId
   slug         String?   @unique
-  sidefolio    Sidefolio @relation(fields: [sideId], references: [id])
+  sidefolio    Sidefolio @relation(fields: [sideId], references: [id], onDelete: Cascade)
   sideId       String    @unique @db.ObjectId
   title        String?
-  name         String?
-  bio          String?
-  location     String?
   link         Json?
   imageUrl     String?
   imageX       Int?
@@ -52,29 +49,29 @@ model Section {
 }
 
 model Mobile {
-  id               String   @id @default(auto()) @map("_id") @db.ObjectId
-  i                String?  @unique
-  x                Int?
-  y                Int?
-  h                Int?
-  w                Int?
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  section          Section? @relation(fields: [desktopSectionId], references: [id])
-  desktopSectionId String?  @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  i         String?  @unique
+  x         Int?
+  y         Int?
+  h         Int?
+  w         Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  section   Section? @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  sectionId String?  @db.ObjectId
 }
 
 model Desktop {
-  id               String   @id @default(auto()) @map("_id") @db.ObjectId
-  i                String?  @unique
-  x                Int?
-  y                Int?
-  h                Int?
-  w                Int?
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  section          Section? @relation(fields: [desktopSectionId], references: [id])
-  desktopSectionId String?  @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  i         String?  @unique
+  x         Int?
+  y         Int?
+  h         Int?
+  w         Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  section   Section? @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  sectionId String?  @db.ObjectId
 }
 
 enum compactType {
@@ -83,18 +80,26 @@ enum compactType {
   null
 }
 
+enum Side {
+  left
+  right
+}
+
 model Sidefolio {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   slug        String    @unique
   title       String
-  author      User      @relation(fields: [authorId], references: [id])
+  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId    String    @db.ObjectId
   compactType String?
   color       String?
   background  String?
   publish     Boolean   @default(false)
-  publicName  String?
-  publicImage String?
+  name        String?
+  image       String?
+  bio         String?
+  location    String?
+  sidebar     Side      @default(left)
   section     Section[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -107,10 +112,11 @@ enum Plan {
 }
 
 model User {
-  id               String      @id @default(auto()) @map("_id") @db.ObjectId
-  email            String      @unique
-  name             String?
-  image            String?
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  email String  @unique
+  name  String?
+  image String?
+
   plan             Plan        @default(FREEMIUM)
   stripeCustomerId String?
   expiresAt        DateTime?

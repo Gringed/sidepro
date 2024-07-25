@@ -88,8 +88,6 @@ export const publishSidefolioAction = userAction(
         },
         data: {
           publish: true,
-          publicImage: input.data.image,
-          publicName: input.data.name,
         },
       });
     } else {

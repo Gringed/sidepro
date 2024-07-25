@@ -29,6 +29,7 @@ export const {
     createUser: async (message) => {
       const userId = message.user.id;
       const userEmail = message.user.email;
+      const userImage = message.user.image;
       const userSlug = message.user.name?.split(" ")[0]?.toLowerCase();
 
       if (!userEmail || !userId) {
@@ -39,6 +40,7 @@ export const {
           title: "My First sidefolio",
           slug: userSlug!,
           authorId: userId,
+          image: userImage ?? "",
         },
       });
       const stripeCustomer = await stripe.customers.create({

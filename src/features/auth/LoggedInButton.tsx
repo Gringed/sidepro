@@ -12,12 +12,18 @@ export const LoggedInButton = ({ user, sidefolio }: any) => {
       <div className="relative w-fit">
         <Avatar className="size-9 cursor-pointer ">
           <AvatarFallback>{user.name?.[0]}</AvatarFallback>
-          {user.image ? (
+          {sidefolio?.image ? (
             <AvatarImage
-              src={user.image}
-              alt={`${user.name ?? "-"}'s profile picture`}
+              src={sidefolio.image}
+              className=" object-cover"
+              alt={`${sidefolio.name ?? "-"}'s profile picture`}
             />
-          ) : null}
+          ) : (
+            <AvatarImage
+              src={"/noAvatar.png"}
+              className=" object-cover aspect-square"
+            />
+          )}
         </Avatar>
         {user.plan === "PREMIUM_ONE" || user.plan === "PREMIUM_LIFE" ? (
           <svg

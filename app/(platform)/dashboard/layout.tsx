@@ -17,8 +17,8 @@ const PlatformLayout = async ({ children }: { children: React.ReactNode }) => {
   });
   return (
     <main className="root h-full">
-      <div className="root-container bg-background h-full">
-        <div className={`wrapper h-max`}>{children}</div>
+      <div className="root-container bg-background  h-full">
+        <div className={`wrapper h-full`}>{children}</div>
       </div>
     </main>
   );

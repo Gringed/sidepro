@@ -32,7 +32,7 @@ const page = async (props: PageParams<{ slug: string }>) => {
   const sectionIds = sections?.map((section) => section.id);
   const desktop = await prisma.desktop.findMany({
     where: {
-      desktopSectionId: { in: sectionIds },
+      sectionId: { in: sectionIds },
     },
     select: {
       x: true,
@@ -44,7 +44,7 @@ const page = async (props: PageParams<{ slug: string }>) => {
   });
   const mobile = await prisma.mobile.findMany({
     where: {
-      desktopSectionId: { in: sectionIds },
+      sectionId: { in: sectionIds },
     },
     select: {
       x: true,
@@ -56,7 +56,7 @@ const page = async (props: PageParams<{ slug: string }>) => {
   });
 
   return (
-    <div className="flex justify-center h-max">
+    <div className="flex justify-center h-full">
       {sidefolio ? (
         <SectionsPreview
           desktop={desktop}
