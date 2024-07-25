@@ -25,40 +25,6 @@ const verifySlugUniqueness = async (userId?: string) => {
   }
 };
 
-const verifyUserPlan = async (user: User) => {
-  if (user.plan === "PREMIUM_ONE") {
-    return;
-  }
-
-  const userProductsCount = await prisma.user.count({
-    where: {
-      id: user.id,
-    },
-  });
-
-  if (userProductsCount > 0) {
-    throw new ActionError(
-      "You need to upgrade to premium to create more products"
-    );
-  }
-};
-
-export const createUserAction = userAction(
-  UserSchema,
-  async (input, context) => {
-    await verifySlugUniqueness(context.user.id);
-    await verifyUserPlan(context.user);
-
-    const user = await prisma.user.create({
-      data: {
-        ...input,
-        id: context.user.id,
-      },
-    });
-
-    return user;
-  }
-);
 export const uplodadProfileImageAction = userAction(
   z.object({
     sidefolio: z.any(),
